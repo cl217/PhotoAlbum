@@ -1,0 +1,6 @@
+fxml
+	loginView - C
+	adminView - V
+	albumView - V
+	photoView - C
+	thumbnailView -C
