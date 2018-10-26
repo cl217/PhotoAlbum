@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="442.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="385.0" fitWidth="430.0" layoutX="88.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../stock/doggo.jpg" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="167.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="46.0" text="&lt;&lt;" />
+      <Button layoutX="545.0" layoutY="167.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="46.0" text="&gt;&gt;" />
+      <Text layoutX="88.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="a fat doge">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="90.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#floof #doggo" />
+      <Text layoutX="456.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10/22/2018" />
+      <Text layoutX="417.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: Cat#1" />
+      <Button layoutX="490.0" layoutY="13.0" mnemonicParsing="false" text="Logout" />
+      <Button layoutX="549.0" layoutY="13.0" mnemonicParsing="false" text="Quit" />
+   </children>
+</AnchorPane>
