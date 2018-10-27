@@ -5,17 +5,16 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="448.0" prefWidth="678.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<AnchorPane fx:id="albumView" prefHeight="448.0" prefWidth="678.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Album">
    <children>
-      <ListView layoutX="46.0" layoutY="89.0" prefHeight="222.0" prefWidth="575.0" />
+      <ListView fx:id="albumListView" layoutX="46.0" layoutY="89.0" prefHeight="222.0" prefWidth="575.0" />
       <TextArea layoutX="311.0" layoutY="7.0" prefHeight="22.0" prefWidth="70.0" text="User View" />
       <TextArea layoutX="46.0" layoutY="51.0" prefHeight="37.0" prefWidth="92.0" text="List of Albums" />
       <Button layoutX="46.0" layoutY="331.0" mnemonicParsing="false" text="Create" />
       <Button layoutX="138.0" layoutY="331.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="222.0" layoutY="331.0" mnemonicParsing="false" text="Rename" />
       <Button layoutX="316.0" layoutY="331.0" mnemonicParsing="false" text="Open" />
-      <Button layoutX="569.0" layoutY="343.0" mnemonicParsing="false" text="Log out" />
+      <Button fx:id="logoutButton" layoutX="569.0" layoutY="343.0" mnemonicParsing="false" onAction="#buttonPress" text="Log out" />
       <Button layoutX="569.0" layoutY="383.0" mnemonicParsing="false" text="Quit" />
    </children>
 </AnchorPane>

@@ -16,7 +16,7 @@
    <children>
       <ScrollPane layoutX="46.0" layoutY="127.0" prefHeight="377.0" prefWidth="657.0">
          <content>
-            <GridPane prefHeight="414.0" prefWidth="605.0">
+            <GridPane alignment="TOP_CENTER" prefHeight="414.0" prefWidth="605.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -38,12 +38,16 @@
                       <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1">
@@ -51,16 +55,22 @@
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="213.5" minHeight="111.0" prefHeight="165.0" />
+                        <RowConstraints maxHeight="125.5" minHeight="8.5" prefHeight="57.0" />
+                        <RowConstraints maxHeight="162.0" minHeight="1.5" prefHeight="17.5" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="90.5" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="109.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="151.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -72,12 +82,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="109.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/cat.JPG" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="cat" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="106.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/cat.JPG" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.rowIndex="1">
@@ -89,12 +103,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.rowIndex="2">
@@ -106,12 +124,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -123,12 +145,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2">
@@ -140,12 +166,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3">
@@ -157,12 +187,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
@@ -174,12 +208,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -191,12 +229,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
@@ -208,12 +250,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                   <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
@@ -225,12 +271,16 @@
                         <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fitHeight="148.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                           <image>
-                              <Image url="@../../stock/doggo.jpg" />
-                           </image>
-                        </ImageView>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
+                           <graphic>
+                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../stock/doggo.jpg" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
                      </children>
                   </GridPane>
                </children>
@@ -250,7 +300,7 @@
       <Button layoutX="581.0" layoutY="532.0" mnemonicParsing="false" text="Move" />
       <Text fill="RED" layoutX="303.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No picture selected error" />
       <Button layoutX="623.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
-      <Text layoutX="553.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: Cat#1" />
+      <Text layoutX="553.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
       <Button layoutX="697.0" layoutY="21.0" mnemonicParsing="false" text="Quit" />
       <Button layoutX="627.0" layoutY="77.0" mnemonicParsing="false" text="Search" />
       <TextField layoutX="468.0" layoutY="77.0" />
