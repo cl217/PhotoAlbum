@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class User {
-	String name;
+	public String name;
 	
 	// HashMap< albumName, all pictures >, what to store data in?
 	public ObservableList<String> albumList = FXCollections.observableArrayList();
