@@ -25,22 +25,25 @@ public class Admin implements Serializable{
 	@FXML Button quitButton;
 	@FXML AnchorPane adminView;
 	@FXML ListView<User> listUsers;
-	public static HashMap<String, User> allUsers = new HashMap<String, User>();
+	
+	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
 	private ObservableList<User> obsList = FXCollections.observableArrayList();
 	Admin adminUser;
 	
+	/*
 	public static final String storeDir = "dat";
 	public static final String storeFile = "user.dat"; 
+	*/
 	
-	public void start(Stage mainStage) throws Exception{
-		adminUser = Admin.readApp();
+	public void start() throws IOException, ClassNotFoundException{
+		//adminUser = Admin.readApp();
 		//select the first item
     	listUsers.getSelectionModel().select(0);
 	}
 	
 	private void updateList() {
 		obsList.clear();
-		for(Map.Entry<String, User> entry : allUsers.entrySet()) {
+		for(Map.Entry<String, User> entry : Master.data.allUsers.entrySet()) {
 			obsList.add(entry.getValue());
 		}
 		listUsers.setItems(obsList);
@@ -75,15 +78,16 @@ public class Admin implements Serializable{
     		updateList();
     	}
     	else if (b == loButton) {
-    		writeApp(adminUser);
-    		ToView.login(adminView);
+    		//writeApp(adminUser);
+    		Master.toLogin(adminView);
     	}
     	else { //quitButton
-    		writeApp(adminUser);
+    		Master.writeData();
     		//close the window
     	}
 	}
 	
+	/*
 	public static void writeApp(Admin adminUser)  throws IOException { 
 		ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( storeDir + File.separator + storeFile ));
 		oos.writeObject(adminUser);
@@ -96,5 +100,6 @@ public class Admin implements Serializable{
 		ois.close();
 		return adminUser;
 	}
+	*/
 	
 }

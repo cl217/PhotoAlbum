@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +19,11 @@ public class Album {
 	
 	public void start() {
 		//System.out.println("Album");
-		Login.user.albumList.add("album1");
-		Login.user.albumList.add("album2");
-		albumListView.setItems(	Login.user.albumList );
+		ObservableList<String> list = FXCollections.observableArrayList();
+		for( String albumName : Master.currentUser.albumMap.keySet() ) {
+			list.add(albumName);
+		}
+		albumListView.setItems(	list );
 	}
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
