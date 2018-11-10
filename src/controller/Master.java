@@ -15,13 +15,18 @@ public class Master implements Serializable {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
 	public static final String directory = "data";
 	//public static final String file = "userData";
 	
 	public static Data data = new Data();
 	public static HashMap<String, User> userMap = new HashMap<String, User>();
 	public static User currentUser;
-
+	public static User currentAlbum;
 	
 	public static void writeData() throws FileNotFoundException, IOException {
 		

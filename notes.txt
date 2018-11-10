@@ -1,6 +1,12 @@
 
+
 **Serializable only in Master.java and pkg model
 
+Priorities
+	1. Album.java - select album and go to thumbnailView
+	2. Admin.java - add user
+		
+		
 fxml
 	loginView - C
 	adminView - V

@@ -42,8 +42,8 @@ public class Admin implements Serializable{
 	public static final String storeFile = "user.dat"; 
 	*/
 	
-	public void start() throws IOException, ClassNotFoundException{
-		//adminUser = Admin.readApp();
+	public void start(){
+		//adminUser = Asdmin.readApp();
 		//select the first item
     	listUsers.getSelectionModel().select(0);
 	}

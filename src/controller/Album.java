@@ -24,10 +24,11 @@ public class Album {
 	 * 		Iterate over Master.currentUser.albumMap.keySet()
 	 * 			add to ObservableList
 	 * 
+	 * AlbumSelected
+	 * 		Master.currentAlbum = set to selected album name
+	 * 		dont have to get from the hashmap
+	 * 		go to thunbnailView
 	 */
-	
-	
-	
 	
 	
 	public void start() {
@@ -42,23 +43,11 @@ public class Album {
 	public void buttonPress( ActionEvent event ) throws IOException {
 		Button b = (Button)event.getSource();
 		if (b == logoutButton) {
-			toLogin(event);
+			Master.toLogin( /*@FXML Anchorpane name*/);
 		}
+		
+		
+		
 	}
 	
-	public void toLogin( ActionEvent e )throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/view/loginView.fxml"));
-		AnchorPane root = (AnchorPane)loader.load();
-		//Parent abc = FXMLLoader.load( getClass().getResource("/view/albumView.fxml"));
-		Login controller = loader.getController();
-		controller.start();
-		Scene scene = new Scene(root);
-		Stage mainStage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		//window.setScene(scene);
-		//window.show();
-		mainStage.setScene(scene);
-		mainStage.show();
-		return;
-	}
 }
