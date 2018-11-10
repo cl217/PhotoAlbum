@@ -26,6 +26,13 @@ public class Admin implements Serializable{
 	@FXML AnchorPane adminView;
 	@FXML ListView<User> listUsers;
 	
+	
+	/**
+	 * delete/add to Master.userMap
+	 * 
+	 */
+	
+	
 	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
 	private ObservableList<User> obsList = FXCollections.observableArrayList();
 	Admin adminUser;

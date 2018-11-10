@@ -1,7 +1,6 @@
-Stuff to store in data structures
-	list of users - names
-	list of albums - names
-	
+
+**Serializable only in Master.java and pkg model
+
 fxml
 	loginView - C
 	adminView - V

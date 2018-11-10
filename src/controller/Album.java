@@ -17,6 +17,19 @@ public class Album {
 	@FXML ListView<String> albumListView;
 	@FXML Button logoutButton;
 	
+	/**
+	 * Make updates to Master.currentUser.albumMap
+	 * 		HashMap<String, ArrayList<String>> //<albumName, list of photos>
+	 * To display albums to listview
+	 * 		Iterate over Master.currentUser.albumMap.keySet()
+	 * 			add to ObservableList
+	 * 
+	 */
+	
+	
+	
+	
+	
 	public void start() {
 		//System.out.println("Album");
 		ObservableList<String> list = FXCollections.observableArrayList();
