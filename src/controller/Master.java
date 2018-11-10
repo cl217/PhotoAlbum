@@ -75,7 +75,13 @@ public class Master implements Serializable {
 		loader.setLocation( Master.class.getResource("/view/adminView.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
 		Admin controller = loader.getController();
-		controller.start();
+		System.out.println("hi");
+		try {
+			controller.start();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
 		stage.setScene(scene);
