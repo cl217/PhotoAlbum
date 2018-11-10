@@ -15,7 +15,6 @@ public class Master implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	public static final String directory = "data";
 	//public static final String file = "userData";
 	
@@ -28,8 +27,7 @@ public class Master implements Serializable {
 		
 		for( String name : userMap.keySet() ) {
 			if( data.userList.contains(name) == false ) {
-				System.out.println("name");
-				File file = new File( "../data/" + name);				
+				data.userList.add(name);
 			}
 			ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + name) );
 			System.out.println("6");
