@@ -13,7 +13,7 @@
       <Button layoutX="46.0" layoutY="331.0" mnemonicParsing="false" text="Create" />
       <Button layoutX="138.0" layoutY="331.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="222.0" layoutY="331.0" mnemonicParsing="false" text="Rename" />
-      <Button layoutX="316.0" layoutY="331.0" mnemonicParsing="false" text="Open" />
+      <Button fx:id="openButton" layoutX="316.0" layoutY="331.0" mnemonicParsing="false" onAction="#buttonPress" text="Open" />
       <Button fx:id="logoutButton" layoutX="569.0" layoutY="343.0" mnemonicParsing="false" onAction="#buttonPress" text="Log out" />
       <Button layoutX="569.0" layoutY="383.0" mnemonicParsing="false" text="Quit" />
    </children>

@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.*;
@@ -16,6 +18,9 @@ import javafx.stage.Stage;
 public class Album {
 	@FXML ListView<String> albumListView;
 	@FXML Button logoutButton;
+	@FXML Button openButton;
+	@FXML AnchorPane albumView;
+	
 	
 	/**
 	 * Make updates to Master.currentUser.albumMap
@@ -30,10 +35,9 @@ public class Album {
 	 * 		go to thunbnailView
 	 */
 	
-	
+	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
 		//System.out.println("Album");
-		ObservableList<String> list = FXCollections.observableArrayList();
 		for( String albumName : Master.currentUser.albumMap.keySet() ) {
 			list.add(albumName);
 		}
@@ -42,8 +46,14 @@ public class Album {
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
 		Button b = (Button)event.getSource();
+	
+		
 		if (b == logoutButton) {
-			Master.toLogin( /*@FXML Anchorpane name*/);
+			Master.toLogin( albumView);
+		}
+		if(b == openButton) {
+			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
+			Master.currentAlbum = list.get(selectIndex);
 		}
 		
 		

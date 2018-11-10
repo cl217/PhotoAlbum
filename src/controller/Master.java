@@ -4,6 +4,8 @@ package controller;
 import java.io.*;
 
 import java.util.*;
+
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -26,27 +28,35 @@ public class Master implements Serializable {
 	public static Data data = new Data();
 	public static HashMap<String, User> userMap = new HashMap<String, User>();
 	public static User currentUser;
-	public static User currentAlbum;
+	public static String currentAlbum;
 	
-	public static void writeData() throws FileNotFoundException, IOException {
-		
-		for( String name : userMap.keySet() ) {
-			if( data.userList.contains(name) == false ) {
-				data.userList.add(name);
+	public static void writeData(){
+			try {
+				for( String name : userMap.keySet() ) {
+					if( data.userList.contains(name) == false ) {
+						data.userList.add(name);
+					}
+					ObjectOutputStream oos;
+					oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + name) );
+					System.out.println("6");
+					oos.writeObject(userMap.get(name));
+					System.out.println("7");
+					oos.close();
+				}
+				
+				ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + "userData") );
+				oos.writeObject(data);
+				oos.close();
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + name) );
-			System.out.println("6");
-			oos.writeObject(userMap.get(name));
-			System.out.println("7");
-			oos.close();
-		}
-		
-		ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + "userData") );
-		oos.writeObject(data);
-		oos.close();
-		
 	}
-	
+
 	public static void toLogin( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/loginView.fxml"));

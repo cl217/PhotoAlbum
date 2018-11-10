@@ -10,6 +10,6 @@ Priorities
 fxml
 	loginView - C
 	adminView - V
-	albumView - V
-	photoView - C
+	albumView - C
+	photoView - V
 	thumbnailView -C
