@@ -36,8 +36,10 @@ public class User implements Serializable {
 	}
 	
 	public void loadStock(){
+		
 		System.out.println("loadStock");
 		ArrayList<String> pics = new ArrayList<String>();
+
 		File dir = new File("..\\Photos85\\stock");
 		System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();

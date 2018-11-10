@@ -89,7 +89,6 @@ public class Master implements Serializable {
 		Admin controller = loader.getController();
 		System.out.println("hi");
 		controller.start();
-		System.out.println("Master.toAdmin");
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
 		stage.setScene(scene);

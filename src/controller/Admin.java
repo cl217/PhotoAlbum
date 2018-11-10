@@ -43,20 +43,12 @@ public class Admin{
 	*/
 	
 	public void start(){
-		//adminUser = Asdmin.readApp();
-		//select the first item
-    	//listUsers.getSelectionModel().select(0);
-		System.out.println("Admin.start1");
-		System.out.println(Master.userMap.size());
-		for( String key: Master.userMap.keySet()) {
-			obsList.add(key);
-		}
-		listUsers.setItems(obsList);
-		
+		System.out.println("stockNum: " + Master.userMap.size());
+		updateList();
 	}
 	
 	private void updateList() {
-		//obsList.clear();
+		obsList.clear();
 		for( String key: Master.userMap.keySet()) {
 			obsList.add(key);
 		}
@@ -89,6 +81,7 @@ public class Admin{
     	else if (b == deleteButton) {
     		keyWord = listUsers.getSelectionModel().getSelectedItem();
     		Master.userMap.remove(keyWord);
+    		Master.data.userList.remove(keyWord);
     		updateList();
     	}
     	else if (b == loButton) {
