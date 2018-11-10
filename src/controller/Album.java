@@ -49,12 +49,10 @@ public class Album {
 	public void buttonPress( ActionEvent event ) throws IOException {
 		Button b = (Button)event.getSource();
 	
-		
-
-		
 		if(b == openButton) {
 			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
 			Master.currentAlbum = list.get(selectIndex);
+			Master.toThumbnail(albumView);
 		}
 		if (b == logoutButton) {
 			Master.writeData();

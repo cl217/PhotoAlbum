@@ -36,7 +36,6 @@ public class Admin{
 	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
 
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
-	Admin adminUser;
 	
 	/*
 	public static final String storeDir = "dat";
@@ -46,11 +45,18 @@ public class Admin{
 	public void start(){
 		//adminUser = Asdmin.readApp();
 		//select the first item
-    	listUsers.getSelectionModel().select(0);
+    	//listUsers.getSelectionModel().select(0);
+		System.out.println("Admin.start1");
+		System.out.println(Master.userMap.size());
+		for( String key: Master.userMap.keySet()) {
+			obsList.add(key);
+		}
+		listUsers.setItems(obsList);
+		
 	}
 	
 	private void updateList() {
-		obsList.clear();
+		//obsList.clear();
 		for( String key: Master.userMap.keySet()) {
 			obsList.add(key);
 		}

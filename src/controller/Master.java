@@ -88,12 +88,8 @@ public class Master implements Serializable {
 		AnchorPane root = (AnchorPane)loader.load();
 		Admin controller = loader.getController();
 		System.out.println("hi");
-		try {
-			controller.start();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		controller.start();
+		System.out.println("Master.toAdmin");
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
 		stage.setScene(scene);
@@ -101,10 +97,14 @@ public class Master implements Serializable {
 	}
 	
 	public static void toThumbnail( AnchorPane view ) throws IOException{
+		System.out.println("Master.toThumbnail1");
+		System.out.println(currentAlbum);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/thumbnailView.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
+		System.out.println("toThumbnail1.2");
 		Thumbnail controller = loader.getController();
+		System.out.println("Master.toThumbnail2");
 		controller.start();
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();

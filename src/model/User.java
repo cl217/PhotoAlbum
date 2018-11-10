@@ -2,6 +2,7 @@ package model;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -34,16 +35,20 @@ public class User implements Serializable {
 		return u;
 	}
 	
-	public void loadStock() {
+	public void loadStock(){
+		System.out.println("loadStock");
 		ArrayList<String> pics = new ArrayList<String>();
-		File dir = new File("../stock/");
+		File dir = new File("..\\Photos85\\stock");
+		System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
+				System.out.println(child.getName());
 				pics.add("../stock/" + child.getName());
 			}
 		}
 		albumMap.put("Stock", pics);
+		System.out.println("in loadStock: " + albumMap.get("Stock").size());
 	}
 	
 
