@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,20 +22,33 @@ public class Main extends Application {
 	public void loadData() throws ClassNotFoundException, IOException {
 		System.out.println("ran3");
 		System.out.println("ran4");
-		Master.data = Data.readObjA();
+		
+		try {
+			Master.data = Data.read();
+		}catch(EOFException e ) {
+			if(Master.data.userList.isEmpty()){
+				System.out.println("writeStock");
+				User stock = new User("stock");
+				stock.loadStock();
+				Master.userMap.put("stock", stock );
+				Master.writeData();
+			}
+		}
+
 		for( String name: Master.data.userList ) {
 			User u = new User(name);
 			u = u.read();
 			Master.userMap.put(name, u);
 		}
 
-		System.out.println("5");
+		System.out.println("5.2");
 	}
 	
 	@Override
 	public void start(Stage mainStage) 
 	throws IOException {
 		System.out.println("ran2");
+		
 		try {
 			loadData();
 		} catch (ClassNotFoundException e) {
@@ -43,12 +57,6 @@ public class Main extends Application {
 		}
 		System.out.println("4");
 		
-		
-		//Testing purposes
-		User cindy = new User( "cindy" );
-		Master.userMap.put("cindy", cindy );
-		ArrayList<String> stock = new ArrayList<String>();
-		cindy.albumMap.put("Stock", stock);
 		
 		
 		FXMLLoader loader = new FXMLLoader();

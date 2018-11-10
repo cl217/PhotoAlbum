@@ -34,5 +34,17 @@ public class User implements Serializable {
 		return u;
 	}
 	
+	public void loadStock() {
+		ArrayList<String> pics = new ArrayList<String>();
+		File dir = new File("../stock/");
+		File[] directoryListing = dir.listFiles();
+		if (directoryListing != null) {
+			for (File child : directoryListing) {
+				pics.add("../stock/" + child.getName());
+			}
+		}
+		albumMap.put("Stock", pics);
+	}
+	
 
 }

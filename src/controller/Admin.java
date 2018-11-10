@@ -24,7 +24,7 @@ public class Admin{
 	@FXML Button loButton; //log out button
 	@FXML Button quitButton;
 	@FXML AnchorPane adminView;
-	@FXML ListView<User> listUsers;
+	@FXML ListView<String> listUsers;
 	
 	
 	/**
@@ -34,29 +34,31 @@ public class Admin{
 	
 	
 	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
-	private ObservableList<User> obsList = FXCollections.observableArrayList();
+
+	private ObservableList<String> obsList = FXCollections.observableArrayList();
+	Admin adminUser;
 	
 	/*
 	public static final String storeDir = "dat";
 	public static final String storeFile = "user.dat"; 
 	*/
 	
-	public void start() throws IOException, ClassNotFoundException{
-		//adminUser = Admin.readApp();
+	public void start(){
+		//adminUser = Asdmin.readApp();
 		//select the first item
     	listUsers.getSelectionModel().select(0);
 	}
 	
 	private void updateList() {
 		obsList.clear();
-		for(Map.Entry<String, User> entry : Master.userMap.entrySet()) {
-			obsList.add(entry.getValue());
+		for( String key: Master.userMap.keySet()) {
+			obsList.add(key);
 		}
 		listUsers.setItems(obsList);
 		return;
 	}
 	
-	public void buttonPress(ActionEvent event){
+	public void buttonPress(ActionEvent event) throws IOException{
     	/*create pop up for buttonPress entry
     	 * some how get access to those fields to get (key, value)
     	 */
@@ -79,13 +81,13 @@ public class Admin{
     		}
     	}
     	else if (b == deleteButton) {
-    		keyWord = listUsers.getSelectionModel().getSelectedItem().name;
+    		keyWord = listUsers.getSelectionModel().getSelectedItem();
     		Master.userMap.remove(keyWord);
     		updateList();
     	}
     	else if (b == loButton) {
     		//writeApp(adminUser);
-			Master.toLogin(adminView);
+    		Master.toLogin(adminView);
     	}
     	else { //quitButton
 			Master.writeData();

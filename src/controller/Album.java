@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.*;
@@ -16,6 +18,9 @@ import javafx.stage.Stage;
 public class Album {
 	@FXML ListView<String> albumListView;
 	@FXML Button logoutButton;
+	@FXML Button openButton;
+	@FXML AnchorPane albumView;
+	
 	
 	/**
 	 * Make updates to Master.currentUser.albumMap
@@ -24,15 +29,15 @@ public class Album {
 	 * 		Iterate over Master.currentUser.albumMap.keySet()
 	 * 			add to ObservableList
 	 * 
+	 * AlbumSelected
+	 * 		Master.currentAlbum = set to selected album name
+	 * 		dont have to get from the hashmap
+	 * 		go to thunbnailView
 	 */
 	
-	
-	
-	
-	
+	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
 		//System.out.println("Album");
-		ObservableList<String> list = FXCollections.observableArrayList();
 		for( String albumName : Master.currentUser.albumMap.keySet() ) {
 			list.add(albumName);
 		}
@@ -41,24 +46,18 @@ public class Album {
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
 		Button b = (Button)event.getSource();
+	
+		
 		if (b == logoutButton) {
-			toLogin(event);
+			Master.toLogin( albumView);
 		}
+		if(b == openButton) {
+			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
+			Master.currentAlbum = list.get(selectIndex);
+		}
+		
+		
+		
 	}
 	
-	public void toLogin( ActionEvent e )throws IOException {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource("/view/loginView.fxml"));
-		AnchorPane root = (AnchorPane)loader.load();
-		//Parent abc = FXMLLoader.load( getClass().getResource("/view/albumView.fxml"));
-		Login controller = loader.getController();
-		controller.start();
-		Scene scene = new Scene(root);
-		Stage mainStage = (Stage)((Node) e.getSource()).getScene().getWindow();
-		//window.setScene(scene);
-		//window.show();
-		mainStage.setScene(scene);
-		mainStage.show();
-		return;
-	}
 }
