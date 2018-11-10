@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.*;
@@ -19,6 +20,7 @@ public class Album {
 	@FXML ListView<String> albumListView;
 	@FXML Button logoutButton;
 	@FXML Button openButton;
+	@FXML Button quitButton;
 	@FXML AnchorPane albumView;
 	
 	
@@ -48,12 +50,19 @@ public class Album {
 		Button b = (Button)event.getSource();
 	
 		
-		if (b == logoutButton) {
-			Master.toLogin( albumView);
-		}
+
+		
 		if(b == openButton) {
 			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
 			Master.currentAlbum = list.get(selectIndex);
+		}
+		if (b == logoutButton) {
+			Master.writeData();
+			Master.toLogin( albumView );
+		}	
+		if(b == quitButton) {
+			Master.writeData();
+			Platform.exit();
 		}
 		
 		

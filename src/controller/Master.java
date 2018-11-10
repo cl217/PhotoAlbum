@@ -5,7 +5,6 @@ import java.io.*;
 
 import java.util.*;
 
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
