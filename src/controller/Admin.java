@@ -44,7 +44,7 @@ public class Admin{
 	*/
 	
 	public void start(){
-		//adminUser = Asdmin.readApp();
+		updateList();
 		//select the first item
     	listUsers.getSelectionModel().select(0);
 	}
@@ -83,6 +83,7 @@ public class Admin{
     	else if (b == deleteButton) {
     		keyWord = listUsers.getSelectionModel().getSelectedItem();
     		Master.userMap.remove(keyWord);
+    		Master.data.userList.remove(keyWord);
     		updateList();
     	}
     	else if (b == loButton) {

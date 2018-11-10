@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="adminView" prefHeight="399.0" prefWidth="529.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<AnchorPane fx:id="adminView" prefHeight="399.0" prefWidth="529.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="controller.Admin">
    <children>
       <ListView fx:id="listUsers" layoutX="14.0" layoutY="109.0" prefHeight="187.0" prefWidth="479.0" />
       <TextArea layoutX="202.0" layoutY="14.0" prefHeight="37.0" prefWidth="126.0" text="Administration View" />
       <TextArea layoutX="14.0" layoutY="71.0" prefHeight="38.0" prefWidth="144.0" text="List of Users" />
-      <Button fx:id="createButton" layoutX="53.0" layoutY="314.0" mnemonicParsing="false" text="Create New User" />
-      <Button fx:id="deleteButton" layoutX="215.0" layoutY="314.0" mnemonicParsing="false" text="Delete User" />
-      <Button fx:id="loButton" layoutX="432.0" layoutY="314.0" mnemonicParsing="false" text="Log Out" />
-      <Button fx:id="quitButton" layoutX="432.0" layoutY="348.0" mnemonicParsing="false" text="Quit" />
+      <Button fx:id="createButton" layoutX="53.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Create New User" />
+      <Button fx:id="deleteButton" layoutX="215.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Delete User" />
+      <Button fx:id="loButton" layoutX="432.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Log Out" />
+      <Button fx:id="quitButton" layoutX="432.0" layoutY="348.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
    </children>
 </AnchorPane>
