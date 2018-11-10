@@ -1,9 +1,10 @@
 package controller;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,10 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.User;
 
-public class Admin implements Serializable{
+public class Admin{
 	
 	@FXML Button createButton;
 	@FXML Button deleteButton;
@@ -34,6 +34,7 @@ public class Admin implements Serializable{
 	
 	
 	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
+
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	Admin adminUser;
 	
@@ -57,7 +58,7 @@ public class Admin implements Serializable{
 		return;
 	}
 	
-	public void buttonPress(ActionEvent event) throws IOException {
+	public void buttonPress(ActionEvent event) throws IOException{
     	/*create pop up for buttonPress entry
     	 * some how get access to those fields to get (key, value)
     	 */
@@ -75,13 +76,13 @@ public class Admin implements Serializable{
     		if (result.isPresent()) {
     			keyWord = result.get();
     			newUser = new User(result.get());
-    			allUsers.put(keyWord, newUser);
+    			Master.userMap.put(keyWord, newUser);
         		updateList();
     		}
     	}
     	else if (b == deleteButton) {
-    		keyWord = listUsers.getSelectionModel().getSelectedItem().name;
-    		allUsers.remove(keyWord);
+    		keyWord = listUsers.getSelectionModel().getSelectedItem();
+    		Master.userMap.remove(keyWord);
     		updateList();
     	}
     	else if (b == loButton) {
@@ -89,7 +90,8 @@ public class Admin implements Serializable{
     		Master.toLogin(adminView);
     	}
     	else { //quitButton
-    		Master.writeData();
+			Master.writeData();
+    		Platform.exit();
     		//close the window
     	}
 	}
