@@ -20,7 +20,7 @@ public class User implements Serializable {
 	
 	//iterate over keys to print album list
 	//get key to get list of pictures
-	public HashMap<String, ArrayList<String>> albumMap = new HashMap<String, ArrayList<String>>();
+	public HashMap<String, ArrayList<Picture>> albumMap = new HashMap<String, ArrayList<Picture>>();
 	
 	public User( String name ) {
 		this.name = name;
@@ -37,20 +37,28 @@ public class User implements Serializable {
 	
 	public void loadStock(){
 		
-		System.out.println("loadStock");
-		ArrayList<String> pics = new ArrayList<String>();
+		System.out.println("loadStock1");
+		ArrayList<Picture> pics = new ArrayList<Picture>();
 
 		File dir = new File("..\\Photos85\\stock");
+		//File dir = new File("..\\Photos85\\stock");
 		System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();
+		System.out.println("loadStock2");
+		
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				System.out.println(child.getName());
-				pics.add("../stock/" + child.getName());
+				System.out.println("file found");
+				System.out.println(child.getPath());
+				Picture p = new Picture();
+				p.setURL(child.getPath());
+				p.caption = "floofy cat";
+				p.tags.add("cat");	
+				pics.add(p);
 			}
 		}
+		System.out.println("pics size" + pics.size() );
 		albumMap.put("Stock", pics);
-		System.out.println("in loadStock: " + albumMap.get("Stock").size());
 	}
 	
 

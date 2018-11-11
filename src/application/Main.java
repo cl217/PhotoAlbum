@@ -42,6 +42,7 @@ public class Main extends Application {
 		}
 
 		System.out.println("5.2");
+		System.out.println("stockalbumsize:" + Master.userMap.get("stock").albumMap.get("Stock").size());
 	}
 	
 	@Override

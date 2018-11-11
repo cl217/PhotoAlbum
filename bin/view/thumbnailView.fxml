@@ -3,287 +3,23 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="621.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="thumbnailView" prefHeight="621.0" prefWidth="743.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Thumbnail">
    <children>
       <ScrollPane layoutX="46.0" layoutY="127.0" prefHeight="377.0" prefWidth="657.0">
          <content>
-            <GridPane alignment="TOP_CENTER" prefHeight="414.0" prefWidth="605.0">
+            <GridPane fx:id="grid" alignment="TOP_CENTER" prefWidth="635.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="160.0" minHeight="3.0" prefHeight="160.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="213.5" minHeight="111.0" prefHeight="165.0" />
-                        <RowConstraints maxHeight="125.5" minHeight="8.5" prefHeight="57.0" />
-                        <RowConstraints maxHeight="162.0" minHeight="1.5" prefHeight="17.5" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="cat" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="106.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/cat.JPG" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.rowIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.rowIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="108.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doggo.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-                  <GridPane prefHeight="147.0" prefWidth="142.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="90.5" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Doggo" wrappingWidth="152.609375" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" prefHeight="154.0" prefWidth="152.0">
-                           <graphic>
-                              <ImageView fitHeight="151.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../stock/doge.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </GridPane>
-               </children>
             </GridPane>
          </content>
       </ScrollPane>
@@ -292,17 +28,17 @@
             <Font size="26.0" />
          </font>
       </Text>
-      <Button layoutX="81.0" layoutY="532.0" mnemonicParsing="false" text="Add Picture" />
-      <Button layoutX="168.0" layoutY="532.0" mnemonicParsing="false" text="Remove Picture" />
-      <Button layoutX="288.0" layoutY="532.0" mnemonicParsing="false" text="Edit Caption" />
-      <Button layoutX="394.0" layoutY="532.0" mnemonicParsing="false" text="Modify Tags" />
-      <Button layoutX="512.0" layoutY="532.0" mnemonicParsing="false" text="Copy" />
-      <Button layoutX="581.0" layoutY="532.0" mnemonicParsing="false" text="Move" />
+      <Button fx:id="addPictureButton" layoutX="81.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Add Picture" />
+      <Button fx:id="removePictureButton" layoutX="168.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Remove Picture" />
+      <Button fx:id="editCaptionButton" layoutX="288.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Edit Caption" />
+      <Button fx:id="modifyTagsButton" layoutX="394.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Modify Tags" />
+      <Button fx:id="copyButton" layoutX="512.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Copy" />
+      <Button fx:id="moveButton" layoutX="581.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Move" />
       <Text fill="RED" layoutX="303.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No picture selected error" />
-      <Button layoutX="623.0" layoutY="21.0" mnemonicParsing="false" text="Log Out" />
+      <Button fx:id="logoutButton" layoutX="623.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonPress" text="Log Out" />
       <Text layoutX="553.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-      <Button layoutX="697.0" layoutY="21.0" mnemonicParsing="false" text="Quit" />
-      <Button layoutX="627.0" layoutY="77.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="quitButton" layoutX="697.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
+      <Button fx:id="searchButton" layoutX="627.0" layoutY="77.0" mnemonicParsing="false" onAction="#buttonPress" text="Search" />
       <TextField layoutX="468.0" layoutY="77.0" />
    </children>
 </AnchorPane>

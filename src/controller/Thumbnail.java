@@ -1,11 +1,23 @@
 package controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.*;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import model.Picture;
+import javafx.stage.Stage.*;
 
 public class Thumbnail {
     @FXML private AnchorPane thumbnailView;
@@ -20,19 +32,89 @@ public class Thumbnail {
     @FXML private Button quitButton;
     @FXML private Button searchButton;
 
-    @FXML
-    void buttonPress(ActionEvent event) {
 
-    }
-    
+	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
+	ObservableList<Node> gridList;
+	
 	public void start() {
-		System.out.println("Thumbnail.start");
-		ArrayList<String> album = Master.currentUser.albumMap.get(Master.currentAlbum);
-		System.out.println("stockSize: " + Master.userMap.get("stock").albumMap.get("Stock").size());
-		System.out.println(Master.currentAlbum);
-		System.out.println(album.size());
-		for( String str : album ) {
-			System.out.println(str);
+		update();
+	}
+
+	public void update() {
+		System.out.println("tbnView: 0");
+		int col = 0;
+		int row = 0;
+		
+		for( Picture p : album ) {
+			System.out.println("tbnLoop: start");
+			GridPane innerGrid = new GridPane();
+			
+			ImageView pic = new ImageView();
+			pic.setFitHeight(150);
+			pic.setFitWidth(150);
+			Image image = new Image(p.url);
+			System.out.println(image.impl_getUrl());
+			pic.setImage(image);
+			innerGrid.add(pic, 0, 0);
+			
+			Text text = new Text();
+			text.setText(p.caption);
+			innerGrid.add(text, 0, 1);
+			
+			grid.add(innerGrid, col, row );
+			col++;
+			if( col == 4 ) {
+				col = 0;				
+				row++;
+				//grid.addRow(row);
+
+			}
+		}	
+		gridList = grid.getChildren();
+	}
+	
+	public void buttonPress( ActionEvent event ) throws IOException {
+		Button b = (Button) event.getSource();
+		if( b == addPictureButton ) {
+			addPicture();
+		}
+		if( b == removePictureButton ) {}
+		if( b == editCaptionButton ) {}
+		if( b == modifyTagsButton ) {}
+		if( b == copyButton ) {}
+		if( b == moveButton ) {}		
+		if( b == searchButton ) {}	
+		if( b == logoutButton ) {
+			Master.writeData();
+			Master.toLogin(thumbnailView);
+		}
+		if( b == quitButton ) {
+			Master.writeData();
+			Platform.exit();
 		}
 	}
+	
+	private void addPicture() {
+		System.out.println("addPicture");
+		Stage stage = (Stage) thumbnailView.getScene().getWindow();
+		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().addAll(
+		         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		File selectedFile = fileChooser.showOpenDialog( stage );
+		
+		if( selectedFile !=  null ) {
+			System.out.println(selectedFile.getPath());
+			Picture pic = new Picture();
+			pic.setURL(selectedFile.getPath());
+			//new popup for tags and captions
+			album.add(pic);
+			update();
+		}
+	}
+	
+	
+	
 }
+

@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -14,18 +13,13 @@
    <children>
       <ScrollPane layoutX="46.0" layoutY="127.0" prefHeight="377.0" prefWidth="657.0">
          <content>
-            <GridPane fx:id="grid" alignment="TOP_CENTER" prefHeight="414.0" prefWidth="605.0">
+            <GridPane fx:id="grid" alignment="TOP_CENTER" prefWidth="635.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="160.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="160.0" minHeight="3.0" prefHeight="160.0" vgrow="SOMETIMES" />
-              </rowConstraints>
             </GridPane>
          </content>
       </ScrollPane>

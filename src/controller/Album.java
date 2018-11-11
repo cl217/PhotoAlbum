@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Picture;
 import model.User;
 
 public class Album {
@@ -70,7 +71,7 @@ public class Album {
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = result.get();
-    			ArrayList<String> temp = new ArrayList<String>();
+    			ArrayList<Picture> temp = new ArrayList<Picture>();
     			Master.currentUser.albumMap.put(keyWord, temp);
         		updateList();
     		}
