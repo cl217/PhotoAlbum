@@ -1,24 +1,23 @@
 package controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.event.*;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Picture;
-import javafx.stage.Stage.*;
 
 public class Thumbnail {
     @FXML private AnchorPane thumbnailView;
@@ -34,23 +33,30 @@ public class Thumbnail {
     @FXML private Button searchButton;
     @FXML private Button openButton;
 
-
 	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
+	ArrayList<Picture> filteredAlbum = new ArrayList<Picture>();
+	HashMap<String, ArrayList<Picture>> tags = new HashMap<String, ArrayList<Picture>>();
+	//tag type to get Arraylist of pics that have that tag type
+	//cant have 2 tags to location type for a pic but can have 2 tags to a person type for a single pic
+	//??????
 	int selectedIndex;
 	
 	public void start() {
-		update();
+		update(album);
+		//updateTagsMap();
 	}
 
-	public void update() {
+	public void update( ArrayList<Picture> displayAlbum ) {
 		grid.getChildren().clear();
 		int col = 0;
 		int row = 0;
 		int i = 0;
 	     grid.getColumnConstraints().add(new ColumnConstraints(-15)); 
 	     grid.getRowConstraints().add(new RowConstraints(175)); 
-		for( Picture p : album ) {
-			System.out.println("tbnLoop: start");
+	     
+		for( Picture p : displayAlbum ) {
+			
+			//Makes tile
 			GridPane innerGrid = new GridPane();
 			ImageView pic = new ImageView();
 			pic.setFitHeight(150);
@@ -67,14 +73,24 @@ public class Thumbnail {
 			button.setId(Integer.toString(i));
 			button.setGraphic(innerGrid);
 			button.setOnAction( event -> picClick(event) );
+			grid.add(button, col, row );	
 			
-			grid.add(button, col, row );
+			for( String tagType : p.tags.keySet() ) {
+				if( !tags.containsKey(tagType) ) {
+					ArrayList<Picture> pics = new ArrayList<Picture>(); 
+					tags.put(tagType, pics);
+				}
+				if( !tags.get(tagType).contains(p) ) {
+					tags.get(tagType).add(p);
+				}
+			}
+			
 			col++;
 			if( col == 4 ) {
 				col = 0;				
 				row++;
 			}
-			i++;
+			i++; //sets index to button
 		}	
 	}
 	
@@ -94,12 +110,18 @@ public class Thumbnail {
 			addPicture();
 		}
 		if( b == removePictureButton ) {
+			//delete from tagsMap
+			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
+				tags.get(tagType).remove(album.get(selectedIndex));
+			}
 			album.remove(selectedIndex);
-			System.out.println(album.size());
-			update();
+			update(album);
 		}
 		if( b == editCaptionButton ) {}
-		if( b == modifyTagsButton ) {}
+		if( b == modifyTagsButton ) {
+			Master.toTag(thumbnailView, album.get(selectedIndex));
+			//modifyTags();
+		}
 		if( b == copyButton ) {
 			String toAlbum = pickAlbum("Copy to:");
 			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
@@ -107,10 +129,20 @@ public class Thumbnail {
 		if( b == moveButton ) {
 			String toAlbum = pickAlbum("Move to:");
 			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
+				tags.get(tagType).remove(album.get(selectedIndex));
+			}
 			album.remove(selectedIndex);
-			update();
+			update(album);
 		}		
-		if( b == searchButton ) {}	
+		if( b == searchButton ) {
+			//tags
+			//for 1-2 tags
+				//search
+			update(filteredAlbum);
+			
+			//search by date...
+		}	
 		if( b == logoutButton ) {
 			Master.writeData();
 			Master.toLogin(thumbnailView);
@@ -118,6 +150,14 @@ public class Thumbnail {
 		if( b == quitButton ) {
 			Master.writeData();
 			Platform.exit();
+		}
+	}
+	
+	private void searchByTag( String tagType, String value ) {
+		for( Picture p: tags.get(tagType) ) {
+			if( p.tags.get(tagType).contains(value) ) {
+				filteredAlbum.add(p);
+			}
 		}
 	}
 	
@@ -137,7 +177,7 @@ public class Thumbnail {
 			pic.setURL(selectedFile.getPath());
 			//new popup for tags and captions
 			album.add(pic);
-			update();
+			update(album);
 		}
 	}
 	
@@ -151,25 +191,14 @@ public class Thumbnail {
 			choiceDialog.getItems().add(album);
 			}
 		}
-		/*
-		choiceDialog.showingProperty().addListener((ov, b, b1) -> {
-		    if (b1) {
-		        choiceDialog.setContentText("");
-		    }else {
-		        choiceDialog.setContentText(null);
-		    }
-
-		    //or 
-		    
-		    if (b1) {
-		        Node comboBox = choiceDialog.getDialogPane().lookup(".combo-box");
-		        comboBox.requestFocus();
-		    }
-		    
-		});
-		*/
 		choiceDialog.showAndWait();
 		return choiceDialog.getSelectedItem();
 	}
+	
+/**	
+ * ******************TAGVIEW STUFF***************************************************
+ */
+	
+	
 }
 

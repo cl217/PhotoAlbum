@@ -1,13 +1,21 @@
 
 Stuff to do:
 
+	TagController 
+		- make this window a popup
+	
 	Thumbnail
 		addButton
-			popups to add date, caption, and tags after choosing file
+			-popups to add caption and tags after choosing file
+			-automatically add date (file's last modification date)
 		editCaptionButton
-		modifyTagsButton
-		searchButton
+			-implement 
+		modifyTagsButton 
+			- working on it
+		searchButton 
+			- working on it
 		backToAlbumList
+			-add and implement button
 		
 	User - basically done
 		aesthetics and small stuff 
@@ -30,9 +38,9 @@ Objects
 		//KeySet: album names, to get list of pictures in the album
 		HashMap<String, ArrayList<Picture>> albumMap;
 
-fxml
-	loginView - C
-	adminView - V
-	albumView - V
-	photoView - C
-	thumbnailView -C
+WorkSplit
+	login - C
+	admin - V
+	album - V
+	photo - C
+	thumbnail -C

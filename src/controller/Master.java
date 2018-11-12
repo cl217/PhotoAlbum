@@ -8,6 +8,7 @@ import java.util.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 
@@ -82,6 +83,22 @@ public class Master implements Serializable {
 		stage.show();
 	}
 	
+	public static void toTag( AnchorPane view, Picture p )throws IOException{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation( Master.class.getResource("/view/tagView.fxml"));
+		AnchorPane root = (AnchorPane)loader.load();
+		TagController controller = loader.getController();
+		controller.start(p);
+		Scene scene = new Scene(root);
+		Stage stage = (Stage) view.getScene().getWindow();
+		stage.setScene(scene);
+		//stage.initOwner((Stage) parent.getScene().getWindow());
+        //stage.initModality(Modality.WINDOW_MODAL);
+        //stage.setScene(scene);
+		//stage.showAndWait();
+		stage.show();
+	}
+	
 	public static void toAdmin( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/adminView.fxml"));
@@ -122,4 +139,5 @@ public class Master implements Serializable {
 		stage.setScene(scene);
 		stage.show();
 	}	
+	
 }

@@ -52,8 +52,7 @@ public class User implements Serializable {
 				System.out.println(child.getPath());
 				Picture p = new Picture();
 				p.setURL(child.getPath());
-				p.caption = "floofy cat";
-				p.tags.add("cat");	
+				p.caption = "floofy cat";	
 				pics.add(p);
 			}
 		}
