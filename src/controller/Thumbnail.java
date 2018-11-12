@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -31,29 +32,30 @@ public class Thumbnail {
     @FXML private Button logoutButton;
     @FXML private Button quitButton;
     @FXML private Button searchButton;
+    @FXML private Button openButton;
 
 
 	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
-	ObservableList<Node> gridList;
+	int selectedIndex;
 	
 	public void start() {
 		update();
 	}
 
 	public void update() {
-		System.out.println("tbnView: 0");
+		grid.getChildren().clear();
 		int col = 0;
 		int row = 0;
-		
+		int i = 0;
+	     grid.getColumnConstraints().add(new ColumnConstraints(-15)); 
+	     grid.getRowConstraints().add(new RowConstraints(175)); 
 		for( Picture p : album ) {
 			System.out.println("tbnLoop: start");
 			GridPane innerGrid = new GridPane();
-			
 			ImageView pic = new ImageView();
 			pic.setFitHeight(150);
 			pic.setFitWidth(150);
 			Image image = new Image(p.url);
-			System.out.println(image.impl_getUrl());
 			pic.setImage(image);
 			innerGrid.add(pic, 0, 0);
 			
@@ -61,24 +63,41 @@ public class Thumbnail {
 			text.setText(p.caption);
 			innerGrid.add(text, 0, 1);
 			
-			grid.add(innerGrid, col, row );
+			Button button = new Button();
+			button.setId(Integer.toString(i));
+			button.setGraphic(innerGrid);
+			button.setOnAction( event -> picClick(event) );
+			
+			grid.add(button, col, row );
 			col++;
 			if( col == 4 ) {
 				col = 0;				
 				row++;
-				//grid.addRow(row);
-
 			}
+			i++;
 		}	
-		gridList = grid.getChildren();
+	}
+	
+	public void picClick(ActionEvent event) {
+		System.out.println("picture clicked");
+		Button b = (Button) event.getSource();
+		selectedIndex = Integer.parseInt(b.getId());
 	}
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
 		Button b = (Button) event.getSource();
+		if( b == openButton ) {
+			System.out.println("openButton");
+			Master.toPhoto(thumbnailView, selectedIndex);
+		}
 		if( b == addPictureButton ) {
 			addPicture();
 		}
-		if( b == removePictureButton ) {}
+		if( b == removePictureButton ) {
+			album.remove(selectedIndex);
+			System.out.println(album.size());
+			update();
+		}
 		if( b == editCaptionButton ) {}
 		if( b == modifyTagsButton ) {}
 		if( b == copyButton ) {}
@@ -113,8 +132,5 @@ public class Thumbnail {
 			update();
 		}
 	}
-	
-	
-	
 }
 

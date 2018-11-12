@@ -111,12 +111,12 @@ public class Master implements Serializable {
 		stage.show();
 	}
 
-	public static void toPhoto( AnchorPane view ) throws IOException{
+	public static void toPhoto( AnchorPane view, int picIndex ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/photoView.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
 		Photo controller = loader.getController();
-		controller.start();
+		controller.start(picIndex);
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
 		stage.setScene(scene);
