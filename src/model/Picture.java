@@ -9,6 +9,7 @@ public class Picture implements Serializable{
 	public String url;
 	public String caption;
 	public ArrayList<String> tags = new ArrayList<String>();
+	//Date
 	
 	public void addTag(String str) {
 		tags.add("#"+str);

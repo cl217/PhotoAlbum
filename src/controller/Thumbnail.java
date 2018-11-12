@@ -100,8 +100,16 @@ public class Thumbnail {
 		}
 		if( b == editCaptionButton ) {}
 		if( b == modifyTagsButton ) {}
-		if( b == copyButton ) {}
-		if( b == moveButton ) {}		
+		if( b == copyButton ) {
+			String toAlbum = pickAlbum("Copy to:");
+			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+		}
+		if( b == moveButton ) {
+			String toAlbum = pickAlbum("Move to:");
+			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			album.remove(selectedIndex);
+			update();
+		}		
 		if( b == searchButton ) {}	
 		if( b == logoutButton ) {
 			Master.writeData();
@@ -131,6 +139,37 @@ public class Thumbnail {
 			album.add(pic);
 			update();
 		}
+	}
+	
+	private String pickAlbum(String title) {
+		System.out.println("Popup");
+		ChoiceDialog<String> choiceDialog = new ChoiceDialog<String>();
+		choiceDialog.setTitle("Photos");
+		choiceDialog.setHeaderText(title);
+		for( String album : Master.currentUser.albumMap.keySet() ) {
+			if( !album.equals(Master.currentAlbum) ){
+			choiceDialog.getItems().add(album);
+			}
+		}
+		/*
+		choiceDialog.showingProperty().addListener((ov, b, b1) -> {
+		    if (b1) {
+		        choiceDialog.setContentText("");
+		    }else {
+		        choiceDialog.setContentText(null);
+		    }
+
+		    //or 
+		    
+		    if (b1) {
+		        Node comboBox = choiceDialog.getDialogPane().lookup(".combo-box");
+		        comboBox.requestFocus();
+		    }
+		    
+		});
+		*/
+		choiceDialog.showAndWait();
+		return choiceDialog.getSelectedItem();
 	}
 }
 

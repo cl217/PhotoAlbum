@@ -30,20 +30,6 @@ public class Album {
 	@FXML Button deleteButton;
 	@FXML Button renameButton;
 	
-	
-	/**
-	 * Make updates to Master.currentUser.albumMap
-	 * 		HashMap<String, ArrayList<String>> //<albumName, list of photos>
-	 * To display albums to listview
-	 * 		Iterate over Master.currentUser.albumMap.keySet()
-	 * 			add to ObservableList
-	 * 
-	 * AlbumSelected
-	 * 		Master.currentAlbum = set to selected album name
-	 * 		dont have to get from the hashmap
-	 * 		go to thunbnailView
-	 */
-	
 	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
 		//System.out.println("Album");

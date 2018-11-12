@@ -26,22 +26,7 @@ public class Admin{
 	@FXML AnchorPane adminView;
 	@FXML ListView<String> listUsers;
 	
-	
-	/**
-	 * delete/add to Master.userMap
-	 * 
-	 */
-	
-	
-	//public static HashMap<String, User> allUsers = new HashMap<String, User>();
-
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
-	
-	/*
-	public static final String storeDir = "dat";
-	public static final String storeFile = "user.dat"; 
-	*/
-	
 	public void start(){
 		System.out.println("stockNum: " + Master.userMap.size());
 		updateList();
@@ -94,20 +79,4 @@ public class Admin{
     		//close the window
     	}
 	}
-	
-	/*
-	public static void writeApp(Admin adminUser)  throws IOException { 
-		ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( storeDir + File.separator + storeFile ));
-		oos.writeObject(adminUser);
-		oos.close();
-	}
-	
-	public static Admin readApp()  throws IOException, ClassNotFoundException { 
-		ObjectInputStream ois = new ObjectInputStream( new FileInputStream( storeDir + File. separator + storeFile ));
-		Admin adminUser = (Admin)ois.readObject();
-		ois.close();
-		return adminUser;
-	}
-	*/
-	
 }
