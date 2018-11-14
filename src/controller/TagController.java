@@ -108,7 +108,7 @@ public class TagController {
     		
     		String item = listView.getSelectionModel().getSelectedItem();
 			int index = listView.getSelectionModel().getSelectedIndex();
-			TextInputDialog dialog = new TextInputDialog(item);
+			TextInputDialog dialog = new TextInputDialog(tag);
 			dialog.setTitle("List Tag Edit");
 			dialog.setHeaderText("Selected Item (Index: " + index + ")");
 			dialog.setContentText("Enter new tag: ");
