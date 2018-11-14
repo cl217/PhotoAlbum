@@ -34,24 +34,45 @@ public class TagController {
     Picture pic; 
     public void start(Picture p) {
     	this.pic = p;
+    	
+    	//manually add some tags for testing purposes
+    	ArrayList<String> animal = new ArrayList<String>();
+    	pic.tags.put("animal", animal);
+    	pic.addTag("animal", "cat");
+    	pic.addTag("animal", "notDog");
+    	//System.out.println("added to animals: " + pic.tags.get("animal").size());
+    	ArrayList<String> color = new ArrayList<String>();
+    	pic.tags.put("color", color);
+    	pic.addTag("color", "white");
+    	
+    	updateListView();
     }
     
     private void updateListView() {
     	//"type=value" for everything in pic.tags
-    	//update tagDropDown for all values
+    	//update tagDropDown for all values    	
+    	
+    	System.out.println("TagControl.updateLV");
+    	System.out.println(pic.url);
 		tagList.clear();
+		System.out.println("1");
 		for( String tagCategory : pic.tags.keySet() ) {
+			System.out.println(tagCategory);
+			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
 			for(String tagValue: pic.tags.get(tagCategory)) {
 				tagList.add(tagCategory + "=" + tagValue);
+				//System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
 			}
 		}
+		System.out.println(tagList);
 		listView.setItems(	tagList );
+		System.out.println("listView items set");
 		return;
     
     }
     	
     
-    private void buttonPress(ActionEvent event) {
+    public void buttonPress(ActionEvent event) {
     	Button b = (Button)event.getSource();
     	String categoryTag = "";
     	String category ="";
