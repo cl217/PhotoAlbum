@@ -18,6 +18,7 @@ public class Picture implements Serializable{
 	public void addTag(String type, String value) {
 		tags.get(type).add(value);
 	}
+	
 	public void setURL(String str) {
 		this.url = "file:" + str;
 	}
