@@ -30,6 +30,7 @@ public class TagController {
     
     private void updateListView() {
     	//"type=value" for everything in pic.tags
+    	//update tagDropDown for all values
     
     }
     	
