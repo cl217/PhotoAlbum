@@ -3,6 +3,8 @@ package controller;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -27,6 +29,8 @@ public class TagController {
     @FXML private Button cancelB; //should this be a alert pop up like songLib?
     @FXML private Button editB;
     
+    ObservableList<String> tagList = FXCollections.observableArrayList();
+    
     Picture pic; 
     public void start(Picture p) {
     	this.pic = p;
@@ -34,6 +38,14 @@ public class TagController {
     
     private void updateListView() {
     	//"type=value" for everything in pic.tags
+		tagList.clear();
+		for( String tagCategory : pic.tags.keySet() ) {
+			for(String tagValue: pic.tags.get(tagCategory)) {
+				tagList.add(tagCategory + "=" + tagValue);
+			}
+		}
+		listView.setItems(	tagList );
+		return;
     
     }
     	
@@ -65,7 +77,25 @@ public class TagController {
     		category = categoryTag.substring(0, categoryTag.indexOf("="));
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
     		pic.tags.get(category).remove(tag);
-    		//updateList();
+    		updateListView();
+    	}
+    	else if (b == editB) {
+    		categoryTag = listView.getSelectionModel().getSelectedItem();
+    		category = categoryTag.substring(0, categoryTag.indexOf("="));
+    		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
+    		
+    		String item = listView.getSelectionModel().getSelectedItem();
+			int index = listView.getSelectionModel().getSelectedIndex();
+			TextInputDialog dialog = new TextInputDialog(item);
+			dialog.setTitle("List Tag Edit");
+			dialog.setHeaderText("Selected Item (Index: " + index + ")");
+			dialog.setContentText("Enter new tag: ");
+			Optional<String> result = dialog.showAndWait();
+			if (result.isPresent()) { 
+				//this is only editing tag, not category.
+				//if allowing edits on category, will it mess up our hashtable?
+				tagList.set(index, category + "=" + result.get()); 
+			}
     	}
     }
 
