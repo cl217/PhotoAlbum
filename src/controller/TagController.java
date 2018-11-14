@@ -46,6 +46,7 @@ public class TagController {
     	pic.addTag("color", "white");
     	
     	updateListView();
+    	updateTagCategory();
     }
     
     private void updateListView() {
@@ -70,6 +71,13 @@ public class TagController {
 		return;
     
     }
+    
+    private void updateTagCategory() {
+    	tagDropDown.getItems().clear();
+    	for( String tagCategory : pic.tags.keySet() ) {
+    		tagDropDown.getItems().add(tagCategory);
+    	}
+    }
     	
     
     public void buttonPress(ActionEvent event) {
@@ -91,8 +99,10 @@ public class TagController {
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			category = result.get();
+    			pic.tags.put(category, new ArrayList<String>());
     			tagDropDown.setValue(category);
     		}
+    		updateTagCategory();
     	}
     	else if (b == deleteB) {
     		categoryTag = listView.getSelectionModel().getSelectedItem();
