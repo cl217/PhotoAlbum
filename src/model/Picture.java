@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class Picture implements Serializable{
 	public String caption;
 	public HashMap<String, ArrayList<String>> tags = new HashMap<String, ArrayList<String>>();
 	//Type to values
-	public Date date;
+	public LocalDate date;
 	//Date
 	
 	public void addTag(String type, String value) {

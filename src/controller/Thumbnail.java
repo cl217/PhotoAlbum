@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.*;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import javafx.application.Platform;
@@ -147,7 +150,9 @@ public class Thumbnail {
 			album.remove(selectedIndex);
 			update(album);
 		}
-		if( b == editCaptionButton ) {}
+		if( b == editCaptionButton ) {
+			editCaption();
+		}
 		if( b == modifyTagsButton ) {
 			Master.toTag(thumbnailView, album.get(selectedIndex));
 			//modifyTags();
@@ -169,9 +174,8 @@ public class Thumbnail {
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
 				searchByTag();
 			}
-			
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
-				
+				searchByDate();
 			}
 			update(filteredAlbum);
 		}	
@@ -185,6 +189,17 @@ public class Thumbnail {
 		}
 	}
 	
+	private void editCaption() {
+		TextInputDialog dialog = new TextInputDialog(album.get(selectedIndex).caption);
+		dialog.setTitle("Photos");
+		dialog.setHeaderText("Edit Caption: ");
+		dialog.setContentText("Caption: ");
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			album.get(selectedIndex).caption = result.get();
+		}
+		update(album);
+	}
 	private void searchByTag() {
 		String input = tagSearch.getText().toLowerCase();
 		//  |0: type1|1: value1|2: andor|3: type2|4: value2|
@@ -233,6 +248,20 @@ public class Thumbnail {
 		}
 	}
 	
+	private void searchByDate() {
+		LocalDate date1 = dateSearch1.getValue();
+		LocalDate date2 = dateSearch1.getValue();
+		for( Picture pic : album ) {
+			if( pic.date.equals(date1) || pic.date.equals(date2) ) {
+				filteredAlbum.add(pic);
+			}
+			if( pic.date.isAfter(date1) && pic.date.isBefore(date2) ) {
+				filteredAlbum.add(pic);
+			}
+		}
+		
+		
+	}
 	private void addPicture() {
 		System.out.println("addPicture");
 		Stage stage = (Stage) thumbnailView.getScene().getWindow();
@@ -247,11 +276,16 @@ public class Thumbnail {
 			System.out.println(selectedFile.getPath());
 			Picture pic = new Picture();
 			pic.setURL(selectedFile.getPath());
+			Date date = new Date(selectedFile.lastModified());
+			LocalDate localD = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			pic.date = localD;
+			System.out.println(pic.date);
 			//new popup for tags and captions
 			album.add(pic);
 			update(album);
 		}
 	}
+	
 	
 	private String pickAlbum(String title) {
 		System.out.println("Popup");
