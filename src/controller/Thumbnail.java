@@ -187,60 +187,46 @@ public class Thumbnail {
 	
 	private void searchByTag() {
 		String input = tagSearch.getText().toLowerCase();
-		String type = new String();
-		String value = new String();
-		System.out.println(input);
-		if( (input.contains("or") && input.charAt(input.indexOf("or")-1) == ' ' && input.charAt(input.indexOf("or")+2) == ' ') 
-				|| (input.contains("and") && input.charAt(input.indexOf("and")-1) == ' ' && input.charAt(input.indexOf("and")+2) == ' ') ) {
-			System.out.println("two tags");
-			String type2 = new String();
-			String value2 = new String();
-			if(input.contains("or")){
-				System.out.println("or");
-				String part1 = input.substring(0, input.indexOf("or")-1);
-				System.out.println(part1);
-				type = part1.substring(0, input.indexOf("="));
-				System.out.println(type);
-				value = part1.substring(input.indexOf("=")+1, input.length());
-				System.out.println(value);
-				
-				String part2 = input.substring(input.indexOf("or")+1, input.length());
-				System.out.println(part2);
-				type2 = part2.substring(0, input.indexOf("="));
-				System.out.println(type2);
-				value2 = part2.substring(input.indexOf("=")+1, input.length());
-				System.out.println(value2);
-				for( Picture pic : album ) {
-					if( (pic.tags.containsKey(type) && pic.tags.get(type).contains(value)) || (pic.tags.containsKey(type2) && pic.tags.get(type2).contains(value2)) ) {
-						filteredAlbum.add(pic);
-					}
-				}
-			}
-			else {
-				System.out.println("and");
-				String part1 = input.substring(0, input.indexOf("and")-1);
-				System.out.println(part1);
-				type = part1.substring(0, input.indexOf("="));
-				System.out.println(type);
-				value = part1.substring(input.indexOf("=")+1, input.length());
-				System.out.println(value);
-				
-				String part2 = input.substring(input.indexOf("and")+1, input.length());
-				type2 = part2.substring(0, input.indexOf("="));
-				value2 = part2.substring(input.indexOf("=")+1, input.length());
-				for( Picture pic : album ) {
-					if( (pic.tags.containsKey(type) && pic.tags.get(type).contains(value)) && (pic.tags.containsKey(type2) && pic.tags.get(type2).contains(value2)) ) {
-						filteredAlbum.add(pic);
-					}
-				}
+		//  |0: type1|1: value1|2: andor|3: type2|4: value2|
+		String[] words = new String[5];
+		
+		//delete all extra spaces
+		for( int i = 0; i < input.length(); i++ ) {
+			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+				input = input.substring(0, i) + input.substring(i+2, input.length());
 			}
 		}
-		else {
-			System.out.println("one tag");
-			type = input.substring(0, input.indexOf("="));
-			value = input.substring(input.indexOf("=")+1, input.length());
-			for(Picture pic : album) {
-				if( pic.tags.containsKey(type) && pic.tags.get(type).contains(value) ){
+		if( input.contains(" or ") || input.contains(" and ") ) {
+			System.out.println("or/and");
+			words[0] = input.substring(0, input.indexOf("=")); //type1
+			if( input.contains(" or ")) {
+				//System.out.println("or");
+				words[1] = input.substring(input.indexOf("=")+1, input.indexOf(" or ")); //value1
+				words[2] = "or"; //or
+				words[3] = input.substring(input.indexOf(" or ")+4, input.indexOf("=", input.indexOf("=")+1)); //type2
+				words[4] = input.substring(input.indexOf("=", input.indexOf("=")+1)+1, input.length());
+				for( Picture pic: album ) {
+					if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) 
+							|| (pic.tags.containsKey(words[3]) && pic.tags.get(words[3]).contains(words[4])) ) {
+						filteredAlbum.add(pic);
+					}
+				}
+			}else { //and
+				words[1] = input.substring(input.indexOf("=")+1, input.indexOf(" and ")); //value1
+				words[2] = "and";
+				words[3] = input.substring(input.indexOf(" and ")+4, input.indexOf("=", input.indexOf("=")+1)); //type2
+				words[4] = input.substring(input.indexOf("=", input.indexOf("=")+1)+1, input.length());
+				for( Picture pic: album ) {
+					if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) 
+							&& (pic.tags.containsKey(words[3]) && pic.tags.get(words[3]).contains(words[4])) ) {
+						filteredAlbum.add(pic);
+					}
+				}
+			}
+		}else { //1 tag
+			words[1] = input.substring(input.indexOf("=")+1, input.length());
+			for( Picture pic: album ) {
+				if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) ) {
 					filteredAlbum.add(pic);
 				}
 			}
