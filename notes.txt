@@ -19,6 +19,7 @@ Stuff to do:
 	- Thumbnail
 			Some tags can only have one 1 value
 			album from search results
+			back button
 			
 	- TagView
 			Load DropDown with default+all existing categories

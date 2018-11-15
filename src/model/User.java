@@ -40,7 +40,7 @@ public class User implements Serializable {
 		System.out.println("loadStock1");
 		ArrayList<Picture> pics = new ArrayList<Picture>();
 
-		File dir = new File("..\\Photos85\\stock");
+		File dir = new File("..\\Photos85\\data\\stockPhotos");
 		//File dir = new File("..\\Photos85\\stock");
 		System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();
@@ -52,7 +52,7 @@ public class User implements Serializable {
 				System.out.println(child.getPath());
 				Picture p = new Picture();
 				p.setURL(child.getPath());
-				p.caption = "floofy cat";	
+				p.caption = "Stock photo";
 				pics.add(p);
 			}
 		}
