@@ -130,8 +130,11 @@ public class TagController {
 			if (result.isPresent()) { 
 				//this is only editing tag, not category.
 				//if allowing edits on category, will it mess up our hashtable?
-				tagList.set(index, category + "=" + result.get()); 
+				//tagList.set(index, category + "=" + result.get()); 
+				pic.tags.get(category).remove(tag);
+				pic.tags.get(category).add(result.get());
 			}
+			updateListView();
     	}
     	
     	if( b == doneB ) {
