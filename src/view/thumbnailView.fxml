@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,8 +40,11 @@
       <Button fx:id="logoutButton" layoutX="623.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonPress" text="Log Out" />
       <Text layoutX="553.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
       <Button fx:id="quitButton" layoutX="697.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
-      <Button fx:id="searchButton" layoutX="627.0" layoutY="77.0" mnemonicParsing="false" onAction="#buttonPress" text="Search" />
-      <TextField layoutX="468.0" layoutY="77.0" />
+      <Button fx:id="searchButton" layoutX="688.0" layoutY="77.0" mnemonicParsing="false" onAction="#buttonPress" text="Search" />
       <Button fx:id="openButton" layoutX="645.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonPress" text="Open" />
+      <ChoiceBox fx:id="searchDrop" layoutX="589.0" layoutY="77.0" prefHeight="25.0" prefWidth="99.0" />
+      <TextField fx:id="tagSearch" editable="false" layoutX="408.0" layoutY="77.0" prefHeight="25.0" prefWidth="182.0" visible="false" />
+      <DatePicker fx:id="dateSearch1" layoutX="407.0" layoutY="77.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
+      <DatePicker fx:id="dateSearch2" layoutX="499.0" layoutY="77.0" prefHeight="25.0" prefWidth="92.0" visible="false" />
    </children>
 </AnchorPane>

@@ -32,6 +32,11 @@ public class Thumbnail {
     @FXML private Button quitButton;
     @FXML private Button searchButton;
     @FXML private Button openButton;
+    @FXML private ChoiceBox<String> searchDrop;
+    @FXML private TextField tagSearch;
+    @FXML private DatePicker dateSearch1;
+    @FXML private DatePicker dateSearch2;
+    
 
 	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
 	ArrayList<Picture> filteredAlbum = new ArrayList<Picture>();
@@ -43,9 +48,33 @@ public class Thumbnail {
 	
 	public void start() {
 		update(album);
-		//updateTagsMap();
+		resetSearch();
+    	searchDrop.getItems().add("Search by:");
+    	searchDrop.getItems().add("Tags");
+    	searchDrop.getItems().add("Date");
+		searchDrop.getSelectionModel().selectedItemProperty().addListener( (obs, oldVal, newVal) ->updateSearch());
 	}
 
+	private void updateSearch() {
+		tagSearch.setVisible(false);
+		dateSearch1.setVisible(false);
+		dateSearch2.setVisible(false);
+		if (searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
+			tagSearch.setVisible(true);
+			tagSearch.setEditable(true);
+		}
+		if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
+			dateSearch1.setVisible(true);
+			dateSearch2.setVisible(true);
+		}
+	}
+    private void resetSearch() {
+		tagSearch.setVisible(false);
+		dateSearch1.setVisible(false);
+		dateSearch2.setVisible(false);
+    	searchDrop.setValue("Search by:");
+    }
+    
 	public void update( ArrayList<Picture> displayAlbum ) {
 		grid.getChildren().clear();
 		int col = 0;
@@ -94,6 +123,7 @@ public class Thumbnail {
 		}	
 	}
 	
+
 	public void picClick(ActionEvent event) {
 		System.out.println("picture clicked");
 		Button b = (Button) event.getSource();
@@ -136,12 +166,14 @@ public class Thumbnail {
 			update(album);
 		}		
 		if( b == searchButton ) {
-			//tags
-			//for 1-2 tags
-				//search
-			update(filteredAlbum);
+			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
+				searchByTag();
+			}
 			
-			//search by date...
+			if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
+				
+			}
+			update(filteredAlbum);
 		}	
 		if( b == logoutButton ) {
 			Master.writeData();
@@ -153,10 +185,64 @@ public class Thumbnail {
 		}
 	}
 	
-	private void searchByTag( String tagType, String value ) {
-		for( Picture p: tags.get(tagType) ) {
-			if( p.tags.get(tagType).contains(value) ) {
-				filteredAlbum.add(p);
+	private void searchByTag() {
+		String input = tagSearch.getText().toLowerCase();
+		String type = new String();
+		String value = new String();
+		System.out.println(input);
+		if( (input.contains("or") && input.charAt(input.indexOf("or")-1) == ' ' && input.charAt(input.indexOf("or")+2) == ' ') 
+				|| (input.contains("and") && input.charAt(input.indexOf("and")-1) == ' ' && input.charAt(input.indexOf("and")+2) == ' ') ) {
+			System.out.println("two tags");
+			String type2 = new String();
+			String value2 = new String();
+			if(input.contains("or")){
+				System.out.println("or");
+				String part1 = input.substring(0, input.indexOf("or")-1);
+				System.out.println(part1);
+				type = part1.substring(0, input.indexOf("="));
+				System.out.println(type);
+				value = part1.substring(input.indexOf("=")+1, input.length());
+				System.out.println(value);
+				
+				String part2 = input.substring(input.indexOf("or")+1, input.length());
+				System.out.println(part2);
+				type2 = part2.substring(0, input.indexOf("="));
+				System.out.println(type2);
+				value2 = part2.substring(input.indexOf("=")+1, input.length());
+				System.out.println(value2);
+				for( Picture pic : album ) {
+					if( (pic.tags.containsKey(type) && pic.tags.get(type).contains(value)) || (pic.tags.containsKey(type2) && pic.tags.get(type2).contains(value2)) ) {
+						filteredAlbum.add(pic);
+					}
+				}
+			}
+			else {
+				System.out.println("and");
+				String part1 = input.substring(0, input.indexOf("and")-1);
+				System.out.println(part1);
+				type = part1.substring(0, input.indexOf("="));
+				System.out.println(type);
+				value = part1.substring(input.indexOf("=")+1, input.length());
+				System.out.println(value);
+				
+				String part2 = input.substring(input.indexOf("and")+1, input.length());
+				type2 = part2.substring(0, input.indexOf("="));
+				value2 = part2.substring(input.indexOf("=")+1, input.length());
+				for( Picture pic : album ) {
+					if( (pic.tags.containsKey(type) && pic.tags.get(type).contains(value)) && (pic.tags.containsKey(type2) && pic.tags.get(type2).contains(value2)) ) {
+						filteredAlbum.add(pic);
+					}
+				}
+			}
+		}
+		else {
+			System.out.println("one tag");
+			type = input.substring(0, input.indexOf("="));
+			value = input.substring(input.indexOf("=")+1, input.length());
+			for(Picture pic : album) {
+				if( pic.tags.containsKey(type) && pic.tags.get(type).contains(value) ){
+					filteredAlbum.add(pic);
+				}
 			}
 		}
 	}
@@ -195,9 +281,7 @@ public class Thumbnail {
 		return choiceDialog.getSelectedItem();
 	}
 	
-/**	
- * ******************TAGVIEW STUFF***************************************************
- */
+
 	
 	
 }

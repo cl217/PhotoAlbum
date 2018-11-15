@@ -20,8 +20,7 @@
       <Button fx:id="addCategoryB" layoutX="279.0" layoutY="42.0" mnemonicParsing="false" onAction="#buttonPress" text="Add Category" />
       <Button fx:id="addB" layoutX="279.0" layoutY="71.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="89.0" text="Add " />
       <Text fx:id="errorMsg" fill="RED" layoutX="28.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error Message" />
-      <Button fx:id="confirmB" layoutX="201.0" layoutY="286.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="73.0" text="Confirm" />
-      <Button fx:id="cancelB" layoutX="287.0" layoutY="286.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="73.0" text="Cancel" />
+      <Button fx:id="doneB" layoutX="288.0" layoutY="286.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="73.0" text="Done" />
       <Button fx:id="editB" layoutX="287.0" layoutY="128.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="74.0" text="Edit" />
    </children>
 </AnchorPane>

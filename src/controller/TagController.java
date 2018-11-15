@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -25,9 +26,10 @@ public class TagController {
     @FXML private Button addCategoryB;
     @FXML private Button addB;
     @FXML private Text errorMsg;
-    @FXML private Button confirmB; //should this be a alert pop up like songLib?
+    @FXML private Button doneB; //should this be a alert pop up like songLib?
     @FXML private Button cancelB; //should this be a alert pop up like songLib?
     @FXML private Button editB;
+
     
     ObservableList<String> tagList = FXCollections.observableArrayList();
     
@@ -35,16 +37,18 @@ public class TagController {
     public void start(Picture p) {
     	this.pic = p;
     	
+    	/*
     	//manually add some tags for testing purposes
     	ArrayList<String> animal = new ArrayList<String>();
     	pic.tags.put("animal", animal);
     	pic.addTag("animal", "cat");
     	pic.addTag("animal", "notDog");
-    	//System.out.println("added to animals: " + pic.tags.get("animal").size());
+    	System.out.println("added to animals: " + pic.tags.get("animal").size());
     	ArrayList<String> color = new ArrayList<String>();
     	pic.tags.put("color", color);
     	pic.addTag("color", "white");
-    	
+    	*/
+
     	updateListView();
     	updateTagCategory();
     }
@@ -80,7 +84,7 @@ public class TagController {
     }
     	
     
-    public void buttonPress(ActionEvent event) {
+    public void buttonPress(ActionEvent event) throws IOException {
     	Button b = (Button)event.getSource();
     	String categoryTag = "";
     	String category ="";
@@ -129,6 +133,11 @@ public class TagController {
 				tagList.set(index, category + "=" + result.get()); 
 			}
     	}
+    	
+    	if( b == doneB ) {
+    		Master.toThumbnail(tagView);
+    	}
+    	
     }
 
 }
