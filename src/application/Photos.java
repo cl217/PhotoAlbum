@@ -2,11 +2,10 @@ package application;
 	
 import java.io.EOFException;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 import controller.*;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import model.Data;
@@ -15,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
 
-public class Main extends Application {
+public class Photos extends Application {
 	
 	public static final String directory = "data";
 	
@@ -69,6 +68,7 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root);
 		mainStage.setScene(scene);
+		mainStage.setTitle("Photos");
 		mainStage.show();
 	}
 	

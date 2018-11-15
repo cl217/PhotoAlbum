@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="photoView" prefHeight="442.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Photo">
    <children>
-      <ImageView fx:id="picture" fitHeight="289.0" fitWidth="430.0" layoutX="88.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="picture" fitHeight="289.0" fitWidth="430.0" layoutX="88.0" layoutY="52.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="prevButton" layoutX="14.0" layoutY="167.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="47.0" prefWidth="46.0" text="&lt;&lt;" />
       <Button fx:id="nextButton" layoutX="545.0" layoutY="167.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="47.0" prefWidth="46.0" text="&gt;&gt;" />
       <Text fx:id="captionText" layoutX="88.0" layoutY="385.0" strokeType="OUTSIDE" strokeWidth="0.0" text="a fat doge">
@@ -18,8 +18,9 @@
       </Text>
       <Text fx:id="tagText" layoutX="90.0" layoutY="405.0" strokeType="OUTSIDE" strokeWidth="0.0" text="#floof #doggo" />
       <Text fx:id="dateText" layoutX="456.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10/22/2018" />
-      <Text fx:id="usernameText" layoutX="417.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: Cat#1" />
+      <Text fx:id="usernameText" layoutX="252.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User: Cat#1" textAlignment="RIGHT" wrappingWidth="226.33203125" />
       <Button fx:id="logoutButton" layoutX="490.0" layoutY="13.0" mnemonicParsing="false" onAction="#buttonPress" text="Logout" />
       <Button fx:id="quitButton" layoutX="549.0" layoutY="13.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
+      <Button fx:id="backButton" layoutX="26.0" layoutY="13.0" mnemonicParsing="false" onAction="#buttonPress" text="Back" />
    </children>
 </AnchorPane>

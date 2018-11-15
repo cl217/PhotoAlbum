@@ -1,42 +1,19 @@
 
 Stuff to do:
 
-	TagController 
-		- make this window a popup
+	- Delete all System.out.prints
 	
-	Thumbnail
-		addButton
-			-popups to add caption and tags after choosing file
-			-automatically add date (file's last modification date)
-		editCaptionButton
-			-implement 
-		modifyTagsButton 
-			- working on it
-		searchButton 
-			- working on it
-		backToAlbumList
-			-add and implement button
-		
-	User - basically done
-		aesthetics and small stuff 
-		
-	Admin - basically done
-		aesthetics and small stuff 
+	- An item should always be selected
+	- If no items and button is pressed, display errorText
+			Album
+			Admin
+			Thumbnail
+			TagView
 	
-	Album - basically done
-		aesthetics and small stuff 
-	
-	PhotoView - basically done
-		aesthetics and small stuff 
-
-	model.Picture
-		implement date
+	- Thumbnail
+			Some tags can only have one 1 value
 		
-Objects
-	User
-		String name; //user's name
-		//KeySet: album names, to get list of pictures in the album
-		HashMap<String, ArrayList<Picture>> albumMap;
+		
 
 WorkSplit
 	login - C

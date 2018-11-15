@@ -1,24 +1,18 @@
 package controller;
 
 import java.io.*;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-
 import javafx.application.Platform;
 import javafx.event.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Picture;
 
@@ -39,6 +33,9 @@ public class Thumbnail {
     @FXML private TextField tagSearch;
     @FXML private DatePicker dateSearch1;
     @FXML private DatePicker dateSearch2;
+    @FXML private Text userText;
+    @FXML private Text albumText;
+    @FXML private Text errorText;
     
 
 	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
@@ -50,6 +47,9 @@ public class Thumbnail {
 	int selectedIndex;
 	
 	public void start() {
+		errorText.setVisible(false);
+		userText.setText("user: " + Master.currentUser.name);
+		albumText.setText(Master.currentAlbum);
 		update(album);
 		resetSearch();
     	searchDrop.getItems().add("Search by:");
@@ -259,8 +259,6 @@ public class Thumbnail {
 				filteredAlbum.add(pic);
 			}
 		}
-		
-		
 	}
 	private void addPicture() {
 		System.out.println("addPicture");

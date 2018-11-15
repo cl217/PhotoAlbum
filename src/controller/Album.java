@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Picture;
 import model.User;
@@ -29,10 +30,12 @@ public class Album {
 	@FXML Button createButton;
 	@FXML Button deleteButton;
 	@FXML Button renameButton;
-	
+	@FXML Text userText;
+
 	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
 		//System.out.println("Album");
+		userText.setText("User: " + Master.currentUser.name);
 		updateList();
 		albumListView.getSelectionModel().select(0);
 	}

@@ -16,35 +16,10 @@ public class Login {
 	@FXML Text invalid;
 	@FXML AnchorPane loginView;
 	@FXML Button quitButton;
-	/*
-	//get user from stored data
-	public static User user;
-	public static HashMap<String, User> allUsers = new HashMap<String, User>();
-	*/
-	
-		
+
 	public void start() {
 		invalid.setVisible(false);
 	}
-	
-	/*
-	//manually inputting data for testing purposes
-	public void testing() {
-		User cindy = new User( "cindy" );
-		allUsers.put("cindy", cindy );
-		ObservableList<String> albumList = cindy.albumList;
-		albumList.add("Stock");
-		albumList.add("Cats");
-		
-		User person = new User( "person" );
-		allUsers.put("person", person );
-		albumList = person.albumList;
-		albumList.add("Stock");
-		albumList.add("dogs");
-		albumList.add("random album name");
-	}
-	*/
-	
 	
 	//goes to album view
 	public void buttonPress(ActionEvent e) throws IOException{

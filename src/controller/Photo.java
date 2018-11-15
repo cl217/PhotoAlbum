@@ -23,13 +23,12 @@ public class Photo {
     @FXML private Button logoutButton;
     @FXML private Button quitButton;
     @FXML private AnchorPane photoView;
+    @FXML private Button backButton;
     
     int currentIndex;
     ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
     
     public void start(int picIndex)throws IOException {
-    	System.out.println("Photo.start");
-    	System.out.println(album.size());
     	update(picIndex);
     	usernameText.setText("User: " + Master.currentUser.name);
 	}
@@ -38,8 +37,18 @@ public class Photo {
     	Image image = new Image( album.get(index).url );
     	picture.setImage(image);
     	captionText.setText(album.get(index).caption);
+    	dateText.setText(album.get(index).date.toString());
+    	String tags = new String();
+    	for( String key : album.get(index).tags.keySet() ) {
+    		for( String tag: album.get(index).tags.get(key) ) {
+    			tags = tags + key + '=' + tag + " ";
+    		}
+    	}
+    	tagText.setText(tags);
     	currentIndex = index;
     }
+    
+    @FXML
 	public void buttonPress(ActionEvent event) throws IOException {
 		Button b = (Button) event.getSource();
 		if( b == prevButton ) {
@@ -55,6 +64,9 @@ public class Photo {
 				System.out.println("nextButton2");
 				update(currentIndex+1);
 			}
+		}
+		if( b == backButton ) {
+			Master.toThumbnail(photoView);
 		}
 		if( b == logoutButton ) {
 			Master.writeData();
