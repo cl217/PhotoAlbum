@@ -3,8 +3,14 @@ Stuff to do:
 
 	- Delete all System.out.prints
 	
+	-Error for Duplicates
+		Admin 
+		Album
+		Thumbnail
+		TagView
+	
 	- An item should always be selected
-	- If no items and button is pressed, display errorText
+	- If no more items and button is pressed, display errorText
 			Album
 			Admin
 			Thumbnail
@@ -12,9 +18,13 @@ Stuff to do:
 	
 	- Thumbnail
 			Some tags can only have one 1 value
-		
-		
-
+			album from search results
+			
+	- TagView
+			Load DropDown with default+all existing categories
+			Auto/manual delete categories?
+			
+			
 WorkSplit
 	login - C
 	admin - V
