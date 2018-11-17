@@ -8,7 +8,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -25,10 +29,11 @@ public class TagController {
     @FXML private Button deleteB;
     @FXML private Button addCategoryB;
     @FXML private Button addB;
-    @FXML private Text errorMsg;
+    @FXML private Text errorSingleCat;
+    @FXML private Text errorDuplicate;
     @FXML private Button doneB; //should this be a alert pop up like songLib?
-    @FXML private Button cancelB; //should this be a alert pop up like songLib?
     @FXML private Button editB;
+    @FXML private Button deleteCatB;
 
     
     ObservableList<String> tagList = FXCollections.observableArrayList();
@@ -51,6 +56,7 @@ public class TagController {
 
     	updateListView();
     	updateTagCategory();
+    	listView.getSelectionModel().select(0);
     }
     
     private void updateListView() {
@@ -60,7 +66,6 @@ public class TagController {
     	System.out.println("TagControl.updateLV");
     	System.out.println(pic.url);
 		tagList.clear();
-		System.out.println("1");
 		for( String tagCategory : pic.tags.keySet() ) {
 			System.out.println(tagCategory);
 			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
@@ -85,15 +90,38 @@ public class TagController {
     	
     
     public void buttonPress(ActionEvent event) throws IOException {
+		errorSingleCat.setVisible(false);
+		errorDuplicate.setVisible(false);
     	Button b = (Button)event.getSource();
     	String categoryTag = "";
     	String category ="";
     	String tag = "";
+    	boolean error = false;
+    	int index = 0;
     	
     	if (b == addB) {
     		category = tagDropDown.getSelectionModel().getSelectedItem();
     		tag = tagField.getSelectedText();
-    		pic.tags.get(category).add(category + "=" + tag);
+    		
+    		if(pic.tags.get(category).contains(tag)) {
+    			errorDuplicate.setVisible(true);
+    		}
+    		else if ((pic.oneValueCat.contains(category) && pic.tags.get(category).size() == 1) ) {
+    			errorSingleCat.setVisible(true);
+    		}
+    		else {
+    			pic.tags.get(category).add(category + "=" + tag);
+    			updateListView();
+    		}
+    		
+    		for (String s : tagList) {
+    			if( s.equals(category+"="+tag)) {
+    				break;
+    			}
+    			index++;
+    		}
+    		
+    		listView.getSelectionModel().select(index);
     	}
     	else if (b == addCategoryB) {
 			TextInputDialog dialog = new TextInputDialog();
@@ -101,12 +129,45 @@ public class TagController {
     		dialog.setHeaderText("Add Tag Category");
     		dialog.setContentText("Enter name: ");
     		Optional<String> result = dialog.showAndWait();
-    		if (result.isPresent()) {
-    			category = result.get();
-    			pic.tags.put(category, new ArrayList<String>());
-    			tagDropDown.setValue(category);
+    		
+    		for(String s : pic.tags.keySet()) {
+    			if(result.isPresent() && isDuplicate(result.get(), pic.tags.get(s))){
+    				errorDuplicate.setVisible(true);
+    				error = true;
+    				break;
+    			}
     		}
-    		updateTagCategory();
+    		
+    		if (result.isPresent() && !error) {
+    			Alert alert = new Alert(AlertType.CONFIRMATION);
+        		alert.setTitle("Singular or Multiple Category type.");
+        		alert.setHeaderText("Please select your category type");
+        		alert.setContentText("Choose your option.");
+
+        		ButtonType buttonTypeOne = new ButtonType("Single Value");
+        		ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
+        		//ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+
+        		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+        		Optional<ButtonType> result2 = alert.showAndWait();
+        		
+        		//if Single value is selected
+        		if (result2.get() == buttonTypeOne){
+        			category = result.get();
+        			pic.oneValueCat.add(category);
+        			pic.tags.put(category, new ArrayList<String>());
+        			tagDropDown.setValue(category);
+        			
+        		//if multiple value is selected
+        		} else {
+        			category = result.get();
+        			pic.tags.put(category, new ArrayList<String>());
+        			tagDropDown.setValue(category);
+        		}
+        		
+        		updateTagCategory();
+    		}
+    		
     	}
     	else if (b == deleteB) {
     		categoryTag = listView.getSelectionModel().getSelectedItem();
@@ -114,6 +175,13 @@ public class TagController {
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
     		pic.tags.get(category).remove(tag);
     		updateListView();
+    		
+    		if(tagList.size()-1 < index) {
+				listView.getSelectionModel().select(tagList.size()-1);
+			}
+			else{
+				listView.getSelectionModel().select(index);
+			}
     	}
     	else if (b == editB) {
     		categoryTag = listView.getSelectionModel().getSelectedItem();
@@ -121,10 +189,10 @@ public class TagController {
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
     		
     		String item = listView.getSelectionModel().getSelectedItem();
-			int index = listView.getSelectionModel().getSelectedIndex();
+			int indexEdit = listView.getSelectionModel().getSelectedIndex();
 			TextInputDialog dialog = new TextInputDialog(tag);
 			dialog.setTitle("List Tag Edit");
-			dialog.setHeaderText("Selected Item (Index: " + index + ")");
+			dialog.setHeaderText("Selected Item (Index: " + indexEdit + ")");
 			dialog.setContentText("Enter new tag: ");
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) { 
@@ -135,12 +203,30 @@ public class TagController {
 				pic.tags.get(category).add(result.get());
 			}
 			updateListView();
+			
+			listView.getSelectionModel().select(index);
+    	}
+    	else if (b == deleteCatB) {
+    		categoryTag = listView.getSelectionModel().getSelectedItem();
+    		category = categoryTag.substring(0, categoryTag.indexOf("="));
+    		
+    		pic.tags.remove(category);
+    		updateTagCategory();
     	}
     	
     	if( b == doneB ) {
     		Master.toThumbnail(tagView);
     	}
     	
+    }
+    
+    public boolean isDuplicate(String value, ArrayList<String> array) {
+    	for (String s :array) {
+    		if(value.equals(s)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 }
