@@ -59,7 +59,7 @@ public class Admin{
     		if (result.isPresent()) {
     			keyWord = result.get();
     			newUser = new User(result.get());
-    			Master.userMap.put(keyWord, newUser);
+    			Master.userMap.put(keyWord.toLowerCase(), newUser);
         		updateList();
     		}
     	}

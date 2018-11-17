@@ -2,17 +2,20 @@ package model;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public String name;
 	
 	// HashMap< albumName, all pictures >, what to store data in?
@@ -21,6 +24,7 @@ public class User implements Serializable {
 	//iterate over keys to print album list
 	//get key to get list of pictures
 	public HashMap<String, ArrayList<Picture>> albumMap = new HashMap<String, ArrayList<Picture>>();
+	//have to make keys all lowercase
 	
 	public User( String name ) {
 		this.name = name;
@@ -28,15 +32,22 @@ public class User implements Serializable {
 	
 	public static final String directory = "data";
 	
+	
+	public boolean containsAlbum(String name) {
+		for( String existingName : albumMap.keySet() )
+			if( name.equalsIgnoreCase(existingName) ) {
+				return true;
+			}
+		return false;
+	}
+	
 	public User read() throws IOException, ClassNotFoundException {
 		ObjectInputStream ois = new ObjectInputStream( new FileInputStream(directory + File.separator + name));
 		User u = (User) ois.readObject();
 		ois.close();
 		return u;
 	}
-	
 	public void loadStock(){
-		
 		System.out.println("loadStock1");
 		ArrayList<Picture> pics = new ArrayList<Picture>();
 
@@ -53,6 +64,9 @@ public class User implements Serializable {
 				Picture p = new Picture();
 				p.setURL(child.getPath());
 				p.caption = "Stock photo";
+				Date date = new Date(child.lastModified());
+				LocalDate localD = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				p.date = localD;
 				pics.add(p);
 			}
 		}

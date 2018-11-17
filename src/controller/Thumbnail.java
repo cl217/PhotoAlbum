@@ -29,6 +29,9 @@ public class Thumbnail {
     @FXML private Button quitButton;
     @FXML private Button searchButton;
     @FXML private Button openButton;
+    @FXML private Button resultAlbumB;
+    @FXML private Button resetB;
+    @FXML private Button backB;
     @FXML private ChoiceBox<String> searchDrop;
     @FXML private TextField tagSearch;
     @FXML private DatePicker dateSearch1;
@@ -36,6 +39,7 @@ public class Thumbnail {
     @FXML private Text userText;
     @FXML private Text albumText;
     @FXML private Text errorText;
+
     
 
 	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
@@ -134,6 +138,7 @@ public class Thumbnail {
 	}
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
+		errorText.setVisible(false);
 		Button b = (Button) event.getSource();
 		if( b == openButton ) {
 			System.out.println("openButton");
@@ -178,7 +183,20 @@ public class Thumbnail {
 				searchByDate();
 			}
 			update(filteredAlbum);
+			resetB.setVisible(true);
+			resultAlbumB.setVisible(true);
 		}	
+		if( b == resetB ) {
+			update(album);
+			resetB.setVisible(false);
+			resultAlbumB.setVisible(false);
+		}
+		if( b == resultAlbumB ) {
+			makeResultAlbum();
+		}
+		if( b == backB ) {
+			Master.toAlbum(thumbnailView);
+		}
 		if( b == logoutButton ) {
 			Master.writeData();
 			Master.toLogin(thumbnailView);
@@ -189,6 +207,24 @@ public class Thumbnail {
 		}
 	}
 	
+	
+	private void makeResultAlbum() {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Photos");
+		dialog.setHeaderText("New album");
+		dialog.setContentText("Enter new album name: ");
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			if( Master.currentUser.containsAlbum(result.get()) ){
+				errorText.setText("Existing album name");
+				errorText.setVisible(true);
+			}else {
+				Master.currentUser.albumMap.put(result.get(), filteredAlbum);
+				errorText.setText("New album sucessfully created");
+			}
+		}
+		
+	}
 	private void editCaption() {
 		TextInputDialog dialog = new TextInputDialog(album.get(selectedIndex).caption);
 		dialog.setTitle("Photos");
@@ -250,12 +286,17 @@ public class Thumbnail {
 	
 	private void searchByDate() {
 		LocalDate date1 = dateSearch1.getValue();
-		LocalDate date2 = dateSearch1.getValue();
+		System.out.println(date1);
+		LocalDate date2 = dateSearch2.getValue();
+		System.out.println(date2);
 		for( Picture pic : album ) {
+			System.out.println(pic.date);
 			if( pic.date.equals(date1) || pic.date.equals(date2) ) {
+				System.out.println("equals");
 				filteredAlbum.add(pic);
 			}
 			if( pic.date.isAfter(date1) && pic.date.isBefore(date2) ) {
+				System.out.println("between");
 				filteredAlbum.add(pic);
 			}
 		}
