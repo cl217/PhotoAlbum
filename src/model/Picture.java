@@ -12,7 +12,8 @@ public class Picture implements Serializable{
 	public String url;
 	public String caption;
 	public HashMap<String, ArrayList<String>> tags = new HashMap<String, ArrayList<String>>();
-	//Type to values
+	public ArrayList<String> oneValueCat = new ArrayList<String>();
+ 	//Type to values
 	public LocalDate date;
 	//Date
 	
