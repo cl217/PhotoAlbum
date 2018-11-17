@@ -25,11 +25,14 @@ public class Admin{
 	@FXML Button quitButton;
 	@FXML AnchorPane adminView;
 	@FXML ListView<String> listUsers;
+	@FXML private Text errorText;
+	@FXML private Text errorDeleteText;
 	
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	public void start(){
 		System.out.println("stockNum: " + Master.userMap.size());
 		updateList();
+		listUsers.getSelectionModel().select(0);
 	}
 	
 	private void updateList() {
@@ -45,7 +48,10 @@ public class Admin{
     	/*create pop up for buttonPress entry
     	 * some how get access to those fields to get (key, value)
     	 */
+		errorText.setVisible(false);
+		errorDeleteText.setVisible(false);
 		String keyWord = "";
+		int index= 0;
 		User newUser = null;
 		Button b = (Button)event.getSource();
 		
@@ -58,17 +64,43 @@ public class Admin{
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = result.get();
-    			newUser = new User(result.get());
-    			Master.userMap.put(keyWord.toLowerCase(), newUser);
-        		updateList();
+    			if(Master.userMap.containsKey(result.get().toLowerCase())) {
+    				errorText.setVisible(true);
+    			}
+    			else {
+    				newUser = new User(keyWord);
+    				Master.userMap.put(keyWord.toLowerCase(), newUser);
+            		updateList();
+    			}
     		}
     		
+    		for (String s : obsList) {
+    			if( s.equals(keyWord.toLowerCase())) {
+    				break;
+    			}
+    			index++;
+    		}
+    		
+    		listUsers.getSelectionModel().select(index);
     	}
     	else if (b == deleteButton) {
-    		keyWord = listUsers.getSelectionModel().getSelectedItem();
-    		Master.userMap.remove(keyWord);
-    		Master.data.userList.remove(keyWord);
-    		updateList();
+    		if (listUsers.getSelectionModel().getSelectedItem() == null) {
+    			errorDeleteText.setVisible(true);
+    		}
+    		else{
+    			keyWord = listUsers.getSelectionModel().getSelectedItem();
+    			index = listUsers.getSelectionModel().getSelectedIndex();
+    			Master.userMap.remove(keyWord);
+    			Master.data.userList.remove(keyWord);
+    			updateList();
+    		
+    			if(Master.userMap.size()-1 < index) {
+    				listUsers.getSelectionModel().select(Master.userMap.size()-1);
+    			}
+    			else{
+    				listUsers.getSelectionModel().select(index);
+    			}
+    		}
     	}
     	else if (b == loButton) {
     		//writeApp(adminUser);

@@ -2,18 +2,19 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane fx:id="adminView" prefHeight="399.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Admin">
+<AnchorPane fx:id="adminView" prefHeight="403.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Admin">
    <children>
       <ListView fx:id="listUsers" layoutX="14.0" layoutY="109.0" prefHeight="187.0" prefWidth="479.0" />
-      <TextArea layoutX="202.0" layoutY="14.0" prefHeight="37.0" prefWidth="126.0" text="Administration View" />
-      <TextArea layoutX="14.0" layoutY="71.0" prefHeight="38.0" prefWidth="144.0" text="List of Users" />
-      <Button fx:id="createButton" layoutX="53.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Create New User" />
+      <Button fx:id="createButton" layoutX="50.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Create New User" />
       <Button fx:id="deleteButton" layoutX="215.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Delete User" />
       <Button fx:id="loButton" layoutX="432.0" layoutY="314.0" mnemonicParsing="false" onAction="#buttonPress" text="Log Out" />
       <Button fx:id="quitButton" layoutX="432.0" layoutY="348.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
+      <Text layoutX="14.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List of Users" />
+      <Text layoutX="209.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Administration View" wrappingWidth="111.770263671875" />
+      <Text fx:id="errorText" fill="RED" layoutX="184.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Duplicate Username" visible="false" />
+      <Text fx:id="errorDeleteText" fill="RED" layoutX="195.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: No Users to Delete" visible="false" wrappingWidth="138.14648880064487" />
    </children>
 </AnchorPane>

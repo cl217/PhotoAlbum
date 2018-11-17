@@ -31,6 +31,8 @@ public class Album {
 	@FXML Button deleteButton;
 	@FXML Button renameButton;
 	@FXML Text userText;
+	@FXML private Text errorText;
+	@FXML private Text errorDeleteText;
 
 	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
@@ -50,8 +52,12 @@ public class Album {
 	}
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
+		errorText.setVisible(false);
+		errorDeleteText.setVisible(false);
 		Button b = (Button)event.getSource();
 		String keyWord = "";
+		int index=0;
+		
 		if (b == createButton) {
 			TextInputDialog dialog = new TextInputDialog();
     		dialog.setTitle("List Album");
@@ -60,17 +66,46 @@ public class Album {
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = result.get();
-    			ArrayList<Picture> temp = new ArrayList<Picture>();
-    			Master.currentUser.albumMap.put(keyWord, temp);
-        		updateList();
+    			if(Master.currentUser.albumMap.containsKey(result.get().toLowerCase())) {
+    				errorText.setVisible(true);
+    			}
+    			else {
+    				ArrayList<Picture> temp = new ArrayList<Picture>();
+    				Master.currentUser.albumMap.put(keyWord, temp);
+    				updateList();
+    			}
     		}
+    		
+    		for (String s : list) {
+    			if( s.equals(keyWord.toLowerCase())) {
+    				break;
+    			}
+    			index++;
+    		}
+    		
+    		albumListView.getSelectionModel().select(index);
+    		
 		}else if (b == deleteButton) {
-			keyWord = albumListView.getSelectionModel().getSelectedItem();
-    		Master.currentUser.albumMap.remove(keyWord);
-    		updateList();
+    		if (albumListView.getSelectionModel().getSelectedItem() == null) {
+    			errorDeleteText.setVisible(true);
+    		}
+    		else {
+    			keyWord = albumListView.getSelectionModel().getSelectedItem();
+    			index = albumListView.getSelectionModel().getSelectedIndex();
+    			Master.currentUser.albumMap.remove(keyWord);
+    			updateList();
+    			
+    			//System.out.println("Album size: " + Master.currentUser.albumMap.size()+ " , " + index);
+    			if(Master.currentUser.albumMap.size()-1 < index) {
+    				albumListView.getSelectionModel().select(Master.currentUser.albumMap.size()-1);
+    			}
+    			else{
+    				albumListView.getSelectionModel().select(index);
+    			}
+    		}
 		}else if (b == renameButton) {
 			 String item = albumListView.getSelectionModel().getSelectedItem();
-			 int index = albumListView.getSelectionModel().getSelectedIndex();
+			 index = albumListView.getSelectionModel().getSelectedIndex();
 			 TextInputDialog dialog = new TextInputDialog(item);
 			 dialog.setTitle("List Album");
 			 dialog.setHeaderText("Selected Item (Index: " + index + ")");
@@ -79,6 +114,8 @@ public class Album {
 			 if (result.isPresent()) { 
 				 list.set(index, result.get()); 
 			 }
+			 albumListView.getSelectionModel().select(index);
+			 
 		}else if (b == logoutButton) {
 			Master.writeData();
 			Master.toLogin(albumView);
