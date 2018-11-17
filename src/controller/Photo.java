@@ -26,9 +26,10 @@ public class Photo {
     @FXML private Button backButton;
     
     int currentIndex;
-    ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
+    ArrayList<Picture> album = new ArrayList<Picture>();
     
-    public void start(int picIndex)throws IOException {
+    public void start(int picIndex, ArrayList<Picture> album)throws IOException {
+    	this.album = album;
     	update(picIndex);
     	usernameText.setText("User: " + Master.currentUser.name);
 	}

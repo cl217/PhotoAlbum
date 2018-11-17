@@ -48,7 +48,7 @@ public class Admin{
 		String keyWord = "";
 		User newUser = null;
 		Button b = (Button)event.getSource();
-
+		
     	if (b == createButton) {
     		//create newUser with pop up input
     		TextInputDialog dialog = new TextInputDialog();
@@ -62,6 +62,7 @@ public class Admin{
     			Master.userMap.put(keyWord.toLowerCase(), newUser);
         		updateList();
     		}
+    		
     	}
     	else if (b == deleteButton) {
     		keyWord = listUsers.getSelectionModel().getSelectedItem();

@@ -5,8 +5,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -49,12 +52,14 @@ public class Thumbnail {
 	//cant have 2 tags to location type for a pic but can have 2 tags to a person type for a single pic
 	//??????
 	int selectedIndex;
+	ObservableList<Node> gridB = FXCollections.observableArrayList();
 	
 	public void start() {
 		errorText.setVisible(false);
 		userText.setText("user: " + Master.currentUser.name);
 		albumText.setText(Master.currentAlbum);
 		update(album);
+		gridB.get(0).requestFocus();
 		resetSearch();
     	searchDrop.getItems().add("Search by:");
     	searchDrop.getItems().add("Tags");
@@ -84,11 +89,13 @@ public class Thumbnail {
     
 	public void update( ArrayList<Picture> displayAlbum ) {
 		grid.getChildren().clear();
+		grid.getColumnConstraints().clear();
+		//grid.getRowConstraints().clear();
 		int col = 0;
 		int row = 0;
 		int i = 0;
-	     grid.getColumnConstraints().add(new ColumnConstraints(-15)); 
-	     grid.getRowConstraints().add(new RowConstraints(175)); 
+	    grid.getColumnConstraints().add(new ColumnConstraints(166)); 
+	    grid.getRowConstraints().add(new RowConstraints(175)); 
 	     
 		for( Picture p : displayAlbum ) {
 			
@@ -128,6 +135,7 @@ public class Thumbnail {
 			}
 			i++; //sets index to button
 		}	
+		gridB = grid.getChildren();
 	}
 	
 
@@ -142,18 +150,46 @@ public class Thumbnail {
 		Button b = (Button) event.getSource();
 		if( b == openButton ) {
 			System.out.println("openButton");
-			Master.toPhoto(thumbnailView, selectedIndex);
+			if( resetB.isVisible() ) {
+				Master.toPhoto(thumbnailView, selectedIndex, filteredAlbum );
+			}else {
+				Master.toPhoto(thumbnailView, selectedIndex, album );
+			}
 		}
 		if( b == addPictureButton ) {
 			addPicture();
+			selectedIndex = gridB.size()-1;
 		}
 		if( b == removePictureButton ) {
 			//delete from tagsMap
+			if(gridB.size()==0) {
+				errorText.setText("ERROR: NO PICTURE TO DELETE");
+				errorText.setVisible(true);
+				return;
+			}
+			int temp = selectedIndex;
+			if( resetB.isVisible() ) {
+				for( int i = 0; i < album.size(); i++ ) {
+					if( filteredAlbum.get(selectedIndex).equals(album.get(i)) ) {
+						selectedIndex = i;
+						break;
+					}
+				}
+			}
 			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
 				tags.get(tagType).remove(album.get(selectedIndex));
 			}
+			
 			album.remove(selectedIndex);
 			update(album);
+			if( resetB.isVisible() ) {
+				filteredAlbum.remove(temp);
+				update(filteredAlbum);
+				selectedIndex = temp;
+			}
+			if( selectedIndex == gridB.size() ) {
+				selectedIndex = selectedIndex-1;
+			}
 		}
 		if( b == editCaptionButton ) {
 			editCaption();
@@ -190,6 +226,7 @@ public class Thumbnail {
 			update(album);
 			resetB.setVisible(false);
 			resultAlbumB.setVisible(false);
+			selectedIndex = 0;
 		}
 		if( b == resultAlbumB ) {
 			makeResultAlbum();
@@ -204,6 +241,11 @@ public class Thumbnail {
 		if( b == quitButton ) {
 			Master.writeData();
 			Platform.exit();
+		}
+		if( gridB.isEmpty() == false ) {
+			System.out.println("grid not empty");
+			gridB.get(selectedIndex).requestFocus();
+			gridB.get(selectedIndex).setStyle("-fx-background: pink;");
 		}
 	}
 	
@@ -221,6 +263,7 @@ public class Thumbnail {
 			}else {
 				Master.currentUser.albumMap.put(result.get(), filteredAlbum);
 				errorText.setText("New album sucessfully created");
+				errorText.setVisible(true);
 			}
 		}
 		
@@ -324,7 +367,6 @@ public class Thumbnail {
 			update(album);
 		}
 	}
-	
 	
 	private String pickAlbum(String title) {
 		System.out.println("Popup");
