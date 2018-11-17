@@ -16,5 +16,7 @@
       <Button fx:id="quitButton" layoutX="582.0" layoutY="49.0" mnemonicParsing="false" onAction="#buttonPress" text="Quit" />
       <Text layoutX="46.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="List of Albums:" wrappingWidth="85.63671875" />
       <Text fx:id="userText" layoutX="281.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="221.13671875" />
+      <Text fx:id="errorText" fill="RED" layoutX="256.0" layoutY="401.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Duplicate Album Name" visible="false" />
+      <Text fx:id="errorDeleteText" fill="RED" layoutX="262.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: No Albums to Delete" visible="false" />
    </children>
 </AnchorPane>
