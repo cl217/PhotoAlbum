@@ -105,11 +105,11 @@ public class TagController {
     		System.out.println("CategoryTAG:" + tag);
     		
     		if(pic.tags.get(category).contains(tag)) {
-    			errorText.setText("Error: Single Category already has a value.");
+    			errorText.setText("Error: Duplicate value.");
     			errorText.setVisible(true);
     		}
     		else if ((pic.oneValueCat.contains(category) && pic.tags.get(category).size() == 1) ) {
-    			errorText.setText("Error: Duplicate value.");
+    			errorText.setText("Error: Single Category already has a value.");
     			errorText.setVisible(true);
     		}
     		else {
@@ -117,11 +117,14 @@ public class TagController {
     			updateListView();
     		}
     		
-    		for (String s : tagList) {
-    			if( s.equals(category+"="+tag)) {
-    				break;
+    		for (String tagCategory : pic.tags.keySet()) {
+    			for(String tagValue: pic.tags.get(tagCategory)) {
+    				String s = tagCategory+"="+tagValue;
+    				if( s.equals(category+"="+tag)) {
+    					break;
+    				}
+    				index++;
     			}
-    			index++;
     		}
     		
     		listView.getSelectionModel().select(index);
@@ -171,29 +174,38 @@ public class TagController {
         		
         		updateTagCategory();
         		
-        		for (String s : pic.tags.keySet()) {
-        			if( s.equals(category+"="+tag)) {
-        				break;
+        		for (String tagCategory : tagList) {
+        			for(String tagValue: pic.tags.get(tagCategory)) {
+        				String s = tagCategory+"="+tagValue;
+        				if( s.equals(category+"="+tag)) {
+        					break;
+        				}
+        				index++;
         			}
-        			index++;
         		}
         		tagDropDown.getSelectionModel().select(index);
     		}
     		
     	}
     	else if (b == deleteB) {
-    		categoryTag = listView.getSelectionModel().getSelectedItem();
-    		category = categoryTag.substring(0, categoryTag.indexOf("="));
-    		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
-    		pic.tags.get(category).remove(tag);
-    		updateListView();
-    		
-    		if(tagList.size()-1 < index) {
-				listView.getSelectionModel().select(tagList.size()-1);
-			}
-			else{
-				listView.getSelectionModel().select(index);
-			}
+    		if (listView.getSelectionModel().getSelectedItem() == null) {
+    			errorText.setText("Error: No items to delete");
+    			errorText.setVisible(true);
+    		}
+    		else {
+    			categoryTag = listView.getSelectionModel().getSelectedItem();
+        		category = categoryTag.substring(0, categoryTag.indexOf("="));
+        		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
+        		pic.tags.get(category).remove(tag);
+        		updateListView();
+        		
+        		if(tagList.size()-1 < index) {
+    				listView.getSelectionModel().select(tagList.size()-1);
+    			}
+    			else{
+    				listView.getSelectionModel().select(index);
+    			}
+    		}
     	}
     	else if (b == editB) {
     		categoryTag = listView.getSelectionModel().getSelectedItem();
