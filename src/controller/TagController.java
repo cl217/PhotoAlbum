@@ -176,15 +176,6 @@ public class TagController {
         		
         		updateTagCategory();
         		
-        		for (String tagCategory : tagList) {
-        			for(String tagValue: pic.tags.get(tagCategory)) {
-        				String s = tagCategory+"="+tagValue;
-        				if( s.equals(category+"="+tag)) {
-        					break;
-        				}
-        				index++;
-        			}
-        		}
         		tagDropDown.getSelectionModel().select(index);
     		}
     		
