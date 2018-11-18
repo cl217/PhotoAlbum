@@ -236,10 +236,6 @@ public class Thumbnail {
 				}
 			}
 		}		
-
-		if( b == resultAlbumB ) {
-			makeResultAlbum();
-		}
 		if( gridB.isEmpty() == false ) {
 			if( resetB.isVisible() ) {
 				gridB.get(filteredIndex).requestFocus();
@@ -260,6 +256,9 @@ public class Thumbnail {
 		errorText.setVisible(false);
 		System.out.println("buttonPress2");
 		Button b = (Button) e.getSource();
+		if( b == resultAlbumB ) {
+			makeResultAlbum();
+		}
 		if( b == addPictureButton ) {
 			if(addPicture()) {
 				selectedIndex = gridB.size()-1;
@@ -390,7 +389,7 @@ public class Thumbnail {
 			}else { //and
 				words[1] = input.substring(input.indexOf("=")+1, input.indexOf(" and ")); //value1
 				words[2] = "and";
-				words[3] = input.substring(input.indexOf(" and ")+4, input.indexOf("=", input.indexOf("=")+1)); //type2
+				words[3] = input.substring(input.indexOf(" and ")+5, input.indexOf("=", input.indexOf("=")+1)); //type2
 				words[4] = input.substring(input.indexOf("=", input.indexOf("=")+1)+1, input.length());
 				for( Picture pic: album ) {
 					if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) 
@@ -400,7 +399,7 @@ public class Thumbnail {
 				}
 			}
 		}else { //1 tag
-			words[1] = input.substring(input.indexOf("=")+1, input.length());
+			words[1] = input.substring(input.indexOf("=")+1);
 			for( Picture pic: album ) {
 				if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) ) {
 					filteredAlbum.add(pic);

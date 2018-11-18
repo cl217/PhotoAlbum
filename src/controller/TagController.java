@@ -29,7 +29,7 @@ public class TagController {
     @FXML private Button addCategoryB;
     @FXML private Button addB;
     @FXML private Text errorText;
-    @FXML private Button doneB; //should this be a alert pop up like songLib?
+    @FXML private Button doneB;
     @FXML private Button editB;
     @FXML private Button deleteCatB;
 
@@ -39,19 +39,6 @@ public class TagController {
     Picture pic; 
     public void start(Picture p) {
     	this.pic = p;
-    	
-    	/*
-    	//manually add some tags for testing purposes
-    	ArrayList<String> animal = new ArrayList<String>();
-    	pic.tags.put("animal", animal);
-    	pic.addTag("animal", "cat");
-    	pic.addTag("animal", "notDog");
-    	System.out.println("added to animals: " + pic.tags.get("animal").size());
-    	ArrayList<String> color = new ArrayList<String>();
-    	pic.tags.put("color", color);
-    	pic.addTag("color", "white");
-    	*/
-
     	updateListView();
     	updateTagCategory();
     	listView.getSelectionModel().select(0);
@@ -68,9 +55,7 @@ public class TagController {
 			System.out.println(tagCategory);
 			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
 			for(String tagValue: pic.tags.get(tagCategory)) {
-				//System.out.println("Vincent: "+tagCategory + " , " + tagValue);
 				tagList.add(tagCategory + "=" + tagValue);
-				//System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
 			}
 		}
 		System.out.println(tagList);
@@ -141,7 +126,6 @@ public class TagController {
 
         		ButtonType buttonTypeOne = new ButtonType("Single Value");
         		ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
-        		//ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
 
         		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
         		Optional<ButtonType> result2 = alert.showAndWait();
@@ -164,12 +148,9 @@ public class TagController {
         		}
         		
         		updateTagCategory();
-<<<<<<< HEAD
-        		
-        		tagDropDown.getSelectionModel().select(index);
-=======
+
         		tagDropDown.getSelectionModel().select(result.get());
->>>>>>> e85b3790c453c25d37e2663959320152e996bcd9
+
     		}
     		
     	}
@@ -198,7 +179,6 @@ public class TagController {
     		category = categoryTag.substring(0, categoryTag.indexOf("="));
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
     		
-    		String item = listView.getSelectionModel().getSelectedItem();
 			int indexEdit = listView.getSelectionModel().getSelectedIndex();
 			TextInputDialog dialog = new TextInputDialog(tag);
 			dialog.setTitle("List Tag Edit");
@@ -206,9 +186,6 @@ public class TagController {
 			dialog.setContentText("Enter new tag: ");
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) { 
-				//this is only editing tag, not category.
-				//if allowing edits on category, will it mess up our hashtable?
-				//tagList.set(index, category + "=" + result.get()); 
 				pic.tags.get(category).remove(tag);
 				pic.tags.get(category).add(result.get());
 			}
