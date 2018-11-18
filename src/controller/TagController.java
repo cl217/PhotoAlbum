@@ -29,8 +29,7 @@ public class TagController {
     @FXML private Button deleteB;
     @FXML private Button addCategoryB;
     @FXML private Button addB;
-    @FXML private Text errorSingleCat;
-    @FXML private Text errorDuplicate;
+    @FXML private Text errorText;
     @FXML private Button doneB; //should this be a alert pop up like songLib?
     @FXML private Button editB;
     @FXML private Button deleteCatB;
@@ -70,6 +69,7 @@ public class TagController {
 			System.out.println(tagCategory);
 			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
 			for(String tagValue: pic.tags.get(tagCategory)) {
+				//System.out.println("Vincent: "+tagCategory + " , " + tagValue);
 				tagList.add(tagCategory + "=" + tagValue);
 				//System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
 			}
@@ -90,8 +90,7 @@ public class TagController {
     	
     
     public void buttonPress(ActionEvent event) throws IOException {
-		errorSingleCat.setVisible(false);
-		errorDuplicate.setVisible(false);
+		errorText.setVisible(false);
     	Button b = (Button)event.getSource();
     	String categoryTag = "";
     	String category ="";
@@ -101,16 +100,20 @@ public class TagController {
     	
     	if (b == addB) {
     		category = tagDropDown.getSelectionModel().getSelectedItem();
-    		tag = tagField.getSelectedText();
+    		tag = tagField.getText();
+    		
+    		System.out.println("CategoryTAG:" + tag);
     		
     		if(pic.tags.get(category).contains(tag)) {
-    			errorDuplicate.setVisible(true);
+    			errorText.setText("Error: Single Category already has a value.");
+    			errorText.setVisible(true);
     		}
     		else if ((pic.oneValueCat.contains(category) && pic.tags.get(category).size() == 1) ) {
-    			errorSingleCat.setVisible(true);
+    			errorText.setText("Error: Duplicate value.");
+    			errorText.setVisible(true);
     		}
     		else {
-    			pic.tags.get(category).add(category + "=" + tag);
+    			pic.tags.get(category).add(tag);
     			updateListView();
     		}
     		
@@ -132,7 +135,8 @@ public class TagController {
     		
     		for(String s : pic.tags.keySet()) {
     			if(result.isPresent() && isDuplicate(result.get(), pic.tags.get(s))){
-    				errorDuplicate.setVisible(true);
+    				errorText.setText("Error: Duplicate value.");
+    				errorText.setVisible(true);
     				error = true;
     				break;
     			}
@@ -166,6 +170,14 @@ public class TagController {
         		}
         		
         		updateTagCategory();
+        		
+        		for (String s : pic.tags.keySet()) {
+        			if( s.equals(category+"="+tag)) {
+        				break;
+        			}
+        			index++;
+        		}
+        		tagDropDown.getSelectionModel().select(index);
     		}
     		
     	}
@@ -207,11 +219,24 @@ public class TagController {
 			listView.getSelectionModel().select(index);
     	}
     	else if (b == deleteCatB) {
-    		categoryTag = listView.getSelectionModel().getSelectedItem();
-    		category = categoryTag.substring(0, categoryTag.indexOf("="));
+    		if (tagDropDown.getSelectionModel().getSelectedItem() == null) {
+    			errorText.setText("Error: Category is empty.");
+    			errorText.setVisible(true);
+    		}
+    		else{
+    			category = tagDropDown.getSelectionModel().getSelectedItem();
+        		pic.tags.remove(category);
+        		
+        		updateTagCategory();
+        		updateListView();
     		
-    		pic.tags.remove(category);
-    		updateTagCategory();
+    			if(pic.tags.size()-1 < index) {
+    				tagDropDown.getSelectionModel().select(pic.tags.size()-1);
+    			}
+    			else{
+    				tagDropDown.getSelectionModel().select(index);
+    			}
+    		}
     	}
     	
     	if( b == doneB ) {
