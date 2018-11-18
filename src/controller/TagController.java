@@ -115,18 +115,7 @@ public class TagController {
     			pic.tags.get(category).add(tag);
     			updateListView();
     		}
-    		
-    		for (String tagCategory : pic.tags.keySet()) {
-    			for(String tagValue: pic.tags.get(tagCategory)) {
-    				String s = tagCategory+"="+tagValue;
-    				if( s.equals(category+"="+tag)) {
-    					break;
-    				}
-    				index++;
-    			}
-    		}
-    		
-    		listView.getSelectionModel().select(index);
+    		listView.getSelectionModel().select(category+"="+tag);
     	}
     	else if (b == addCategoryB) {
 			TextInputDialog dialog = new TextInputDialog();
@@ -137,7 +126,7 @@ public class TagController {
     		
     		for(String s : pic.tags.keySet()) {
     			if(result.isPresent() && isDuplicate(result.get(), pic.tags.get(s))){
-    				errorText.setText("Error: Duplicate value.");
+    				errorText.setText("Error: This category only allows one value");
     				errorText.setVisible(true);
     				error = true;
     				break;
@@ -175,8 +164,12 @@ public class TagController {
         		}
         		
         		updateTagCategory();
+<<<<<<< HEAD
         		
         		tagDropDown.getSelectionModel().select(index);
+=======
+        		tagDropDown.getSelectionModel().select(result.get());
+>>>>>>> e85b3790c453c25d37e2663959320152e996bcd9
     		}
     		
     	}
