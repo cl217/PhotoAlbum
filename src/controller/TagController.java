@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -154,7 +153,10 @@ public class TagController {
         		//if Single value is selected
         		if (result2.get() == buttonTypeOne){
         			category = result.get();
+        			//System.out.println(category);
+        			System.out.println(pic.url);
         			pic.oneValueCat.add(category);
+        			System.out.println("ran");
         			pic.tags.put(category, new ArrayList<String>());
         			tagDropDown.setValue(category);
         			

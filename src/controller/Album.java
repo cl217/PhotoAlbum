@@ -4,22 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import model.Picture;
-import model.User;
 
 public class Album {
 	@FXML ListView<String> albumListView;

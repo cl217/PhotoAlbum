@@ -11,11 +11,9 @@ import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -74,8 +72,7 @@ public class Thumbnail {
 		searchDrop.getSelectionModel().selectedItemProperty().addListener( (obs, oldVal, newVal) ->updateSearch());
 	}
 	public void revert(MouseEvent event) {
-		System.out.println("revert");
-		gridB.get(selectedIndex).requestFocus();
+		resetSelect();
 	}
 
 	private void updateSearch() {
@@ -91,8 +88,9 @@ public class Thumbnail {
 			dateSearch1.setVisible(true);
 			dateSearch2.setVisible(true);
 		}
-		gridB.get(selectedIndex).requestFocus();
+		resetSelect();
 	}
+	
     private void resetSearch() {
 		tagSearch.setVisible(false);
 		dateSearch1.setVisible(false);
@@ -162,7 +160,7 @@ public class Thumbnail {
 		System.out.println("buttonPress1");
 		errorText.setVisible(false);
 		Button b = (Button) event.getSource();
-		if(gridB.size()==0) {
+		if(gridB.size()==0 ) {
 			errorText.setText("NO PICTURE SELECTED");
 			errorText.setVisible(true);
 			return;
@@ -218,19 +216,24 @@ public class Thumbnail {
 		}
 		if( b == copyButton ) {
 			String toAlbum = pickAlbum("Copy to:");
-			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			if(toAlbum != null) {
+				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			}
 		}
 		if( b == moveButton ) {
 			String toAlbum = pickAlbum("Move to:");
-			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
-			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
-				tags.get(tagType).remove(album.get(selectedIndex));
-			}
-			album.remove(selectedIndex);
-			update(album);
-			if(resetB.isVisible()) {
-				filteredAlbum.remove(filteredIndex);
-				update(filteredAlbum);
+			if( toAlbum != null ) {
+				System.out.println("moved");
+				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+				for( String tagType : album.get(selectedIndex).tags.keySet() ) {
+					tags.get(tagType).remove(album.get(selectedIndex));
+				}
+				album.remove(selectedIndex);
+				update(album);
+				if(resetB.isVisible()) {
+					filteredAlbum.remove(filteredIndex);
+					update(filteredAlbum);
+				}
 			}
 		}		
 
@@ -239,10 +242,17 @@ public class Thumbnail {
 		}
 		if( gridB.isEmpty() == false ) {
 			if( resetB.isVisible() ) {
-				gridB.get(filteredIndex).requestFocus();			
+				gridB.get(filteredIndex).requestFocus();
+				selectedIndex = filteredIndex;
 			}else {
 				gridB.get(selectedIndex).requestFocus();
 			}
+		}
+	}
+	
+	private void resetSelect(){
+		if(!gridB.isEmpty()) {
+			gridB.get(selectedIndex).requestFocus();
 		}
 	}
 	
@@ -256,14 +266,17 @@ public class Thumbnail {
 			}
 		}
 		if( b == searchButton ) {
+
 			if(searchDrop.getSelectionModel().getSelectedIndex()==0) {
 				errorText.setText("ERROR: NO SEARCH VALUE");
+				resetSelect();
 				return;
 			}
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
 				if( tagSearch.getText().contains("=") == false ) {
 					errorText.setText("ERROR: INVALID SEARCH VALUE");
 					errorText.setVisible(true);
+					resetSelect();
 					return;
 				}
 				filteredAlbum.clear();
@@ -274,18 +287,26 @@ public class Thumbnail {
 						|| dateSearch1.getValue().isAfter(dateSearch2.getValue()) ) {
 					errorText.setText("ERROR: INVALID DATE RANGE");
 					errorText.setVisible(true);
+					resetSelect();
 					return;
 				}
 				filteredAlbum.clear();
 				searchByDate();
 			}
 			update(filteredAlbum);
+			if( filteredAlbum.isEmpty()) {
+				errorText.setText("No results");
+				errorText.setVisible(true);
+			}
 			resetB.setVisible(true);
 			resultAlbumB.setVisible(true);
 		}	
 		if( b == resetB ) {
 			update(album);
 			resetSearch();
+			tagSearch.clear();
+			dateSearch1.getEditor().clear();
+			dateSearch2.getEditor().clear();
 			resetB.setVisible(false);
 			resultAlbumB.setVisible(false);
 			selectedIndex = 0;
@@ -301,10 +322,7 @@ public class Thumbnail {
 			Master.writeData();
 			Platform.exit();
 		}
-		if(gridB.isEmpty()==false) {
-			gridB.get(selectedIndex).requestFocus();
-		}
-		
+		resetSelect();
 	}
 	
 	private void makeResultAlbum() {
