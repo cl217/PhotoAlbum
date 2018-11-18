@@ -19,10 +19,9 @@
       <Button fx:id="deleteB" layoutX="287.0" layoutY="159.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="17.0" prefWidth="74.0" text="Delete" />
       <Button fx:id="addCategoryB" layoutX="279.0" layoutY="42.0" mnemonicParsing="false" onAction="#buttonPress" text="Add Category" />
       <Button fx:id="addB" layoutX="279.0" layoutY="71.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="89.0" text="Add " />
-      <Text fx:id="errorSingleCat" fill="RED" layoutX="7.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Single Category already has one value." visible="false" />
       <Button fx:id="doneB" layoutX="288.0" layoutY="286.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="73.0" text="Done" />
       <Button fx:id="editB" layoutX="287.0" layoutY="128.0" mnemonicParsing="false" onAction="#buttonPress" prefHeight="25.0" prefWidth="74.0" text="Edit" />
-      <Text fx:id="errorDuplicate" fill="RED" layoutX="34.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Duplicate value" visible="false" />
-      <Button fx:id="deleteCatB" layoutX="279.0" layoutY="12.0" mnemonicParsing="false" text="Delete Category" />
+      <Text fx:id="errorText" fill="RED" layoutX="34.0" layoutY="303.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error: Duplicate value" visible="false" />
+      <Button fx:id="deleteCatB" layoutX="279.0" layoutY="12.0" mnemonicParsing="false" onAction="#buttonPress" text="Delete Category" />
    </children>
 </AnchorPane>
