@@ -24,8 +24,7 @@ public class Album {
 	@FXML Button deleteButton;
 	@FXML Button renameButton;
 	@FXML Text userText;
-	@FXML private Text errorText;
-	@FXML private Text errorDeleteText;
+	@FXML private Text errorText;;
 
 	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
@@ -46,7 +45,6 @@ public class Album {
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
 		errorText.setVisible(false);
-		errorDeleteText.setVisible(false);
 		Button b = (Button)event.getSource();
 		String keyWord = "";
 		int index=0;
@@ -59,7 +57,8 @@ public class Album {
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = result.get();
-    			if(Master.currentUser.albumMap.containsKey(result.get().toLowerCase())) {
+    			if(Master.currentUser.containsAlbum(result.get().toLowerCase())) {
+    				errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
     				errorText.setVisible(true);
     			}
     			else {
@@ -80,7 +79,8 @@ public class Album {
     		
 		}else if (b == deleteButton) {
     		if (albumListView.getSelectionModel().getSelectedItem() == null) {
-    			errorDeleteText.setVisible(true);
+    			errorText.setVisible(true);
+    			return;
     		}
     		else {
     			keyWord = albumListView.getSelectionModel().getSelectedItem();
@@ -97,15 +97,25 @@ public class Album {
     			}
     		}
 		}else if (b == renameButton) {
+    		if (albumListView.getSelectionModel().getSelectedItem() == null) {
+    			errorText.setText("ERROR: NO ALBUM SELECTED");
+    			errorText.setVisible(true);
+    			return;
+    		}
 			 String item = albumListView.getSelectionModel().getSelectedItem();
 			 index = albumListView.getSelectionModel().getSelectedIndex();
 			 TextInputDialog dialog = new TextInputDialog(item);
-			 dialog.setTitle("List Album");
-			 dialog.setHeaderText("Selected Item (Index: " + index + ")");
+			 dialog.setTitle("Photos");
+			 dialog.setHeaderText("Rename album");
 			 dialog.setContentText("Enter new name: ");
 			 Optional<String> result = dialog.showAndWait();
 			 if (result.isPresent()) { 
-				 list.set(index, result.get()); 
+			   	if(Master.currentUser.containsAlbum(result.get().toLowerCase())) {
+		    		errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
+		    		errorText.setVisible(true);
+		    	} else {
+		    		list.set(index, result.get()); 
+		    	}
 			 }
 			 albumListView.getSelectionModel().select(index);
 			 
@@ -113,6 +123,11 @@ public class Album {
 			Master.writeData();
 			Master.toLogin(albumView);
 		}else if(b == openButton) {
+    		if (albumListView.getSelectionModel().getSelectedItem() == null) {
+    			errorText.setText("ERROR: NO ALBUM SELECTED");
+    			errorText.setVisible(true);
+    			return;
+    		}
 			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
 			Master.currentAlbum = list.get(selectIndex);
 			Master.toThumbnail(albumView);
@@ -120,7 +135,19 @@ public class Album {
 			Master.writeData();
     		Platform.exit();
 		}
-		
 	}
-	
+	private String removeSpaces( String input ) {
+		while(input.charAt(0)==' ') {
+			input = input.substring(1, input.length());
+		}
+		while(input.charAt(input.length()-1)==' ') {
+			input = input.substring(0, input.length()-1);
+		}
+		for( int i = 0; i < input.length(); i++ ) {
+			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+				input = input.substring(0, i) + input.substring(i+2, input.length());
+			}
+		}
+		return input;
+	}
 }
