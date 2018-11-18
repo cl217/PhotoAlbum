@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.*;
-import java.util.Map;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -11,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -63,8 +61,8 @@ public class Admin{
     		dialog.setContentText("Enter name: ");
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
-    			keyWord = result.get();
-    			if(Master.userMap.containsKey(result.get().toLowerCase())) {
+    			keyWord = removeSpaces(result.get());
+    			if(Master.userMap.containsKey(keyWord.toLowerCase())) {
     				errorText.setVisible(true);
     			}
     			else {
@@ -111,5 +109,19 @@ public class Admin{
     		Platform.exit();
     		//close the window
     	}
+	}
+	private String removeSpaces( String input ) {
+		while(input.charAt(0)==' ') {
+			input = input.substring(1, input.length());
+		}
+		while(input.charAt(input.length()-1)==' ') {
+			input = input.substring(0, input.length()-1);
+		}
+		for( int i = 0; i < input.length(); i++ ) {
+			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+				input = input.substring(0, i) + input.substring(i+2, input.length());
+			}
+		}
+		return input;
 	}
 }

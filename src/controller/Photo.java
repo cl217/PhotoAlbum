@@ -27,7 +27,6 @@ public class Photo {
     
     int currentIndex;
     ArrayList<Picture> album = new ArrayList<Picture>();
-    
     public void start(int picIndex, ArrayList<Picture> album)throws IOException {
     	this.album = album;
     	update(picIndex);

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
@@ -42,6 +43,7 @@ public class Thumbnail {
     @FXML private Text userText;
     @FXML private Text albumText;
     @FXML private Text errorText;
+    @FXML private ScrollPane scrollPane;
 
     
 
@@ -52,6 +54,7 @@ public class Thumbnail {
 	//cant have 2 tags to location type for a pic but can have 2 tags to a person type for a single pic
 	//??????
 	int selectedIndex;
+	int filteredIndex;
 	ObservableList<Node> gridB = FXCollections.observableArrayList();
 	
 	public void start() {
@@ -59,15 +62,21 @@ public class Thumbnail {
 		userText.setText("user: " + Master.currentUser.name);
 		albumText.setText(Master.currentAlbum);
 		update(album);
-		gridB.get(0).requestFocus();
+		if( gridB.isEmpty() == false) {
+			gridB.get(0).requestFocus();
+		}
 		resetSearch();
     	searchDrop.getItems().add("Search by:");
     	searchDrop.getItems().add("Tags");
     	searchDrop.getItems().add("Date");
 		searchDrop.getSelectionModel().selectedItemProperty().addListener( (obs, oldVal, newVal) ->updateSearch());
 	}
+	public void revert(MouseEvent event) {
+		resetSelect();
+	}
 
 	private void updateSearch() {
+		System.out.println("updateSearch");
 		tagSearch.setVisible(false);
 		dateSearch1.setVisible(false);
 		dateSearch2.setVisible(false);
@@ -79,7 +88,9 @@ public class Thumbnail {
 			dateSearch1.setVisible(true);
 			dateSearch2.setVisible(true);
 		}
+		resetSelect();
 	}
+	
     private void resetSearch() {
 		tagSearch.setVisible(false);
 		dateSearch1.setVisible(false);
@@ -96,10 +107,10 @@ public class Thumbnail {
 		int i = 0;
 	    grid.getColumnConstraints().add(new ColumnConstraints(166)); 
 	    grid.getRowConstraints().add(new RowConstraints(175)); 
-	     
+	    
 		for( Picture p : displayAlbum ) {
-			
 			//Makes tile
+			//System.out.println(p.url);
 			GridPane innerGrid = new GridPane();
 			ImageView pic = new ImageView();
 			pic.setFitHeight(150);
@@ -138,7 +149,7 @@ public class Thumbnail {
 		gridB = grid.getChildren();
 	}
 	
-
+	
 	public void picClick(ActionEvent event) {
 		System.out.println("picture clicked");
 		Button b = (Button) event.getSource();
@@ -146,90 +157,159 @@ public class Thumbnail {
 	}
 	
 	public void buttonPress( ActionEvent event ) throws IOException {
+		System.out.println("buttonPress1");
 		errorText.setVisible(false);
 		Button b = (Button) event.getSource();
+		if(gridB.size()==0 ) {
+			errorText.setText("NO PICTURE SELECTED");
+			errorText.setVisible(true);
+			return;
+		}
+		
+		filteredIndex = selectedIndex;
+		if( resetB.isVisible() ) {
+			for( int i = 0; i < album.size(); i++ ) {
+				if( filteredAlbum.get(selectedIndex).equals(album.get(i)) ) {
+					selectedIndex = i;
+					break;
+				}
+			}
+		}
+		
 		if( b == openButton ) {
 			System.out.println("openButton");
 			if( resetB.isVisible() ) {
-				Master.toPhoto(thumbnailView, selectedIndex, filteredAlbum );
+				Master.toPhoto(thumbnailView, filteredIndex, filteredAlbum );
 			}else {
 				Master.toPhoto(thumbnailView, selectedIndex, album );
 			}
-		}
-		if( b == addPictureButton ) {
-			addPicture();
-			selectedIndex = gridB.size()-1;
+			return;
 		}
 		if( b == removePictureButton ) {
-			//delete from tagsMap
-			if(gridB.size()==0) {
-				errorText.setText("ERROR: NO PICTURE TO DELETE");
-				errorText.setVisible(true);
-				return;
-			}
-			int temp = selectedIndex;
-			if( resetB.isVisible() ) {
-				for( int i = 0; i < album.size(); i++ ) {
-					if( filteredAlbum.get(selectedIndex).equals(album.get(i)) ) {
-						selectedIndex = i;
-						break;
-					}
-				}
-			}
 			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
 				tags.get(tagType).remove(album.get(selectedIndex));
 			}
-			
 			album.remove(selectedIndex);
 			update(album);
 			if( resetB.isVisible() ) {
-				filteredAlbum.remove(temp);
+				filteredAlbum.remove(filteredIndex);
 				update(filteredAlbum);
-				selectedIndex = temp;
+				selectedIndex = filteredIndex;
 			}
 			if( selectedIndex == gridB.size() ) {
 				selectedIndex = selectedIndex-1;
 			}
+			if( gridB.isEmpty() == false ) {
+				gridB.get(selectedIndex).requestFocus();
+			}
+			return;
 		}
 		if( b == editCaptionButton ) {
-			editCaption();
+			if( resetB.isVisible()) {
+				editCaption(true);
+			}else {
+				editCaption(false);
+			}
 		}
 		if( b == modifyTagsButton ) {
 			Master.toTag(thumbnailView, album.get(selectedIndex));
-			//modifyTags();
 		}
 		if( b == copyButton ) {
 			String toAlbum = pickAlbum("Copy to:");
-			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			if(toAlbum != null) {
+				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+			}
 		}
 		if( b == moveButton ) {
 			String toAlbum = pickAlbum("Move to:");
-			Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
-			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
-				tags.get(tagType).remove(album.get(selectedIndex));
+			if( toAlbum != null ) {
+				System.out.println("moved");
+				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+				for( String tagType : album.get(selectedIndex).tags.keySet() ) {
+					tags.get(tagType).remove(album.get(selectedIndex));
+				}
+				album.remove(selectedIndex);
+				update(album);
+				if(resetB.isVisible()) {
+					filteredAlbum.remove(filteredIndex);
+					update(filteredAlbum);
+				}
 			}
-			album.remove(selectedIndex);
-			update(album);
 		}		
+
+		if( b == resultAlbumB ) {
+			makeResultAlbum();
+		}
+		if( gridB.isEmpty() == false ) {
+			if( resetB.isVisible() ) {
+				gridB.get(filteredIndex).requestFocus();
+				selectedIndex = filteredIndex;
+			}else {
+				gridB.get(selectedIndex).requestFocus();
+			}
+		}
+	}
+	
+	private void resetSelect(){
+		if(!gridB.isEmpty()) {
+			gridB.get(selectedIndex).requestFocus();
+		}
+	}
+	
+	public void buttonPress2(ActionEvent e) throws IOException {
+		errorText.setVisible(false);
+		System.out.println("buttonPress2");
+		Button b = (Button) e.getSource();
+		if( b == addPictureButton ) {
+			if(addPicture()) {
+				selectedIndex = gridB.size()-1;
+			}
+		}
 		if( b == searchButton ) {
+
+			if(searchDrop.getSelectionModel().getSelectedIndex()==0) {
+				errorText.setText("ERROR: NO SEARCH VALUE");
+				resetSelect();
+				return;
+			}
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
+				if( tagSearch.getText().contains("=") == false ) {
+					errorText.setText("ERROR: INVALID SEARCH VALUE");
+					errorText.setVisible(true);
+					resetSelect();
+					return;
+				}
+				filteredAlbum.clear();
 				searchByTag();
 			}
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
+				if( (dateSearch1.getValue() == null || dateSearch2.getValue() == null) 
+						|| dateSearch1.getValue().isAfter(dateSearch2.getValue()) ) {
+					errorText.setText("ERROR: INVALID DATE RANGE");
+					errorText.setVisible(true);
+					resetSelect();
+					return;
+				}
+				filteredAlbum.clear();
 				searchByDate();
 			}
 			update(filteredAlbum);
+			if( filteredAlbum.isEmpty()) {
+				errorText.setText("No results");
+				errorText.setVisible(true);
+			}
 			resetB.setVisible(true);
 			resultAlbumB.setVisible(true);
 		}	
 		if( b == resetB ) {
 			update(album);
+			resetSearch();
+			tagSearch.clear();
+			dateSearch1.getEditor().clear();
+			dateSearch2.getEditor().clear();
 			resetB.setVisible(false);
 			resultAlbumB.setVisible(false);
 			selectedIndex = 0;
-		}
-		if( b == resultAlbumB ) {
-			makeResultAlbum();
 		}
 		if( b == backB ) {
 			Master.toAlbum(thumbnailView);
@@ -242,13 +322,8 @@ public class Thumbnail {
 			Master.writeData();
 			Platform.exit();
 		}
-		if( gridB.isEmpty() == false ) {
-			System.out.println("grid not empty");
-			gridB.get(selectedIndex).requestFocus();
-			gridB.get(selectedIndex).setStyle("-fx-background: pink;");
-		}
+		resetSelect();
 	}
-	
 	
 	private void makeResultAlbum() {
 		TextInputDialog dialog = new TextInputDialog();
@@ -268,7 +343,8 @@ public class Thumbnail {
 		}
 		
 	}
-	private void editCaption() {
+	
+	private void editCaption( boolean filtered) {
 		TextInputDialog dialog = new TextInputDialog(album.get(selectedIndex).caption);
 		dialog.setTitle("Photos");
 		dialog.setHeaderText("Edit Caption: ");
@@ -276,8 +352,14 @@ public class Thumbnail {
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			album.get(selectedIndex).caption = result.get();
+			update(album);
+			if(filtered) {
+				System.out.println(filteredAlbum.size());
+				filteredAlbum.get(filteredIndex).caption = result.get();
+				update(filteredAlbum);
+				System.out.println(filteredAlbum.size());
+			}
 		}
-		update(album);
 	}
 	private void searchByTag() {
 		String input = tagSearch.getText().toLowerCase();
@@ -344,7 +426,8 @@ public class Thumbnail {
 			}
 		}
 	}
-	private void addPicture() {
+	
+	private boolean addPicture() {
 		System.out.println("addPicture");
 		Stage stage = (Stage) thumbnailView.getScene().getWindow();
 		
@@ -365,7 +448,9 @@ public class Thumbnail {
 			//new popup for tags and captions
 			album.add(pic);
 			update(album);
+			return true;
 		}
+		return false;
 	}
 	
 	private String pickAlbum(String title) {
