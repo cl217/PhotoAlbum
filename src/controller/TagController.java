@@ -20,6 +20,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.Picture;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
+
 public class TagController { 
     @FXML private AnchorPane tagView;
     @FXML private ChoiceBox<String> tagDropDown;
@@ -37,6 +43,11 @@ public class TagController {
     ObservableList<String> tagList = FXCollections.observableArrayList();
     
     Picture pic; 
+    
+    /**
+     * 
+     * @param p edit the tags of this picture
+     */
     public void start(Picture p) {
     	this.pic = p;
     	updateListView();
@@ -72,19 +83,22 @@ public class TagController {
     	}
     }
     	
-    
+    /**
+     * 
+     * @param event a button is presed
+     * @throws IOException no stage
+     */
     public void buttonPress(ActionEvent event) throws IOException {
 		errorText.setVisible(false);
     	Button b = (Button)event.getSource();
     	String categoryTag = "";
     	String category ="";
     	String tag = "";
-    	boolean error = false;
     	int index = 0;
     	
     	if (b == addB) {
     		category = tagDropDown.getSelectionModel().getSelectedItem();
-    		tag = tagField.getText();
+    		tag = removeSpaces(tagField.getText());
     		
     		System.out.println("CategoryTAG:" + tag);
     		
@@ -107,53 +121,65 @@ public class TagController {
     		dialog.setTitle("List Tag Category");
     		dialog.setHeaderText("Add Tag Category");
     		dialog.setContentText("Enter name: ");
-    		Optional<String> result = dialog.showAndWait();
+    		Optional<String> unformatted = dialog.showAndWait();
+    		if(!unformatted.isPresent()) {
+    			return;
+    		}
+    		String result = removeSpaces(unformatted.get());
     		
-    		for(String s : pic.tags.keySet()) {
-    			if(result.isPresent() && isDuplicate(result.get(), pic.tags.get(s))){
-    				errorText.setText("Error: This category only allows one value");
-    				errorText.setVisible(true);
-    				error = true;
-    				break;
-    			}
+    		if( pic.tags.keySet().contains(result) ) {
+				errorText.setText("Error: This category only allows one value");
+				errorText.setVisible(true);
+				return;
     		}
     		
-    		if (result.isPresent() && !error) {
-    			Alert alert = new Alert(AlertType.CONFIRMATION);
-        		alert.setTitle("Singular or Multiple Category type.");
-        		alert.setHeaderText("Please select your category type");
-        		alert.setContentText("Choose your option.");
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.setTitle("Singular or Multiple Category type.");
+        	alert.setHeaderText("Please select your category type");
+        	alert.setContentText("Choose your option.");
 
+<<<<<<< HEAD
         		ButtonType buttonTypeOne = new ButtonType("Single Value");
         		ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
+=======
+        	ButtonType buttonTypeOne = new ButtonType("Single Value");
+        	ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
+        	//ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+>>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
 
-        		alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
-        		Optional<ButtonType> result2 = alert.showAndWait();
+        	alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+        	Optional<ButtonType> result2 = alert.showAndWait();
         		
-        		//if Single value is selected
-        		if (result2.get() == buttonTypeOne){
-        			category = result.get();
-        			//System.out.println(category);
-        			System.out.println(pic.url);
-        			pic.oneValueCat.add(category);
-        			System.out.println("ran");
-        			pic.tags.put(category, new ArrayList<String>());
-        			tagDropDown.setValue(category);
+        	//if Single value is selected
+        	if (result2.get() == buttonTypeOne){
+        		category = result;
+        		//System.out.println(category);
+        		System.out.println(pic.url);
+        		pic.oneValueCat.add(category);
+        		System.out.println("ran");
+        		pic.tags.put(category, new ArrayList<String>());
+        		tagDropDown.setValue(category);
         			
         		//if multiple value is selected
-        		} else {
-        			category = result.get();
-        			pic.tags.put(category, new ArrayList<String>());
-        			tagDropDown.setValue(category);
-        		}
+        	} else {
+        		category = result;
+        		pic.tags.put(category, new ArrayList<String>());
+        		tagDropDown.setValue(category);
+        	}
         		
+<<<<<<< HEAD
         		updateTagCategory();
 
         		tagDropDown.getSelectionModel().select(result.get());
 
     		}
     		
+=======
+        	updateTagCategory();
+        	tagDropDown.getSelectionModel().select(result);
+>>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
     	}
+    		
     	else if (b == deleteB) {
     		if (listView.getSelectionModel().getSelectedItem() == null) {
     			errorText.setText("Error: No items to delete");
@@ -186,6 +212,16 @@ public class TagController {
 			dialog.setContentText("Enter new tag: ");
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) { 
+<<<<<<< HEAD
+=======
+				String formatted = removeSpaces(result.get());
+				if( !formatted.equals(tag) && pic.tags.get(category).contains(formatted)) {
+					errorText.setText("ERROR: TAG ALREADY EXISTS");
+					errorText.setVisible(true);
+					return;
+				}
+				
+>>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
 				pic.tags.get(category).remove(tag);
 				pic.tags.get(category).add(result.get());
 			}
@@ -220,13 +256,25 @@ public class TagController {
     	
     }
     
-    public boolean isDuplicate(String value, ArrayList<String> array) {
-    	for (String s :array) {
-    		if(value.equals(s)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
+    /**
+     * 
+     * @param input unformatted String
+     * @return formatted String
+     */
+	private String removeSpaces( String input ) {
+		input = input.toLowerCase();
+		while(input.charAt(0)==' ') {
+			input = input.substring(1, input.length());
+		}
+		while(input.charAt(input.length()-1)==' ') {
+			input = input.substring(0, input.length()-1);
+		}
+		for( int i = 0; i < input.length(); i++ ) {
+			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+				input = input.substring(0, i) + input.substring(i+2, input.length());
+			}
+		}
+		return input;
+	}
 
 }

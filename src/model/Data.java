@@ -7,17 +7,25 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import controller.Master;
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
 
 public class Data implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	public ArrayList<String> userList = new ArrayList<String>();
 	public static final String directory = "data";
 	public static final String file = "userData";
 	
+	/**
+	 * 
+	 * @return a data object
+	 * @throws IOException ObjectInputStream
+	 * @throws ClassNotFoundException ObjectInputStream
+	 */
 	public static Data read() throws IOException, ClassNotFoundException {
 		System.out.println("ran5");
 		ObjectInputStream ois = new ObjectInputStream( new FileInputStream(directory + File.separator + file));

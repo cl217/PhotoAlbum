@@ -12,6 +12,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.Picture;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
+
 public class Photo {
 	@FXML private ImageView picture;
     @FXML private Button prevButton;
@@ -27,11 +33,23 @@ public class Photo {
     
     int currentIndex;
     ArrayList<Picture> album = new ArrayList<Picture>();
+    
+    /**
+     * 
+     * @param picIndex current index in full album of picture to display
+     * @param album album the picture is opened from
+     * @throws IOException no stage
+     */
     public void start(int picIndex, ArrayList<Picture> album)throws IOException {
     	this.album = album;
     	update(picIndex);
     	usernameText.setText("User: " + Master.currentUser.name);
 	}
+    
+    /**
+     * 
+     * @param index display this picture
+     */
     private void update(int index) {
     	System.out.println("update");
     	Image image = new Image( album.get(index).url );
@@ -48,7 +66,11 @@ public class Photo {
     	currentIndex = index;
     }
     
-    @FXML
+    /**
+     * 
+     * @param event a button is pressed
+     * @throws IOException no stage
+     */
 	public void buttonPress(ActionEvent event) throws IOException {
 		Button b = (Button) event.getSource();
 		if( b == prevButton ) {

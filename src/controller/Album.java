@@ -14,6 +14,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.Picture;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ *
+ */
 public class Album {
 	@FXML ListView<String> albumListView;
 	@FXML Button logoutButton;
@@ -43,6 +49,11 @@ public class Album {
 		return;
 	}
 	
+	/**
+	 * 
+	 * @param event a button is pressed
+	 * @throws IOException no stage
+	 */
 	public void buttonPress( ActionEvent event ) throws IOException {
 		errorText.setVisible(false);
 		Button b = (Button)event.getSource();
@@ -137,6 +148,12 @@ public class Album {
     		Platform.exit();
 		}
 	}
+	
+	/**
+	 * 
+	 * @param unformatted String
+	 * @return formatted String
+	 */
 	private String removeSpaces( String input ) {
 		while(input.charAt(0)==' ') {
 			input = input.substring(1, input.length());

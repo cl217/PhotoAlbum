@@ -15,8 +15,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import model.User;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
 public class Admin{
-	
+
 	@FXML Button createButton;
 	@FXML Button deleteButton;
 	@FXML Button loButton; //log out button
@@ -27,6 +32,7 @@ public class Admin{
 	@FXML private Text errorDeleteText;
 	
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
+	
 	public void start(){
 		System.out.println("stockNum: " + Master.userMap.size());
 		updateList();
@@ -42,6 +48,11 @@ public class Admin{
 		return;
 	}
 	
+	/**
+	 * 
+	 * @param event a button is pressed
+	 * @throws IOException no stage
+	 */
 	public void buttonPress(ActionEvent event) throws IOException{
     	/*create pop up for buttonPress entry
     	 * some how get access to those fields to get (key, value)
@@ -110,6 +121,12 @@ public class Admin{
     		//close the window
     	}
 	}
+	
+	/**
+	 * 
+	 * @param unformatted String
+	 * @return formatted String
+	 */
 	private String removeSpaces( String input ) {
 		while(input.charAt(0)==' ') {
 			input = input.substring(1, input.length());
