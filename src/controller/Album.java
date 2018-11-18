@@ -48,7 +48,6 @@ public class Album {
 		Button b = (Button)event.getSource();
 		String keyWord = "";
 		int index=0;
-		
 		if (b == createButton) {
 			TextInputDialog dialog = new TextInputDialog();
     		dialog.setTitle("List Album");
@@ -57,13 +56,14 @@ public class Album {
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = result.get();
-    			if(Master.currentUser.containsAlbum(result.get().toLowerCase())) {
+    			String formatted = removeSpaces(result.get()); 
+    			if(Master.currentUser.containsAlbum(formatted.toLowerCase())) {
     				errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
     				errorText.setVisible(true);
     			}
     			else {
     				ArrayList<Picture> temp = new ArrayList<Picture>();
-    				Master.currentUser.albumMap.put(keyWord, temp);
+    				Master.currentUser.albumMap.put(formatted, temp);
     				updateList();
     			}
     		}
@@ -110,11 +110,12 @@ public class Album {
 			 dialog.setContentText("Enter new name: ");
 			 Optional<String> result = dialog.showAndWait();
 			 if (result.isPresent()) { 
-			   	if(Master.currentUser.containsAlbum(result.get().toLowerCase())) {
+				String formatted = removeSpaces(result.get()); 
+			   	if( !formatted.equals(item) && Master.currentUser.containsAlbum(formatted.toLowerCase())) {
 		    		errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
 		    		errorText.setVisible(true);
 		    	} else {
-		    		list.set(index, result.get()); 
+		    		list.set(index, formatted); 
 		    	}
 			 }
 			 albumListView.getSelectionModel().select(index);
