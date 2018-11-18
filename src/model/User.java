@@ -11,9 +11,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
+		 
 public class User implements Serializable {
-
+	
+	public static final String directory = "data";
+	
 	private static final long serialVersionUID = 1L;
 
 	public String name;
@@ -26,13 +33,19 @@ public class User implements Serializable {
 	public HashMap<String, ArrayList<Picture>> albumMap = new HashMap<String, ArrayList<Picture>>();
 	//have to make keys all lowercase
 	
+	/**
+	 * 
+	 * @param name name of user
+	 */
 	public User( String name ) {
 		this.name = name;
 	}
-	
-	public static final String directory = "data";
-	
-	
+
+	/**
+	 * 
+	 * @param name album name
+	 * @return if user already has an album with this name
+	 */
 	public boolean containsAlbum(String name) {
 		for( String existingName : albumMap.keySet() )
 			if( name.equalsIgnoreCase(existingName) ) {
@@ -41,12 +54,19 @@ public class User implements Serializable {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @return User object
+	 * @throws IOException ObjectInput Stream
+	 * @throws ClassNotFoundException Object Input Stream
+	 */
 	public User read() throws IOException, ClassNotFoundException {
 		ObjectInputStream ois = new ObjectInputStream( new FileInputStream(directory + File.separator + name));
 		User u = (User) ois.readObject();
 		ois.close();
 		return u;
 	}
+	
 	public void loadStock(){
 		System.out.println("loadStock1");
 		ArrayList<Picture> pics = new ArrayList<Picture>();

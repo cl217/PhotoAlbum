@@ -1,31 +1,31 @@
 package controller;
 
-
 import java.io.*;
-
 import java.util.*;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
 public class Master implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static final String directory = "data";
-	//public static final String file = "userData";
 	
 	public static Data data = new Data();
+	
+	/**
+	 * @userMap hashmap of all users
+	 * @currentUser the user that's currently logged in
+	 * @currentAlbum the album that's currently open
+	 */
 	public static HashMap<String, User> userMap = new HashMap<String, User>();
 	public static User currentUser;
 	public static String currentAlbum;
@@ -57,6 +57,11 @@ public class Master implements Serializable {
 			}
 	}
 
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toLogin( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/loginView.fxml"));
@@ -69,6 +74,11 @@ public class Master implements Serializable {
 		stage.show();
 	}
 	
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toAlbum( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/albumView.fxml"));
@@ -83,6 +93,11 @@ public class Master implements Serializable {
 		stage.show();
 	}
 	
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toTag( AnchorPane view, Picture p )throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/tagView.fxml"));
@@ -99,6 +114,11 @@ public class Master implements Serializable {
 		stage.show();
 	}
 	
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toAdmin( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/adminView.fxml"));
@@ -112,6 +132,11 @@ public class Master implements Serializable {
 		stage.show();
 	}
 	
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toThumbnail( AnchorPane view ) throws IOException{
 		System.out.println("Master.toThumbnail1");
 		System.out.println(currentAlbum);
@@ -128,6 +153,11 @@ public class Master implements Serializable {
 		stage.show();
 	}
 
+	/**
+	 * 
+	 * @param view current stage
+	 * @throws IOException no stage
+	 */
 	public static void toPhoto( AnchorPane view, int picIndex, ArrayList<Picture> album ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/photoView.fxml"));

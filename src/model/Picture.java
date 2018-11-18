@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
+
 public class Picture implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -16,10 +22,19 @@ public class Picture implements Serializable{
 	public LocalDate date;
 	//Date
 	
+	/**
+	 * 
+	 * @param type tag category
+	 * @param value tag value
+	 */
 	public void addTag(String type, String value) {
 		tags.get(type).add(value);
 	}
 	
+	/**
+	 * 
+	 * @param str URL
+	 */
 	public void setURL(String str) {
 		this.url = "file:" + str;
 	}

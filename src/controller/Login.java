@@ -1,15 +1,18 @@
 package controller;
 
-import model.*;
 import java.io.*;
-import java.util.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.fxml.*;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.*;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
 public class Login {
 	@FXML Button loginButton;
 	@FXML TextField userPrompt;
@@ -22,12 +25,18 @@ public class Login {
 	}
 	
 	//goes to album view
+	/**
+	 * 
+	 * @param e a button is pressed
+	 * @throws IOException no stage
+	 */
 	public void buttonPress(ActionEvent e) throws IOException{
 		Button b = (Button)e.getSource();
 		System.out.println("button pressed");
 		if( b == quitButton ) {
 			System.out.println("quit");
 			Master.writeData();
+			Platform.exit();
 		}
 		
 		if (b == loginButton) {

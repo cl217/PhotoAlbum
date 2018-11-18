@@ -18,10 +18,7 @@ public class Photos extends Application {
 	
 	public static final String directory = "data";
 	
-	public void loadData() throws ClassNotFoundException, IOException {
-		System.out.println("ran3");
-		System.out.println("ran4");
-		
+	public void loadData() throws ClassNotFoundException, IOException {	
 		try {
 			Master.data = Data.read();
 		}catch(EOFException e ) {
@@ -52,7 +49,6 @@ public class Photos extends Application {
 		try {
 			loadData();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("4");

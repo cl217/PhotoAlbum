@@ -20,6 +20,12 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import model.Picture;
 
+/**
+ * 
+ * @author Cindy Lin
+ * @author Vincent Phan
+ */
+
 public class Thumbnail {
     @FXML private AnchorPane thumbnailView;
     @FXML private GridPane grid;
@@ -71,6 +77,11 @@ public class Thumbnail {
     	searchDrop.getItems().add("Date");
 		searchDrop.getSelectionModel().selectedItemProperty().addListener( (obs, oldVal, newVal) ->updateSearch());
 	}
+	
+	/**
+	 * 
+	 * @param event mouseclick on not button 
+	 */
 	public void revert(MouseEvent event) {
 		resetSelect();
 	}
@@ -150,12 +161,21 @@ public class Thumbnail {
 	}
 	
 	
+	/**
+	 * 
+	 * @param event a picture is clicked
+	 */
 	public void picClick(ActionEvent event) {
 		System.out.println("picture clicked");
 		Button b = (Button) event.getSource();
 		selectedIndex = Integer.parseInt(b.getId());
 	}
 	
+	/**
+	 * 
+	 * @param event a button is pressed
+	 * @throws IOException no stage
+	 */
 	public void buttonPress( ActionEvent event ) throws IOException {
 		System.out.println("buttonPress1");
 		errorText.setVisible(false);
@@ -236,10 +256,6 @@ public class Thumbnail {
 				}
 			}
 		}		
-
-		if( b == resultAlbumB ) {
-			makeResultAlbum();
-		}
 		if( gridB.isEmpty() == false ) {
 			if( resetB.isVisible() ) {
 				gridB.get(filteredIndex).requestFocus();
@@ -256,6 +272,11 @@ public class Thumbnail {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param e a button is pressed
+	 * @throws IOException no stage
+	 */
 	public void buttonPress2(ActionEvent e) throws IOException {
 		errorText.setVisible(false);
 		System.out.println("buttonPress2");
@@ -265,6 +286,9 @@ public class Thumbnail {
 				selectedIndex = gridB.size()-1;
 			}
 		}
+		if( b == resultAlbumB ) {
+			makeResultAlbum();
+		}
 		if( b == searchButton ) {
 
 			if(searchDrop.getSelectionModel().getSelectedIndex()==0) {
@@ -272,16 +296,20 @@ public class Thumbnail {
 				resetSelect();
 				return;
 			}
+			
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
+				/*
 				if( tagSearch.getText().contains("=") == false ) {
 					errorText.setText("ERROR: INVALID SEARCH VALUE");
 					errorText.setVisible(true);
 					resetSelect();
 					return;
 				}
+				*/
 				filteredAlbum.clear();
 				searchByTag();
 			}
+			
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
 				if( (dateSearch1.getValue() == null || dateSearch2.getValue() == null) 
 						|| dateSearch1.getValue().isAfter(dateSearch2.getValue()) ) {
@@ -293,13 +321,6 @@ public class Thumbnail {
 				filteredAlbum.clear();
 				searchByDate();
 			}
-			update(filteredAlbum);
-			if( filteredAlbum.isEmpty()) {
-				errorText.setText("No results");
-				errorText.setVisible(true);
-			}
-			resetB.setVisible(true);
-			resultAlbumB.setVisible(true);
 		}	
 		if( b == resetB ) {
 			update(album);
@@ -344,6 +365,10 @@ public class Thumbnail {
 		
 	}
 	
+	/**
+	 * 
+	 * @param filtered if editing from search results
+	 */
 	private void editCaption( boolean filtered) {
 		TextInputDialog dialog = new TextInputDialog(album.get(selectedIndex).caption);
 		dialog.setTitle("Photos");
@@ -362,16 +387,14 @@ public class Thumbnail {
 		}
 	}
 	private void searchByTag() {
+		System.out.println("search by Tag");
 		String input = tagSearch.getText().toLowerCase();
 		//  |0: type1|1: value1|2: andor|3: type2|4: value2|
 		String[] words = new String[5];
 		
 		//delete all extra spaces
-		for( int i = 0; i < input.length(); i++ ) {
-			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
-				input = input.substring(0, i) + input.substring(i+2, input.length());
-			}
-		}
+		input = removeSpaces(input);
+		try {
 		if( input.contains(" or ") || input.contains(" and ") ) {
 			System.out.println("or/and");
 			words[0] = input.substring(0, input.indexOf("=")); //type1
@@ -390,8 +413,11 @@ public class Thumbnail {
 			}else { //and
 				words[1] = input.substring(input.indexOf("=")+1, input.indexOf(" and ")); //value1
 				words[2] = "and";
-				words[3] = input.substring(input.indexOf(" and ")+4, input.indexOf("=", input.indexOf("=")+1)); //type2
+				words[3] = input.substring(input.indexOf(" and ")+5, input.indexOf("=", input.indexOf("=")+1)); //type2
 				words[4] = input.substring(input.indexOf("=", input.indexOf("=")+1)+1, input.length());
+				for(int i = 0; i<5; i++) {
+					System.out.println(words[i]);
+				}
 				for( Picture pic: album ) {
 					if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) 
 							&& (pic.tags.containsKey(words[3]) && pic.tags.get(words[3]).contains(words[4])) ) {
@@ -400,12 +426,28 @@ public class Thumbnail {
 				}
 			}
 		}else { //1 tag
+			System.out.println("one tag");
+			words[0] = input.substring(0, input.indexOf("="));
 			words[1] = input.substring(input.indexOf("=")+1, input.length());
+			System.out.println(words[0]);
+			System.out.println(words[1]);
 			for( Picture pic: album ) {
 				if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) ) {
 					filteredAlbum.add(pic);
 				}
 			}
+		}
+		resetB.setVisible(true);
+		resultAlbumB.setVisible(true);
+		update(filteredAlbum);
+		if( filteredAlbum.isEmpty()) {
+			errorText.setText("No results");
+			errorText.setVisible(true);
+		}
+		}catch(StringIndexOutOfBoundsException e) {
+			System.out.println("catched");
+			errorText.setText("ERROR: INVALID TAG VALUE");
+			errorText.setVisible(true);
 		}
 	}
 	
@@ -425,8 +467,19 @@ public class Thumbnail {
 				filteredAlbum.add(pic);
 			}
 		}
+		resetB.setVisible(true);
+		resultAlbumB.setVisible(true);
+		update(filteredAlbum);
+		if( filteredAlbum.isEmpty()) {
+			errorText.setText("No results");
+			errorText.setVisible(true);
+		}
 	}
 	
+	/**
+	 * 
+	 * @return if a picture is successfully added
+	 */
 	private boolean addPicture() {
 		System.out.println("addPicture");
 		Stage stage = (Stage) thumbnailView.getScene().getWindow();
@@ -453,6 +506,11 @@ public class Thumbnail {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param title popup window title
+	 * @return name of the album selected
+	 */
 	private String pickAlbum(String title) {
 		System.out.println("Popup");
 		ChoiceDialog<String> choiceDialog = new ChoiceDialog<String>();
@@ -467,7 +525,25 @@ public class Thumbnail {
 		return choiceDialog.getSelectedItem();
 	}
 	
-
+	/**
+	 * 
+	 * @param input unformatted string
+	 * @return formatted string
+	 */
+	private String removeSpaces( String input ) {
+		while(input.charAt(0)==' ') {
+			input = input.substring(1, input.length());
+		}
+		while(input.charAt(input.length()-1)==' ') {
+			input = input.substring(0, input.length()-1);
+		}
+		for( int i = 0; i < input.length(); i++ ) {
+			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+				input = input.substring(0, i) + input.substring(i+2, input.length());
+			}
+		}
+		return input;
+	}
 	
 	
 }
