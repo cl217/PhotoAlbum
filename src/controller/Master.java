@@ -17,7 +17,7 @@ public class Master implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static final String directory = "data";
+	private static final String directory = "data";
 	
 	public static Data data = new Data();
 	

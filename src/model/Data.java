@@ -17,8 +17,8 @@ public class Data implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public ArrayList<String> userList = new ArrayList<String>();
-	public static final String directory = "data";
-	public static final String file = "userData";
+	private static final String directory = "data";
+	private static final String file = "userData";
 	
 	/**
 	 * 

@@ -19,7 +19,7 @@ import java.util.HashMap;
 		 
 public class User implements Serializable {
 	
-	public static final String directory = "data";
+	private static final String directory = "data";
 	
 	private static final long serialVersionUID = 1L;
 

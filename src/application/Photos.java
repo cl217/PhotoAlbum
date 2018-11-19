@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class Photos extends Application {
 	
-	public static final String directory = "data";
+	//private static final String directory = "data";
 	
 	public void loadData() throws ClassNotFoundException, IOException {	
 		try {
