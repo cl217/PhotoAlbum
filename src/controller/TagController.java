@@ -59,29 +59,33 @@ public class TagController {
     	//"type=value" for everything in pic.tags
     	//update tagDropDown for all values    	
     	
-    	System.out.println("TagControl.updateLV");
-    	System.out.println(pic.url);
+    	//System.out.println("TagControl.updateLV");
+    	//System.out.println(pic.url);
 		tagList.clear();
 		for( String tagCategory : pic.tags.keySet() ) {
-			System.out.println(tagCategory);
-			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
+			//System.out.println(tagCategory);
+			//System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
 			for(String tagValue: pic.tags.get(tagCategory)) {
-				//System.out.println("Vincent: "+tagCategory + " , " + tagValue);
+				////System.out.println("Vincent: "+tagCategory + " , " + tagValue);
 				tagList.add(tagCategory + "=" + tagValue);
-				//System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
+				////System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
 			}
 		}
-		System.out.println(tagList);
+		//System.out.println(tagList);
 		listView.setItems(	tagList );
-		System.out.println("listView items set");
+		//System.out.println("listView items set");
 		return;
     
     }
     
     private void updateTagCategory() {
     	tagDropDown.getItems().clear();
-    	for( String tagCategory : pic.tags.keySet() ) {
-    		tagDropDown.getItems().add(tagCategory);
+    	for( Picture pic : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+	    	for( String tagCategory : pic.tags.keySet() ) {
+	    		if( tagDropDown.getItems().contains(tagCategory) == false ) {
+	    			tagDropDown.getItems().add(tagCategory);
+	    		}
+	    	}
     	}
     }
     	
@@ -99,17 +103,31 @@ public class TagController {
     	int index = 0;
     	
     	if (b == addB) {
+    		if( tagDropDown.getSelectionModel().getSelectedItem() == null ) {
+    			errorText.setText("Error: a category must be selected");
+    			errorText.setVisible(true);
+    			return;	
+    		}
     		category = tagDropDown.getSelectionModel().getSelectedItem();
+    		if(tagField.getText().isEmpty()) {
+    			errorText.setText("Error: a tag must be entered");
+    			errorText.setVisible(true);
+    			return;	
+    		}
     		tag = removeSpaces(tagField.getText());
-    		
-    		System.out.println("CategoryTAG:" + tag);
-    		
+    		//System.out.println("CategoryTAG:" + tag);
+    		if(tag.equals(" ")) {
+    			errorText.setText("Error: a tag must be entered");
+    			errorText.setVisible(true);
+    			tagField.clear();
+    			return;
+    		}
     		if(pic.tags.get(category).contains(tag)) {
     			errorText.setText("Error: Duplicate value.");
     			errorText.setVisible(true);
     		}
     		else if ((pic.oneValueCat.contains(category) && pic.tags.get(category).size() == 1) ) {
-    			errorText.setText("Error: Single Category already has a value.");
+    			errorText.setText("Error: Single value category already has a value.");
     			errorText.setVisible(true);
     		}
     		else {
@@ -117,51 +135,46 @@ public class TagController {
     			updateListView();
     		}
     		listView.getSelectionModel().select(category+"="+tag);
+    		tagField.clear();
     	}
     	else if (b == addCategoryB) {
 			TextInputDialog dialog = new TextInputDialog();
-    		dialog.setTitle("List Tag Category");
+    		dialog.setTitle("Photos");
     		dialog.setHeaderText("Add Tag Category");
-    		dialog.setContentText("Enter name: ");
+    		dialog.setContentText("Enter Category Name: ");
     		Optional<String> unformatted = dialog.showAndWait();
     		if(!unformatted.isPresent()) {
     			return;
     		}
     		String result = removeSpaces(unformatted.get());
+    		if( result.equals(" ")) {
+				errorText.setText("Error: Invalid Category Name");
+				errorText.setVisible(true);
+    		}
     		
     		if( pic.tags.keySet().contains(result) ) {
-				errorText.setText("Error: This category only allows one value");
+				errorText.setText("Error: Category already exists");
 				errorText.setVisible(true);
 				return;
     		}
     		
     		Alert alert = new Alert(AlertType.CONFIRMATION);
-        	alert.setTitle("Singular or Multiple Category type.");
+        	alert.setTitle("Photos");
         	alert.setHeaderText("Please select your category type");
         	alert.setContentText("Choose your option.");
 
         	ButtonType buttonTypeOne = new ButtonType("Single Value");
         	ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
-        	//ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-
         	alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
         	Optional<ButtonType> result2 = alert.showAndWait();
         		
         	//if Single value is selected
-        	if (result2.get() == buttonTypeOne){
-        		category = result;
-        		//System.out.println(category);
-        		System.out.println(pic.url);
-        		pic.oneValueCat.add(category);
-        		System.out.println("ran");
-        		pic.tags.put(category, new ArrayList<String>());
-        		tagDropDown.setValue(category);
-        			
-        		//if multiple value is selected
-        	} else {
-        		category = result;
-        		pic.tags.put(category, new ArrayList<String>());
-        		tagDropDown.setValue(category);
+        	for( Picture p : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+	        	if (result2.get() == buttonTypeOne){
+	        		p.oneValueCat.add(result);
+	        	}
+	        	p.tags.put(result, new ArrayList<String>());
+	        	tagDropDown.setValue(result);
         	}
         		
         	updateTagCategory();
@@ -193,14 +206,18 @@ public class TagController {
     		category = categoryTag.substring(0, categoryTag.indexOf("="));
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
     		
-			int indexEdit = listView.getSelectionModel().getSelectedIndex();
 			TextInputDialog dialog = new TextInputDialog(tag);
-			dialog.setTitle("List Tag Edit");
-			dialog.setHeaderText("Selected Item (Index: " + indexEdit + ")");
+			dialog.setTitle("Photos");
+			dialog.setHeaderText("Edit tag");
 			dialog.setContentText("Enter new tag: ");
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) { 
 				String formatted = removeSpaces(result.get());
+				if( formatted.equals(" ")) {
+					errorText.setText("ERROR: NO TAG VALUE");
+					errorText.setVisible(true);
+					return;
+				}
 				if( !formatted.equals(tag) && pic.tags.get(category).contains(formatted)) {
 					errorText.setText("ERROR: TAG ALREADY EXISTS");
 					errorText.setVisible(true);
@@ -208,7 +225,7 @@ public class TagController {
 				}
 				
 				pic.tags.get(category).remove(tag);
-				pic.tags.get(category).add(result.get());
+				pic.tags.get(category).add(formatted);
 			}
 			updateListView();
 			
@@ -216,24 +233,41 @@ public class TagController {
     	}
     	else if (b == deleteCatB) {
     		if (tagDropDown.getSelectionModel().getSelectedItem() == null) {
-    			errorText.setText("Error: Category is empty.");
+    			errorText.setText("Error: No category selected");
     			errorText.setVisible(true);
+    			return;
+    		}
+    		Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.setTitle("Photos");
+        	alert.setHeaderText("Are you sure you want to delete this Tag Category?");
+        	alert.setContentText("This tag category and it's tag values will be deleted from every picture in the current album.");
+
+        	ButtonType buttonTypeOne = new ButtonType("Confirm");
+        	ButtonType buttonTypeTwo = new ButtonType("Cancel");
+        	alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+        	Optional<ButtonType> result2 = alert.showAndWait();
+        		
+	        if (result2.get() == buttonTypeTwo){
+	        	return;
+	       	}
+        	
+    		category = tagDropDown.getSelectionModel().getSelectedItem();
+    		for( Picture p : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+    			if( p.oneValueCat.contains(category) ) {
+    				p.oneValueCat.remove(category);
+    			}
+    			p.tags.remove(category);
+   			}
+        		
+       		updateTagCategory();
+       		updateListView();
+   		    if(pic.tags.size()-1 < index) {
+    			tagDropDown.getSelectionModel().select(pic.tags.size()-1);
     		}
     		else{
-    			category = tagDropDown.getSelectionModel().getSelectedItem();
-        		pic.tags.remove(category);
-        		
-        		updateTagCategory();
-        		updateListView();
-    		
-    			if(pic.tags.size()-1 < index) {
-    				tagDropDown.getSelectionModel().select(pic.tags.size()-1);
-    			}
-    			else{
-    				tagDropDown.getSelectionModel().select(index);
-    			}
-    		}
-    	}
+    			tagDropDown.getSelectionModel().select(index);
+   			}
+   		}
     	
     	if( b == doneB ) {
     		Master.toThumbnail(tagView);
@@ -248,14 +282,14 @@ public class TagController {
      */
 	private String removeSpaces( String input ) {
 		input = input.toLowerCase();
-		while(input.charAt(0)==' ') {
+		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}
-		while(input.charAt(input.length()-1)==' ') {
+		while(input.charAt(input.length()-1)==' ' && input.length() != 1 ) {
 			input = input.substring(0, input.length()-1);
 		}
-		for( int i = 0; i < input.length(); i++ ) {
-			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+		for( int i = 0; i < input.length()-1; i++ ) {
+			if( input.charAt(i) == ' ' && input.length() != 1 && input.charAt(i+1) == ' ' ) {
 				input = input.substring(0, i) + input.substring(i+2, input.length());
 			}
 		}

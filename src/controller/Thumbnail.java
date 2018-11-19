@@ -49,6 +49,7 @@ public class Thumbnail {
     @FXML private Text userText;
     @FXML private Text albumText;
     @FXML private Text errorText;
+    @FXML private Text toText;
     @FXML private ScrollPane scrollPane;
 
     
@@ -87,10 +88,11 @@ public class Thumbnail {
 	}
 
 	private void updateSearch() {
-		System.out.println("updateSearch");
+		//System.out.println("updateSearch");
 		tagSearch.setVisible(false);
 		dateSearch1.setVisible(false);
 		dateSearch2.setVisible(false);
+		toText.setVisible(false);
 		if (searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
 			tagSearch.setVisible(true);
 			tagSearch.setEditable(true);
@@ -98,6 +100,7 @@ public class Thumbnail {
 		if( searchDrop.getSelectionModel().getSelectedItem().equals("Date")) {
 			dateSearch1.setVisible(true);
 			dateSearch2.setVisible(true);
+			toText.setVisible(true);
 		}
 		resetSelect();
 	}
@@ -106,6 +109,7 @@ public class Thumbnail {
 		tagSearch.setVisible(false);
 		dateSearch1.setVisible(false);
 		dateSearch2.setVisible(false);
+		toText.setVisible(false);
     	searchDrop.setValue("Search by:");
     }
     
@@ -120,8 +124,6 @@ public class Thumbnail {
 	    grid.getRowConstraints().add(new RowConstraints(175)); 
 	    
 		for( Picture p : displayAlbum ) {
-			//Makes tile
-			//System.out.println(p.url);
 			GridPane innerGrid = new GridPane();
 			ImageView pic = new ImageView();
 			pic.setFitHeight(150);
@@ -166,7 +168,6 @@ public class Thumbnail {
 	 * @param event a picture is clicked
 	 */
 	public void picClick(ActionEvent event) {
-		System.out.println("picture clicked");
 		Button b = (Button) event.getSource();
 		selectedIndex = Integer.parseInt(b.getId());
 	}
@@ -177,7 +178,7 @@ public class Thumbnail {
 	 * @throws IOException no stage
 	 */
 	public void buttonPress( ActionEvent event ) throws IOException {
-		System.out.println("buttonPress1");
+		//System.out.println("buttonPress1");
 		errorText.setVisible(false);
 		Button b = (Button) event.getSource();
 		if(gridB.size()==0 ) {
@@ -197,7 +198,7 @@ public class Thumbnail {
 		}
 		
 		if( b == openButton ) {
-			System.out.println("openButton");
+			//System.out.println("openButton");
 			if( resetB.isVisible() ) {
 				Master.toPhoto(thumbnailView, filteredIndex, filteredAlbum );
 			}else {
@@ -243,7 +244,7 @@ public class Thumbnail {
 		if( b == moveButton ) {
 			String toAlbum = pickAlbum("Move to:");
 			if( toAlbum != null ) {
-				System.out.println("moved");
+				//System.out.println("moved");
 				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
 				for( String tagType : album.get(selectedIndex).tags.keySet() ) {
 					tags.get(tagType).remove(album.get(selectedIndex));
@@ -279,7 +280,7 @@ public class Thumbnail {
 	 */
 	public void buttonPress2(ActionEvent e) throws IOException {
 		errorText.setVisible(false);
-		System.out.println("buttonPress2");
+		//System.out.println("buttonPress2");
 		Button b = (Button) e.getSource();
 		if( b == addPictureButton ) {
 			if(addPicture()) {
@@ -376,18 +377,34 @@ public class Thumbnail {
 		dialog.setContentText("Caption: ");
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			album.get(selectedIndex).caption = result.get();
+			String formatted = new String();
+			if( result.get().isEmpty() ) {
+				formatted = " ";
+			}else{
+				formatted = removeSpaces(result.get());
+			}
+			
+			if(formatted.equals(" ")) {
+				formatted = "";
+			}
+			album.get(selectedIndex).caption = formatted;
 			update(album);
 			if(filtered) {
-				System.out.println(filteredAlbum.size());
+				//System.out.println(filteredAlbum.size());
 				filteredAlbum.get(filteredIndex).caption = result.get();
 				update(filteredAlbum);
-				System.out.println(filteredAlbum.size());
+				//System.out.println(filteredAlbum.size());
 			}
 		}
 	}
 	private void searchByTag() {
-		System.out.println("search by Tag");
+		
+		if( tagSearch.getText().isEmpty()) {
+			errorText.setText("ERROR: NO TAGS ENTERED");
+			errorText.setVisible(true);
+			tagSearch.clear();
+			return;
+		}
 		String input = tagSearch.getText().toLowerCase();
 		//  |0: type1|1: value1|2: andor|3: type2|4: value2|
 		String[] words = new String[5];
@@ -396,7 +413,7 @@ public class Thumbnail {
 		input = removeSpaces(input);
 		try {
 		if( input.contains(" or ") || input.contains(" and ") ) {
-			System.out.println("or/and");
+			//System.out.println("or/and");
 			words[0] = input.substring(0, input.indexOf("=")); //type1
 			if( input.contains(" or ")) {
 				//System.out.println("or");
@@ -416,7 +433,7 @@ public class Thumbnail {
 				words[3] = input.substring(input.indexOf(" and ")+5, input.indexOf("=", input.indexOf("=")+1)); //type2
 				words[4] = input.substring(input.indexOf("=", input.indexOf("=")+1)+1, input.length());
 				for(int i = 0; i<5; i++) {
-					System.out.println(words[i]);
+					//System.out.println(words[i]);
 				}
 				for( Picture pic: album ) {
 					if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) 
@@ -426,11 +443,11 @@ public class Thumbnail {
 				}
 			}
 		}else { //1 tag
-			System.out.println("one tag");
+			//System.out.println("one tag");
 			words[0] = input.substring(0, input.indexOf("="));
 			words[1] = input.substring(input.indexOf("=")+1, input.length());
-			System.out.println(words[0]);
-			System.out.println(words[1]);
+			//System.out.println(words[0]);
+			//System.out.println(words[1]);
 			for( Picture pic: album ) {
 				if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) ) {
 					filteredAlbum.add(pic);
@@ -445,7 +462,7 @@ public class Thumbnail {
 			errorText.setVisible(true);
 		}
 		}catch(StringIndexOutOfBoundsException e) {
-			System.out.println("catched");
+			//System.out.println("catched");
 			errorText.setText("ERROR: INVALID TAG VALUE");
 			errorText.setVisible(true);
 		}
@@ -453,17 +470,17 @@ public class Thumbnail {
 	
 	private void searchByDate() {
 		LocalDate date1 = dateSearch1.getValue();
-		System.out.println(date1);
+		//System.out.println(date1);
 		LocalDate date2 = dateSearch2.getValue();
-		System.out.println(date2);
+		//System.out.println(date2);
 		for( Picture pic : album ) {
-			System.out.println(pic.date);
+			//System.out.println(pic.date);
 			if( pic.date.equals(date1) || pic.date.equals(date2) ) {
-				System.out.println("equals");
+				//System.out.println("equals");
 				filteredAlbum.add(pic);
 			}
 			if( pic.date.isAfter(date1) && pic.date.isBefore(date2) ) {
-				System.out.println("between");
+				//System.out.println("between");
 				filteredAlbum.add(pic);
 			}
 		}
@@ -481,7 +498,7 @@ public class Thumbnail {
 	 * @return if a picture is successfully added
 	 */
 	private boolean addPicture() {
-		System.out.println("addPicture");
+		//System.out.println("addPicture");
 		Stage stage = (Stage) thumbnailView.getScene().getWindow();
 		
 		FileChooser fileChooser = new FileChooser();
@@ -491,13 +508,13 @@ public class Thumbnail {
 		File selectedFile = fileChooser.showOpenDialog( stage );
 		
 		if( selectedFile !=  null ) {
-			System.out.println(selectedFile.getPath());
+			//System.out.println(selectedFile.getPath());
 			Picture pic = new Picture();
 			pic.setURL(selectedFile.getPath());
 			Date date = new Date(selectedFile.lastModified());
 			LocalDate localD = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			pic.date = localD;
-			System.out.println(pic.date);
+			//System.out.println(pic.date);
 			//new popup for tags and captions
 			album.add(pic);
 			update(album);
@@ -512,7 +529,7 @@ public class Thumbnail {
 	 * @return name of the album selected
 	 */
 	private String pickAlbum(String title) {
-		System.out.println("Popup");
+		//System.out.println("Popup");
 		ChoiceDialog<String> choiceDialog = new ChoiceDialog<String>();
 		choiceDialog.setTitle("Photos");
 		choiceDialog.setHeaderText(title);
@@ -530,21 +547,22 @@ public class Thumbnail {
 	 * @param input unformatted string
 	 * @return formatted string
 	 */
+
 	private String removeSpaces( String input ) {
-		while(input.charAt(0)==' ') {
+		input = input.toLowerCase();
+		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}
-		while(input.charAt(input.length()-1)==' ') {
+		while(input.charAt(input.length()-1)==' ' && input.length() != 1 ) {
 			input = input.substring(0, input.length()-1);
 		}
-		for( int i = 0; i < input.length(); i++ ) {
-			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+		for( int i = 0; i < input.length()-1; i++ ) {
+			if( input.charAt(i) == ' ' && input.length() != 1 && input.charAt(i+1) == ' ' ) {
 				input = input.substring(0, i) + input.substring(i+2, input.length());
 			}
 		}
 		return input;
-	}
-	
+	}	
 	
 }
 

@@ -23,7 +23,7 @@ public class Photos extends Application {
 			Master.data = Data.read();
 		}catch(EOFException e ) {
 			if(Master.data.userList.isEmpty()){
-				System.out.println("writeStock");
+				//System.out.println("writeStock");
 				User stock = new User("stock");
 				stock.loadStock();
 				Master.userMap.put("stock", stock );
@@ -37,21 +37,21 @@ public class Photos extends Application {
 			Master.userMap.put(name, u);
 		}
 
-		System.out.println("5.2");
-		System.out.println("stockalbumsize:" + Master.userMap.get("stock").albumMap.get("Stock").size());
+		//System.out.println("5.2");
+		//System.out.println("stockalbumsize:" + Master.userMap.get("stock").albumMap.get("Stock").size());
 	}
 	
 	@Override
 	public void start(Stage mainStage) 
 	throws IOException {
-		System.out.println("ran2");
+		//System.out.println("ran2");
 		
 		try {
 			loadData();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("4");
+		//System.out.println("4");
 		
 		
 		
@@ -69,7 +69,7 @@ public class Photos extends Application {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("ran 1");
+		//System.out.println("ran 1");
 		launch(args);
 	}
 }

@@ -32,9 +32,9 @@ public class Login {
 	 */
 	public void buttonPress(ActionEvent e) throws IOException{
 		Button b = (Button)e.getSource();
-		System.out.println("button pressed");
+		//System.out.println("button pressed");
 		if( b == quitButton ) {
-			System.out.println("quit");
+			//System.out.println("quit");
 			Master.writeData();
 			Platform.exit();
 		}
@@ -46,7 +46,7 @@ public class Login {
 			}
 			if( Master.userMap.containsKey( input ) ) {
 				Master.currentUser = Master.userMap.get(input);
-				System.out.println("6");
+				//System.out.println("6");
 				Master.toAlbum(loginView);
 			}else {
 				invalid.setVisible(true);

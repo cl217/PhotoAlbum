@@ -51,7 +51,7 @@ public class Photo {
      * @param index display this picture
      */
     private void update(int index) {
-    	System.out.println("update");
+    	//System.out.println("update");
     	Image image = new Image( album.get(index).url );
     	picture.setImage(image);
     	captionText.setText(album.get(index).caption);
@@ -74,16 +74,16 @@ public class Photo {
 	public void buttonPress(ActionEvent event) throws IOException {
 		Button b = (Button) event.getSource();
 		if( b == prevButton ) {
-			System.out.println("prevButton1");
+			//System.out.println("prevButton1");
 			if( currentIndex != 0 ) {
-				System.out.println("prevButton2");
+				//System.out.println("prevButton2");
 				update(currentIndex-1);
 			}
 		}
 		if( b == nextButton ) {				
-			System.out.println("nextButton");
+			//System.out.println("nextButton");
 			if( currentIndex != album.size()-1 ) {
-				System.out.println("nextButton2");
+				//System.out.println("nextButton2");
 				update(currentIndex+1);
 			}
 		}

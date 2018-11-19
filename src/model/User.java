@@ -68,19 +68,19 @@ public class User implements Serializable {
 	}
 	
 	public void loadStock(){
-		System.out.println("loadStock1");
+		//System.out.println("loadStock1");
 		ArrayList<Picture> pics = new ArrayList<Picture>();
 
 		File dir = new File("..\\Photos85\\data\\stockPhotos");
 		//File dir = new File("..\\Photos85\\stock");
-		System.out.println(dir.listFiles());
+		//System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();
-		System.out.println("loadStock2");
+		//System.out.println("loadStock2");
 		
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				System.out.println("file found");
-				System.out.println(child.getPath());
+				//System.out.println("file found");
+				//System.out.println(child.getPath());
 				Picture p = new Picture();
 				p.setURL(child.getPath());
 				p.caption = "Stock photo";
@@ -90,7 +90,7 @@ public class User implements Serializable {
 				pics.add(p);
 			}
 		}
-		System.out.println("pics size" + pics.size() );
+		//System.out.println("pics size" + pics.size() );
 		albumMap.put("Stock", pics);
 	}
 	

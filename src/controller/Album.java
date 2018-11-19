@@ -34,7 +34,7 @@ public class Album {
 
 	ObservableList<String> list = FXCollections.observableArrayList();
 	public void start() {
-		//System.out.println("Album");
+		////System.out.println("Album");
 		userText.setText("User: " + Master.currentUser.name);
 		updateList();
 		albumListView.getSelectionModel().select(0);
@@ -68,7 +68,11 @@ public class Album {
     		if (result.isPresent()) {
     			keyWord = result.get();
     			String formatted = removeSpaces(result.get()); 
-    			if(Master.currentUser.containsAlbum(formatted.toLowerCase())) {
+    			if( formatted.equals(" ")) {
+    				errorText.setText("ERROR: INVALID ALBUM NAME");
+    				errorText.setVisible(true);
+    			}
+    			else if(Master.currentUser.containsAlbum(formatted.toLowerCase())) {
     				errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
     				errorText.setVisible(true);
     			}
@@ -99,7 +103,7 @@ public class Album {
     			Master.currentUser.albumMap.remove(keyWord);
     			updateList();
     			
-    			//System.out.println("Album size: " + Master.currentUser.albumMap.size()+ " , " + index);
+    			////System.out.println("Album size: " + Master.currentUser.albumMap.size()+ " , " + index);
     			if(Master.currentUser.albumMap.size()-1 < index) {
     				albumListView.getSelectionModel().select(Master.currentUser.albumMap.size()-1);
     			}
@@ -122,6 +126,11 @@ public class Album {
 			 Optional<String> result = dialog.showAndWait();
 			 if (result.isPresent()) { 
 				String formatted = removeSpaces(result.get()); 
+				if( formatted.equals(" ")) {
+					errorText.setText("ERROR: INVALID ALBUM NAME");
+					errorText.setVisible(true);
+					return;
+				}
 			   	if( !formatted.equals(item) && Master.currentUser.containsAlbum(formatted.toLowerCase())) {
 		    		errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
 		    		errorText.setVisible(true);
@@ -155,14 +164,15 @@ public class Album {
 	 * @return formatted String
 	 */
 	private String removeSpaces( String input ) {
-		while(input.charAt(0)==' ') {
+		input = input.toLowerCase();
+		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}
-		while(input.charAt(input.length()-1)==' ') {
+		while(input.charAt(input.length()-1)==' ' && input.length() != 1 ) {
 			input = input.substring(0, input.length()-1);
 		}
-		for( int i = 0; i < input.length(); i++ ) {
-			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+		for( int i = 0; i < input.length()-1; i++ ) {
+			if( input.charAt(i) == ' ' && input.length() != 1 && input.charAt(i+1) == ' ' ) {
 				input = input.substring(0, i) + input.substring(i+2, input.length());
 			}
 		}

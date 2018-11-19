@@ -38,9 +38,9 @@ public class Master implements Serializable {
 					}
 					ObjectOutputStream oos;
 					oos = new ObjectOutputStream( new FileOutputStream(directory + File.separator + name) );
-					System.out.println("6");
+					//System.out.println("6");
 					oos.writeObject(userMap.get(name));
-					System.out.println("7");
+					//System.out.println("7");
 					oos.close();
 				}
 				
@@ -82,11 +82,11 @@ public class Master implements Serializable {
 	public static void toAlbum( AnchorPane view ) throws IOException{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/albumView.fxml"));
-		System.out.println("7");
+		//System.out.println("7");
 		AnchorPane root = (AnchorPane)loader.load();
 		Album controller = loader.getController();
 		controller.start();
-		System.out.println("8");
+		//System.out.println("8");
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
 		stage.setScene(scene);
@@ -124,7 +124,7 @@ public class Master implements Serializable {
 		loader.setLocation( Master.class.getResource("/view/adminView.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
 		Admin controller = loader.getController();
-		System.out.println("hi");
+		//System.out.println("hi");
 		controller.start();
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();
@@ -138,14 +138,14 @@ public class Master implements Serializable {
 	 * @throws IOException no stage
 	 */
 	public static void toThumbnail( AnchorPane view ) throws IOException{
-		System.out.println("Master.toThumbnail1");
-		System.out.println(currentAlbum);
+		//System.out.println("Master.toThumbnail1");
+		//System.out.println(currentAlbum);
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation( Master.class.getResource("/view/thumbnailView.fxml"));
 		AnchorPane root = (AnchorPane)loader.load();
-		System.out.println("toThumbnail1.2");
+		//System.out.println("toThumbnail1.2");
 		Thumbnail controller = loader.getController();
-		System.out.println("Master.toThumbnail2");
+		//System.out.println("Master.toThumbnail2");
 		controller.start();
 		Scene scene = new Scene(root);
 		Stage stage = (Stage) view.getScene().getWindow();

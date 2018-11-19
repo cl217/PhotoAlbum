@@ -34,7 +34,7 @@ public class Admin{
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	
 	public void start(){
-		System.out.println("stockNum: " + Master.userMap.size());
+		//System.out.println("stockNum: " + Master.userMap.size());
 		updateList();
 		listUsers.getSelectionModel().select(0);
 	}
@@ -67,30 +67,28 @@ public class Admin{
     	if (b == createButton) {
     		//create newUser with pop up input
     		TextInputDialog dialog = new TextInputDialog();
-    		dialog.setTitle("List User");
+    		dialog.setTitle("Photos");
     		dialog.setHeaderText("Add User");
     		dialog.setContentText("Enter name: ");
     		Optional<String> result = dialog.showAndWait();
     		if (result.isPresent()) {
     			keyWord = removeSpaces(result.get());
+    			if(keyWord.equals(" ")) {
+    				errorText.setText("ERROR: INVALID NAME INPUT");
+    				errorText.setVisible(true);
+    				return;
+    			}
     			if(Master.userMap.containsKey(keyWord.toLowerCase())) {
+    				errorText.setText("ERROR: USER ALREADY EXISTS");
     				errorText.setVisible(true);
     			}
     			else {
     				newUser = new User(keyWord);
     				Master.userMap.put(keyWord.toLowerCase(), newUser);
             		updateList();
+            		listUsers.getSelectionModel().select(keyWord);
     			}
     		}
-    		
-    		for (String s : obsList) {
-    			if( s.equals(keyWord.toLowerCase())) {
-    				break;
-    			}
-    			index++;
-    		}
-    		
-    		listUsers.getSelectionModel().select(index);
     	}
     	else if (b == deleteButton) {
     		if (listUsers.getSelectionModel().getSelectedItem() == null) {
@@ -113,6 +111,7 @@ public class Admin{
     	}
     	else if (b == loButton) {
     		//writeApp(adminUser);
+    		Master.writeData();
     		Master.toLogin(adminView);
     	}
     	else { //quitButton
@@ -128,14 +127,15 @@ public class Admin{
 	 * @return formatted String
 	 */
 	private String removeSpaces( String input ) {
-		while(input.charAt(0)==' ') {
+		input = input.toLowerCase();
+		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}
-		while(input.charAt(input.length()-1)==' ') {
+		while(input.charAt(input.length()-1)==' ' && input.length() != 1 ) {
 			input = input.substring(0, input.length()-1);
 		}
-		for( int i = 0; i < input.length(); i++ ) {
-			if( input.charAt(i) == ' ' && input.charAt(i+1) == ' ' ) {
+		for( int i = 0; i < input.length()-1; i++ ) {
+			if( input.charAt(i) == ' ' && input.length() != 1 && input.charAt(i+1) == ' ' ) {
 				input = input.substring(0, i) + input.substring(i+2, input.length());
 			}
 		}

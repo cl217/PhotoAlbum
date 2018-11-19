@@ -27,11 +27,11 @@ public class Data implements Serializable {
 	 * @throws ClassNotFoundException ObjectInputStream
 	 */
 	public static Data read() throws IOException, ClassNotFoundException {
-		System.out.println("ran5");
+		//System.out.println("ran5");
 		ObjectInputStream ois = new ObjectInputStream( new FileInputStream(directory + File.separator + file));
-		System.out.println("ran6");
+		//System.out.println("ran6");
 		Data data = (Data) ois.readObject();
-		System.out.println("Data7");
+		//System.out.println("Data7");
 		ois.close();
 		return data;
 	}
