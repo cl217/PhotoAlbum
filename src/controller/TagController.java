@@ -35,7 +35,7 @@ public class TagController {
     @FXML private Button addCategoryB;
     @FXML private Button addB;
     @FXML private Text errorText;
-    @FXML private Button doneB;
+    @FXML private Button doneB; //should this be a alert pop up like songLib?
     @FXML private Button editB;
     @FXML private Button deleteCatB;
 
@@ -66,7 +66,9 @@ public class TagController {
 			System.out.println(tagCategory);
 			System.out.println(tagCategory + ": " + pic.tags.get(tagCategory) );
 			for(String tagValue: pic.tags.get(tagCategory)) {
+				//System.out.println("Vincent: "+tagCategory + " , " + tagValue);
 				tagList.add(tagCategory + "=" + tagValue);
+				//System.out.println("list added: " + tagCategory + "=" + pic.tags.get(tagCategory));
 			}
 		}
 		System.out.println(tagList);
@@ -138,14 +140,9 @@ public class TagController {
         	alert.setHeaderText("Please select your category type");
         	alert.setContentText("Choose your option.");
 
-<<<<<<< HEAD
-        		ButtonType buttonTypeOne = new ButtonType("Single Value");
-        		ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
-=======
         	ButtonType buttonTypeOne = new ButtonType("Single Value");
         	ButtonType buttonTypeTwo = new ButtonType("Multiple Value");
         	//ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
->>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
 
         	alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
         	Optional<ButtonType> result2 = alert.showAndWait();
@@ -167,17 +164,8 @@ public class TagController {
         		tagDropDown.setValue(category);
         	}
         		
-<<<<<<< HEAD
-        		updateTagCategory();
-
-        		tagDropDown.getSelectionModel().select(result.get());
-
-    		}
-    		
-=======
         	updateTagCategory();
         	tagDropDown.getSelectionModel().select(result);
->>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
     	}
     		
     	else if (b == deleteB) {
@@ -212,8 +200,6 @@ public class TagController {
 			dialog.setContentText("Enter new tag: ");
 			Optional<String> result = dialog.showAndWait();
 			if (result.isPresent()) { 
-<<<<<<< HEAD
-=======
 				String formatted = removeSpaces(result.get());
 				if( !formatted.equals(tag) && pic.tags.get(category).contains(formatted)) {
 					errorText.setText("ERROR: TAG ALREADY EXISTS");
@@ -221,7 +207,6 @@ public class TagController {
 					return;
 				}
 				
->>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
 				pic.tags.get(category).remove(tag);
 				pic.tags.get(category).add(result.get());
 			}

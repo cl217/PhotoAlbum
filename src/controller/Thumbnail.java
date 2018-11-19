@@ -281,9 +281,6 @@ public class Thumbnail {
 		errorText.setVisible(false);
 		System.out.println("buttonPress2");
 		Button b = (Button) e.getSource();
-		if( b == resultAlbumB ) {
-			makeResultAlbum();
-		}
 		if( b == addPictureButton ) {
 			if(addPicture()) {
 				selectedIndex = gridB.size()-1;
@@ -429,15 +426,11 @@ public class Thumbnail {
 				}
 			}
 		}else { //1 tag
-<<<<<<< HEAD
-			words[1] = input.substring(input.indexOf("=")+1);
-=======
 			System.out.println("one tag");
 			words[0] = input.substring(0, input.indexOf("="));
 			words[1] = input.substring(input.indexOf("=")+1, input.length());
 			System.out.println(words[0]);
 			System.out.println(words[1]);
->>>>>>> f6ca5cd570600c5438cec421cc701fddd5a8801d
 			for( Picture pic: album ) {
 				if( (pic.tags.containsKey(words[0]) && pic.tags.get(words[0]).contains(words[1]) ) ) {
 					filteredAlbum.add(pic);
