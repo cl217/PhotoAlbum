@@ -33,6 +33,9 @@ public class Admin{
 	
 	private ObservableList<String> obsList = FXCollections.observableArrayList();
 	
+	/**
+	 * starts Admin window
+	 */
 	public void start(){
 		//System.out.println("stockNum: " + Master.userMap.size());
 		updateList();
@@ -49,7 +52,7 @@ public class Admin{
 	}
 	
 	/**
-	 * 
+	 * handles button presses
 	 * @param event a button is pressed
 	 * @throws IOException no stage
 	 */
@@ -122,7 +125,7 @@ public class Admin{
 	}
 	
 	/**
-	 * 
+	 * formats input
 	 * @param unformatted String
 	 * @return formatted String
 	 */

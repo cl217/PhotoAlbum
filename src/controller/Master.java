@@ -19,17 +19,29 @@ public class Master implements Serializable {
 	
 	private static final String directory = "data";
 	
+	/**
+	 * data object of list of users
+	 */
 	public static Data data = new Data();
 	
 	/**
-	 * @userMap hashmap of all users
-	 * @currentUser the user that's currently logged in
-	 * @currentAlbum the album that's currently open
+	 * map of username to User object
 	 */
 	public static HashMap<String, User> userMap = new HashMap<String, User>();
-	public static User currentUser;
-	public static String currentAlbum;
 	
+	/**
+	 * the current user that is logged on
+	 */
+	public static User currentUser;
+	
+	/**
+	 * the current album that is opened
+	 */
+	public static AlbumObj currentAlbum;
+	
+	/**
+	 * writes (saves) all application data
+	 */
 	public static void writeData(){
 			try {
 				for( String name : userMap.keySet() ) {
@@ -58,7 +70,7 @@ public class Master implements Serializable {
 	}
 
 	/**
-	 * 
+	 * switch to login window
 	 * @param view current stage
 	 * @throws IOException no stage
 	 */
@@ -75,7 +87,7 @@ public class Master implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * switch to album window
 	 * @param view current stage
 	 * @throws IOException no stage
 	 */
@@ -94,8 +106,9 @@ public class Master implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * switch to tag window
 	 * @param view current stage
+	 * @param p picture whoses tags are being modified
 	 * @throws IOException no stage
 	 */
 	public static void toTag( AnchorPane view, Picture p )throws IOException{
@@ -115,7 +128,7 @@ public class Master implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * switch to admin window
 	 * @param view current stage
 	 * @throws IOException no stage
 	 */
@@ -133,7 +146,7 @@ public class Master implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * switch to thumbnail window
 	 * @param view current stage
 	 * @throws IOException no stage
 	 */
@@ -154,8 +167,10 @@ public class Master implements Serializable {
 	}
 
 	/**
-	 * 
+	 * switch to photo window
 	 * @param view current stage
+	 * @param album traverse this album with forward/back button
+	 * @param picIndex index of picture to display on start
 	 * @throws IOException no stage
 	 */
 	public static void toPhoto( AnchorPane view, int picIndex, ArrayList<Picture> album ) throws IOException{

@@ -16,12 +16,16 @@ import java.util.ArrayList;
 public class Data implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * list of all users
+	 */
 	public ArrayList<String> userList = new ArrayList<String>();
 	private static final String directory = "data";
 	private static final String file = "userData";
 	
 	/**
-	 * 
+	 * read data object
 	 * @return a data object
 	 * @throws IOException ObjectInputStream
 	 * @throws ClassNotFoundException ObjectInputStream

@@ -42,10 +42,13 @@ public class TagController {
     
     ObservableList<String> tagList = FXCollections.observableArrayList();
     
+    /**
+     * picture whose tags are being modified
+     */
     Picture pic; 
     
     /**
-     * 
+     * starts tag window
      * @param p edit the tags of this picture
      */
     public void start(Picture p) {
@@ -80,7 +83,7 @@ public class TagController {
     
     private void updateTagCategory() {
     	tagDropDown.getItems().clear();
-    	for( Picture pic : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+    	for( Picture pic : Master.currentAlbum.album ) {
 	    	for( String tagCategory : pic.tags.keySet() ) {
 	    		if( tagDropDown.getItems().contains(tagCategory) == false ) {
 	    			tagDropDown.getItems().add(tagCategory);
@@ -90,7 +93,7 @@ public class TagController {
     }
     	
     /**
-     * 
+     * handles button presses
      * @param event a button is presed
      * @throws IOException no stage
      */
@@ -169,7 +172,7 @@ public class TagController {
         	Optional<ButtonType> result2 = alert.showAndWait();
         		
         	//if Single value is selected
-        	for( Picture p : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+        	for( Picture p : Master.currentAlbum.album) {
 	        	if (result2.get() == buttonTypeOne){
 	        		p.oneValueCat.add(result);
 	        	}
@@ -183,7 +186,7 @@ public class TagController {
     		
     	else if (b == deleteB) {
     		if (listView.getSelectionModel().getSelectedItem() == null) {
-    			errorText.setText("Error: No items to delete");
+    			errorText.setText("Error: No tag selected");
     			errorText.setVisible(true);
     		}
     		else {
@@ -202,6 +205,11 @@ public class TagController {
     		}
     	}
     	else if (b == editB) {
+    		if (listView.getSelectionModel().getSelectedItem() == null) {
+    			errorText.setText("Error: No tag selected");
+    			errorText.setVisible(true);
+    			return;
+    		}
     		categoryTag = listView.getSelectionModel().getSelectedItem();
     		category = categoryTag.substring(0, categoryTag.indexOf("="));
     		tag = categoryTag.substring(categoryTag.indexOf("=")+1);
@@ -252,7 +260,7 @@ public class TagController {
 	       	}
         	
     		category = tagDropDown.getSelectionModel().getSelectedItem();
-    		for( Picture p : Master.currentUser.albumMap.get(Master.currentAlbum)) {
+    		for( Picture p : Master.currentAlbum.album ) {
     			if( p.oneValueCat.contains(category) ) {
     				p.oneValueCat.remove(category);
     			}
@@ -276,7 +284,7 @@ public class TagController {
     }
     
     /**
-     * 
+     * formats input
      * @param input unformatted String
      * @return formatted String
      */

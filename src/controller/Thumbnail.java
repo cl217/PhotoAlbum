@@ -18,6 +18,7 @@ import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import model.AlbumObj;
 import model.Picture;
 
 /**
@@ -53,21 +54,46 @@ public class Thumbnail {
     @FXML private ScrollPane scrollPane;
 
     
-
-	ArrayList<Picture> album = Master.currentUser.albumMap.get(Master.currentAlbum);
+    /**
+     * current album that is opened
+     */
+	ArrayList<Picture> album = Master.currentAlbum.album;
+	
+	/**
+	 * search results 
+	 */
 	ArrayList<Picture> filteredAlbum = new ArrayList<Picture>();
+	
+	/**
+	 * hashmap of tag category to list of pictures that have that tag category in this album
+	 */
 	HashMap<String, ArrayList<Picture>> tags = new HashMap<String, ArrayList<Picture>>();
 	//tag type to get Arraylist of pics that have that tag type
 	//cant have 2 tags to location type for a pic but can have 2 tags to a person type for a single pic
 	//??????
+	
+	/**
+	 * current selected index
+	 */
 	int selectedIndex;
+	
+	/**
+	 * current selected index if search results are displayed
+	 */
 	int filteredIndex;
+	
+	/**
+	 * grid of pictures
+	 */
 	ObservableList<Node> gridB = FXCollections.observableArrayList();
 	
+	/**
+	 * starts ThumbnailView window
+	 */
 	public void start() {
 		errorText.setVisible(false);
 		userText.setText("user: " + Master.currentUser.name);
-		albumText.setText(Master.currentAlbum);
+		albumText.setText(Master.currentAlbum.name);
 		update(album);
 		if( gridB.isEmpty() == false) {
 			gridB.get(0).requestFocus();
@@ -80,7 +106,7 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
+	 * selects picture
 	 * @param event mouseclick on not button 
 	 */
 	public void revert(MouseEvent event) {
@@ -111,9 +137,18 @@ public class Thumbnail {
 		dateSearch2.setVisible(false);
 		toText.setVisible(false);
     	searchDrop.setValue("Search by:");
+		tagSearch.clear();
+		dateSearch1.getEditor().clear();
+		dateSearch2.getEditor().clear();
+		resetB.setVisible(false);
+		resultAlbumB.setVisible(false);
     }
     
-	public void update( ArrayList<Picture> displayAlbum ) {
+    /**
+     * updates pictures on display
+     * @param displayAlbum full album or filteredalbum
+     */
+	private void update( ArrayList<Picture> displayAlbum ) {
 		grid.getChildren().clear();
 		grid.getColumnConstraints().clear();
 		//grid.getRowConstraints().clear();
@@ -124,6 +159,7 @@ public class Thumbnail {
 	    grid.getRowConstraints().add(new RowConstraints(175)); 
 	    
 		for( Picture p : displayAlbum ) {
+			//System.out.println(p.url);
 			GridPane innerGrid = new GridPane();
 			ImageView pic = new ImageView();
 			pic.setFitHeight(150);
@@ -164,7 +200,7 @@ public class Thumbnail {
 	
 	
 	/**
-	 * 
+	 * get the index of the picture that is clicked
 	 * @param event a picture is clicked
 	 */
 	public void picClick(ActionEvent event) {
@@ -173,7 +209,7 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
+	 * handles button presses
 	 * @param event a button is pressed
 	 * @throws IOException no stage
 	 */
@@ -210,7 +246,14 @@ public class Thumbnail {
 			for( String tagType : album.get(selectedIndex).tags.keySet() ) {
 				tags.get(tagType).remove(album.get(selectedIndex));
 			}
+			LocalDate temp = album.get(selectedIndex).date;
 			album.remove(selectedIndex);
+			if( temp.equals(Master.currentAlbum.earliest) ) {
+				Master.currentAlbum.resetEarliest();
+			}
+			if( temp.equals(Master.currentAlbum.latest) ) {
+				Master.currentAlbum.resetLatest();
+			}
 			update(album);
 			if( resetB.isVisible() ) {
 				filteredAlbum.remove(filteredIndex);
@@ -238,18 +281,18 @@ public class Thumbnail {
 		if( b == copyButton ) {
 			String toAlbum = pickAlbum("Copy to:");
 			if(toAlbum != null) {
-				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+				Master.currentUser.albumMap.get(toAlbum).album.add(album.get(selectedIndex));
 			}
 		}
 		if( b == moveButton ) {
 			String toAlbum = pickAlbum("Move to:");
 			if( toAlbum != null ) {
-				//System.out.println("moved");
-				Master.currentUser.albumMap.get(toAlbum).add(album.get(selectedIndex));
+				//Master.currentUser.albumMap.get(toAlbum).album.add(album.get(selectedIndex));
 				for( String tagType : album.get(selectedIndex).tags.keySet() ) {
 					tags.get(tagType).remove(album.get(selectedIndex));
 				}
 				album.remove(selectedIndex);
+				System.out.println("regular album");
 				update(album);
 				if(resetB.isVisible()) {
 					filteredAlbum.remove(filteredIndex);
@@ -274,7 +317,7 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
+	 * handles button presses
 	 * @param e a button is pressed
 	 * @throws IOException no stage
 	 */
@@ -294,19 +337,12 @@ public class Thumbnail {
 
 			if(searchDrop.getSelectionModel().getSelectedIndex()==0) {
 				errorText.setText("ERROR: NO SEARCH VALUE");
+				errorText.setVisible(true);
 				resetSelect();
 				return;
 			}
 			
 			if( searchDrop.getSelectionModel().getSelectedItem().equals("Tags")) {
-				/*
-				if( tagSearch.getText().contains("=") == false ) {
-					errorText.setText("ERROR: INVALID SEARCH VALUE");
-					errorText.setVisible(true);
-					resetSelect();
-					return;
-				}
-				*/
 				filteredAlbum.clear();
 				searchByTag();
 			}
@@ -322,15 +358,11 @@ public class Thumbnail {
 				filteredAlbum.clear();
 				searchByDate();
 			}
+			selectedIndex = 0;
 		}	
 		if( b == resetB ) {
 			update(album);
 			resetSearch();
-			tagSearch.clear();
-			dateSearch1.getEditor().clear();
-			dateSearch2.getEditor().clear();
-			resetB.setVisible(false);
-			resultAlbumB.setVisible(false);
 			selectedIndex = 0;
 		}
 		if( b == backB ) {
@@ -347,6 +379,9 @@ public class Thumbnail {
 		resetSelect();
 	}
 	
+	/**
+	 * makes album from search results
+	 */
 	private void makeResultAlbum() {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Photos");
@@ -354,11 +389,17 @@ public class Thumbnail {
 		dialog.setContentText("Enter new album name: ");
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
-			if( Master.currentUser.containsAlbum(result.get()) ){
-				errorText.setText("Existing album name");
+			//System.out.println(result.get());
+			if( Master.currentUser.containsAlbum(removeSpaces(result.get().toLowerCase())) ){
+				errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
 				errorText.setVisible(true);
 			}else {
-				Master.currentUser.albumMap.put(result.get(), filteredAlbum);
+				ArrayList<Picture> temp = new ArrayList<Picture>();
+				temp.addAll(filteredAlbum);
+				AlbumObj newAlbum = new AlbumObj( removeSpaces(result.get()),  temp );
+				newAlbum.resetEarliest();
+				newAlbum.resetLatest();
+				Master.currentUser.albumMap.put( removeSpaces(result.get().toLowerCase()), newAlbum );
 				errorText.setText("New album sucessfully created");
 				errorText.setVisible(true);
 			}
@@ -367,8 +408,8 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
-	 * @param filtered if editing from search results
+	 * edit caption
+	 * @param filtered true if filtered album is currently on display
 	 */
 	private void editCaption( boolean filtered) {
 		TextInputDialog dialog = new TextInputDialog(album.get(selectedIndex).caption);
@@ -397,8 +438,11 @@ public class Thumbnail {
 			}
 		}
 	}
+	
+	/**
+	 * search by tag
+	 */
 	private void searchByTag() {
-		
 		if( tagSearch.getText().isEmpty()) {
 			errorText.setText("ERROR: NO TAGS ENTERED");
 			errorText.setVisible(true);
@@ -468,6 +512,9 @@ public class Thumbnail {
 		}
 	}
 	
+	/**
+	 * search by date range
+	 */
 	private void searchByDate() {
 		LocalDate date1 = dateSearch1.getValue();
 		//System.out.println(date1);
@@ -494,8 +541,8 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
-	 * @return if a picture is successfully added
+	 * adds a picture
+	 * @return true if picture is successfully added
 	 */
 	private boolean addPicture() {
 		//System.out.println("addPicture");
@@ -516,15 +563,27 @@ public class Thumbnail {
 			pic.date = localD;
 			//System.out.println(pic.date);
 			//new popup for tags and captions
+			if( album.isEmpty()) {
+				Master.currentAlbum.earliest = pic.date;
+				Master.currentAlbum.latest = pic.date;
+			}else {
+				if(pic.date.isAfter(Master.currentAlbum.latest)) {
+					Master.currentAlbum.latest = pic.date;
+				}
+				if(pic.date.isBefore(Master.currentAlbum.earliest)) {
+					Master.currentAlbum.earliest = pic.date;
+				}
+			}
 			album.add(pic);
 			update(album);
+			resetSearch();
 			return true;
 		}
 		return false;
 	}
 	
 	/**
-	 * 
+	 * pick album to copy/move picture to
 	 * @param title popup window title
 	 * @return name of the album selected
 	 */
@@ -534,7 +593,7 @@ public class Thumbnail {
 		choiceDialog.setTitle("Photos");
 		choiceDialog.setHeaderText(title);
 		for( String album : Master.currentUser.albumMap.keySet() ) {
-			if( !album.equals(Master.currentAlbum) ){
+			if( !album.equalsIgnoreCase(Master.currentAlbum.name) ){
 			choiceDialog.getItems().add(album);
 			}
 		}
@@ -543,13 +602,12 @@ public class Thumbnail {
 	}
 	
 	/**
-	 * 
+	 * formats input
 	 * @param input unformatted string
 	 * @return formatted string
 	 */
 
 	private String removeSpaces( String input ) {
-		input = input.toLowerCase();
 		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}

@@ -31,11 +31,18 @@ public class Photo {
     @FXML private AnchorPane photoView;
     @FXML private Button backButton;
     
+    /**
+     * index of picture in album that is currently displayed
+     */
     int currentIndex;
+    
+    /**
+     * the current album that will be traversed
+     */
     ArrayList<Picture> album = new ArrayList<Picture>();
     
     /**
-     * 
+     * starts photo window
      * @param picIndex current index in full album of picture to display
      * @param album album the picture is opened from
      * @throws IOException no stage
@@ -47,7 +54,7 @@ public class Photo {
 	}
     
     /**
-     * 
+     * change picture on display
      * @param index display this picture
      */
     private void update(int index) {
@@ -67,7 +74,7 @@ public class Photo {
     }
     
     /**
-     * 
+     * handles button presses
      * @param event a button is pressed
      * @throws IOException no stage
      */

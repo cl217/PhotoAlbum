@@ -23,18 +23,19 @@ public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * name of user
+	 */
 	public String name;
 	
-	// HashMap< albumName, all pictures >, what to store data in?
-	//public ArrayList<String> albumList = new ArrayList<String>();
-	
-	//iterate over keys to print album list
-	//get key to get list of pictures
-	public HashMap<String, ArrayList<Picture>> albumMap = new HashMap<String, ArrayList<Picture>>();
-	//have to make keys all lowercase
+	/**
+	 * hashmap of album name to album
+	 */
+	public HashMap<String, AlbumObj> albumMap = new HashMap<String, AlbumObj>();
+
 	
 	/**
-	 * 
+	 * constructor
 	 * @param name name of user
 	 */
 	public User( String name ) {
@@ -42,7 +43,7 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * 
+	 * check if album name already exists
 	 * @param name album name
 	 * @return if user already has an album with this name
 	 */
@@ -55,7 +56,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * read user data
 	 * @return User object
 	 * @throws IOException ObjectInput Stream
 	 * @throws ClassNotFoundException Object Input Stream
@@ -67,31 +68,41 @@ public class User implements Serializable {
 		return u;
 	}
 	
+	/**
+	 * load stock user on first run
+	 */
 	public void loadStock(){
 		//System.out.println("loadStock1");
 		ArrayList<Picture> pics = new ArrayList<Picture>();
+		AlbumObj album = new AlbumObj( "Stock", pics );
 
 		File dir = new File("..\\Photos85\\data\\stockPhotos");
-		//File dir = new File("..\\Photos85\\stock");
-		//System.out.println(dir.listFiles());
 		File[] directoryListing = dir.listFiles();
-		//System.out.println("loadStock2");
 		
 		if (directoryListing != null) {
 			for (File child : directoryListing) {
-				//System.out.println("file found");
-				//System.out.println(child.getPath());
 				Picture p = new Picture();
 				p.setURL(child.getPath());
 				p.caption = "Stock photo";
 				Date date = new Date(child.lastModified());
 				LocalDate localD = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				p.date = localD;
-				pics.add(p);
+				if( album.album.isEmpty()) {
+					album.earliest = p.date;
+					album.latest = p.date;
+				}else {
+					if(p.date.isAfter(album.latest)) {
+						album.latest = p.date;
+					}
+					if(p.date.isBefore(album.earliest)) {
+						album.earliest = p.date;
+					}
+				}
+				album.album.add(p);
 			}
 		}
-		//System.out.println("pics size" + pics.size() );
-		albumMap.put("Stock", pics);
+		albumMap.put("stock", album);
+
 	}
 	
 

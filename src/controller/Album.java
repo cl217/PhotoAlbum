@@ -10,8 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import model.AlbumObj;
 import model.Picture;
 
 /**
@@ -29,10 +31,15 @@ public class Album {
 	@FXML Button createButton;
 	@FXML Button deleteButton;
 	@FXML Button renameButton;
+	@FXML Button detailsB;
 	@FXML Text userText;
-	@FXML private Text errorText;;
+	@FXML Text errorText;
 
 	ObservableList<String> list = FXCollections.observableArrayList();
+	
+	/**
+	 * starts Album
+	 */
 	public void start() {
 		////System.out.println("Album");
 		userText.setText("User: " + Master.currentUser.name);
@@ -42,8 +49,8 @@ public class Album {
 	
 	private void updateList() {
 		list.clear();
-		for( String albumName : Master.currentUser.albumMap.keySet() ) {
-			list.add(albumName);
+		for( AlbumObj a : Master.currentUser.albumMap.values() ) {
+			list.add(a.name);
 		}
 		albumListView.setItems(	list );
 		return;
@@ -78,7 +85,8 @@ public class Album {
     			}
     			else {
     				ArrayList<Picture> temp = new ArrayList<Picture>();
-    				Master.currentUser.albumMap.put(formatted, temp);
+    				AlbumObj album = new AlbumObj(formatted, temp);
+    				Master.currentUser.albumMap.put(formatted.toLowerCase(), album);
     				updateList();
     			}
     		}
@@ -100,7 +108,7 @@ public class Album {
     		else {
     			keyWord = albumListView.getSelectionModel().getSelectedItem();
     			index = albumListView.getSelectionModel().getSelectedIndex();
-    			Master.currentUser.albumMap.remove(keyWord);
+    			Master.currentUser.albumMap.remove(keyWord.toLowerCase());
     			updateList();
     			
     			////System.out.println("Album size: " + Master.currentUser.albumMap.size()+ " , " + index);
@@ -131,10 +139,14 @@ public class Album {
 					errorText.setVisible(true);
 					return;
 				}
-			   	if( !formatted.equals(item) && Master.currentUser.containsAlbum(formatted.toLowerCase())) {
+			   	if( !formatted.equalsIgnoreCase(item) && Master.currentUser.containsAlbum(formatted.toLowerCase())) {
 		    		errorText.setText("ERROR: ALBUM NAME ALREADY EXISTS");
 		    		errorText.setVisible(true);
 		    	} else {
+		    		AlbumObj temp = Master.currentUser.albumMap.get(item.toLowerCase());
+		    		Master.currentUser.albumMap.remove(item);
+		    		temp.name = formatted;
+		    		Master.currentUser.albumMap.put(formatted.toLowerCase(), temp);
 		    		list.set(index, formatted); 
 		    	}
 			 }
@@ -150,7 +162,7 @@ public class Album {
     			return;
     		}
 			int selectIndex = albumListView.getSelectionModel().getSelectedIndex();
-			Master.currentAlbum = list.get(selectIndex);
+			Master.currentAlbum = Master.currentUser.albumMap.get(list.get(selectIndex).toLowerCase());
 			Master.toThumbnail(albumView);
 		}else {//quitButton
 			Master.writeData();
@@ -159,12 +171,37 @@ public class Album {
 	}
 	
 	/**
-	 * 
+	 * shows details of album
+	 * @param event details button is pressed
+	 */
+	public void detailsPopup(ActionEvent event) {
+		if(albumListView.getSelectionModel().isEmpty()) {
+			errorText.setText("ERROR: NO ALBUM SELECTED");
+			errorText.setVisible(true);
+			return;
+		}
+		AlbumObj cAlbum = Master.currentUser.albumMap.get(albumListView.getSelectionModel().getSelectedItem().toLowerCase());
+		Alert popup = new Alert(AlertType.INFORMATION);
+		popup.setTitle("Photos");
+		popup.setHeaderText("Album Information");
+		if( cAlbum.album.isEmpty()) {
+			popup.setContentText("Total Pictures: " + cAlbum.album.size()
+									+ "\n" + "Earliest Picture: N/A"
+									+ "\n" + "Latest Picture: N/A" );
+		}else {
+			popup.setContentText("Total Pictures: " + cAlbum.album.size()
+									+ "\n" + "Earliest Picture: " + cAlbum.earliest.toString()
+									+ "\n" + "Latest Picture: " + cAlbum.latest.toString() );
+		}
+		popup.showAndWait();
+	}
+	
+	/**
+	 * formats strings
 	 * @param unformatted String
 	 * @return formatted String
 	 */
 	private String removeSpaces( String input ) {
-		input = input.toLowerCase();
 		while(input.charAt(0)==' ' && input.length() != 1 ) {
 			input = input.substring(1, input.length());
 		}

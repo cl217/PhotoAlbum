@@ -20,13 +20,15 @@ public class Login {
 	@FXML AnchorPane loginView;
 	@FXML Button quitButton;
 
+	/**
+	 * starts login window
+	 */
 	public void start() {
 		invalid.setVisible(false);
 	}
 	
-	//goes to album view
 	/**
-	 * 
+	 * handles button presses
 	 * @param e a button is pressed
 	 * @throws IOException no stage
 	 */
